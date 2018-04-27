@@ -6,21 +6,24 @@ class Trip(models.Model):
     sinceWhen   = models.DateField()
     tilWhen     = models.DateField()
     users       = models.ManyToManyField(User)
-    #todoList    = models.ListField()
-    #ruleList    = models.ListField()
-    diary       = models.ForeignKey(Diary,related_name="diaries",on_delete=models.CASCADE) 
-    photo       = models.ForeignKey(Photo,related_name="photos",on_delete=models.CASCADE)
+
+class Budget(models.Model):
+    contents    = models.CharField(max_length=50)
+    money       = models.IntegerField()
+    tripId      = models.ForeignKey(Trip,related_name="trip_budget",on_delete=models.CASCADE)
 
 class Expense(models.Model):
     date        = models.DateField()
     contents    = models.CharField(max_length=50)
     money       = models.IntegerField()
     spender     = models.ForeignKey(User,related_name="spender",on_delete=models.CASCADE)
+    tripID      = models.ForeignKey(Trip,related_name="trip_expense",on_delete=models.CASCADE)
 
 class Diary(models.Model):
     contents    = models.TextField()
     onePhoto    = models.ForeignKey(Photo,related_name="onePhoto",on_delete=models.CASCADE)
     writer      = models.ForeignKey(User,related_name="writer",on_delete=models.CASCADE)
+    tripID      = models.ForeignKey(Trip,related_name="trip_diary",on_delete=models.CASCADE)
     date        = models.DateField()
 
 class Photo(models.Model):
@@ -28,7 +31,15 @@ class Photo(models.Model):
     image       = models.ImageField()
     folder      = models.CharField(max_length=20)
     date        = models.DateField()
-    
+    tripID      = models.ForeignKey(Trip,related_name="trip_photo",on_delete=models.CASCADE)
+
+class Todo(models.Model):
+    contents    = models.CharField(max_length=200)
+    tripID      = models.ForeignKey(Trip,related_name="trip_todo",on_delete=models.CASCADE)
+
+class Rule(models.Model):
+    contents    = models.CharField(max_length=200)
+    tripID      = models.ForeignKey(Trip,related_name="trip_rule",on_delete=models.CASCADE)
 
 
 
