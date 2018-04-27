@@ -21,7 +21,6 @@ class Expense(models.Model):
 
 class Diary(models.Model):
     contents    = models.TextField()
-    onePhoto    = models.ForeignKey(Photo,related_name="onePhoto",on_delete=models.CASCADE)
     writer      = models.ForeignKey(User,related_name="writer",on_delete=models.CASCADE)
     tripID      = models.ForeignKey(Trip,related_name="trip_diary",on_delete=models.CASCADE)
     date        = models.DateField()
@@ -31,6 +30,7 @@ class Photo(models.Model):
     image       = models.ImageField()
     folder      = models.CharField(max_length=20)
     date        = models.DateField()
+    diaries     = models.ManyToManyField(Diary)
     tripID      = models.ForeignKey(Trip,related_name="trip_photo",on_delete=models.CASCADE)
 
 class Todo(models.Model):
