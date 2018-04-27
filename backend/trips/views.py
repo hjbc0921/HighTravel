@@ -10,3 +10,15 @@ from rest_framework import permissions
 
 #Class TripList
 #Class TripDetail
+#Class UserList
+#Class UserDetail
+#Class Signup(generics.CreateAPIView):
+#Class Signin
+#Class Signout
+#Class ExpenseList
+#Class ExpenseDetail
+#Class PhotoList
+#Class PhotoDetail
+#Class DiaryList
+#Class DiaryDetail
+
