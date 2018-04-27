@@ -41,6 +41,11 @@ class Rule(models.Model):
     contents    = models.CharField(max_length=200)
     tripID      = models.ForeignKey(Trip,related_name="trip_rule",on_delete=models.CASCADE)
 
+class Schedule(models.Model):
+    sinceWhen   = models.DateField()
+    tilWhen     = models.DateField()
+    contents    = models.CharField(max_length=50)
+    tripID      = models.ForeignKey(Trip,related_name="trip_schedule",on_delete=models.CASCADE)
 
 
 
