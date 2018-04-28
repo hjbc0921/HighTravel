@@ -20,12 +20,12 @@ class Expense(models.Model):
     date        = models.DateField()
     contents    = models.CharField(max_length=50)
     money       = models.IntegerField()
-    spender     = models.ForeignKey(User,related_name="spender",on_delete=models.CASCADE)
+    spender     = models.ForeignKey(User,related_name="spent",on_delete=models.CASCADE)
     tripID      = models.ForeignKey(Trip,related_name="trip_expense",on_delete=models.CASCADE)
 
 class Diary(models.Model):
     contents    = models.TextField()
-    writer      = models.ForeignKey(User,related_name="writer",on_delete=models.CASCADE)
+    writer      = models.ForeignKey(User,related_name="my_diary",on_delete=models.CASCADE)
     tripID      = models.ForeignKey(Trip,related_name="trip_diary",on_delete=models.CASCADE)
     date        = models.DateField()
 
