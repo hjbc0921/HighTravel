@@ -3,14 +3,14 @@ from rest_framework import serializers
 from trips.models import *
 
 class TripSerializer(serializers.ModelSerializer):
-    trip_budget     = PrimaryKeyRelatedField(many=True)
-    trip_expense    = PrimaryKeyRelatedField(many=True)
-    trip_photo      = PrimaryKeyRelatedField(many=True)
-    trip_diary      = PrimaryKeyRelatedField(many=True)
-    trip_todo       = PrimaryKeyRelatedField(many=True)
-    trip_rule       = PrimaryKeyRelatedField(many=True)
-    trip_schedule   = PrimaryKeyRelatedField(many=True)
-    trip_marker     = PrimaryKeyRelatedField(many=True)
+    #trip_budget     = PrimaryKeyRelatedField(many=True)
+    #trip_expense    = PrimaryKeyRelatedField(many=True)
+    #trip_photo      = PrimaryKeyRelatedField(many=True)
+    #trip_diary      = PrimaryKeyRelatedField(many=True)
+    #trip_todo       = PrimaryKeyRelatedField(many=True)
+    #trip_rule       = PrimaryKeyRelatedField(many=True)
+    #trip_schedule   = PrimaryKeyRelatedField(many=True)
+    #trip_marker     = PrimaryKeyRelatedField(many=True)
     #users   = PrimaryKeyRelatedField(many=True)
     class Meta:
         model = Trip
@@ -18,8 +18,8 @@ class TripSerializer(serializers.ModelSerializer):
 
         
 class UserSerializer(serializers.ModelSerializer):
-    spent       = PrimaryKeyRelatedField(many=True)
-    my_diary    = PrimaryKeyRelatedField(many=True)
+    #spent       = PrimaryKeyRelatedField(many=True)
+    #my_diary    = PrimaryKeyRelatedField(many=True)
     class Meta:
         model = User
         fields = ('id','username','password','spent','my_diary')
@@ -62,12 +62,14 @@ class RuleSerializer(serializers.ModelSerializer):
         model = Rule
         fields = ('id','contents','tripId')
 
-class ScheduleSerializer(serializer.ModelSerializer):
+class ScheduleSerializer(serializers.ModelSerializer):
     class Meta:
         model = Schedule
         fields = ('id','sinceWhen','tilWhen','contents','tripId')
 
-class MarkerSerializer(serializer.ModelSerializer):
+class MarkerSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Marder
+        model = Marker
         fields = ('id','place','tripId')
+
+
