@@ -8,7 +8,7 @@ from rest_framework import status
 from rest_framework import permissions
 from trips.serializer import IsParticipant
 
-# trips/ url view
+# api/trips/ url view
 class TripList(generics.ListCreateView):
     queryset = Trip.objects.all()
     serializer_class = TripSerializer
@@ -24,7 +24,7 @@ class TripList(generics.ListCreateView):
         return self.update(request, *args, **kwargs)
 
 
-# trips/id/ url view
+# api/trips/id/ url view
 class TripDetail(generics.RetrieveUpdateDestroyView):
     queryset = Trip.objects.all()
     serializer_class = TripSerializer
@@ -40,13 +40,13 @@ class TripDetail(generics.RetrieveUpdateDestroyView):
         return self.update(request, *args, **kwargs)
 
 
-# users/ url view
+# api/users/ url view
 class UserList(generics.ListAPIView):
     queryset = User.objects.all()
     serializer_class = UserSerializer
 
 
-# users/id url view
+# api/users/id url view
 class UserDetail(generics.RetrieveAPIView):
     queryset = User.objects.all()
     serializer_class = UserSerializer
@@ -56,122 +56,128 @@ class UserDetail(generics.RetrieveAPIView):
 #class Signout
 
 
-# expenses/ url view
+# api/expenses/ url view
 class ExpenseList(generics.ListAPIView):
     queryset = Expense.objects.all()
     serializer_class = ExpenseSerializer
 
 
-# expenses/id/ url view
+# api/expenses/id/ url view
 class ExpenseDetail(generics.RetrieveAPIView):
     queryset = Expense.objects.all()
     serializer_class = ExpenseSerializer
 
 
-# photos/ url view
+# api/expenses/trip/tripId url view
+class ExpenseOfTrip(generics.ListAPIView):
+    queryset = Expense.objects.filter(tripID=tripId)
+    serializer_class = ExpenseSerializer
+
+
+# api/photos/ url view
 class PhotoList(generics.ListAPIView):
     queryset = Photo.objects.all()
     serializer_class = PhotoSerializer
 
 
-# photos/id/ url view
+# api/photos/id/ url view
 class PhotoDetail(generics.RetrieveAPIView):
     queryset = Photo.objects.all()
     serializer_class = PhotoSerializer
 
 
-# photos/trip/tripId url view
+# api/photos/trip/tripId url view
 class PhotoOfTrip(generics.ListAPIView):
     queryset = Photo.objects.filter(tripID=tripId)
     serializer_class = PhotoSerializer
 
 
-# diaries/ url view
+# api/diaries/ url view
 class DiaryList(generics.ListAPIView):
     queryset = Diary.objects.all()
     serializer_class = DiarySerializer
 
 
-# diaries/id/ url view
+# api/diaries/id/ url view
 class DiaryDetail(generics.RetrieveAPIView):
     queryset = Diary.objects.all()
     serializer_class = DiarySerializer
 
 
-# diaries/trip/tripId/user/userId url view
+# api/diaries/trip/tripId/user/userId url view
 class DiaryOfTrip(generics.ListAPIView):
     queryset = Diary.objects.filter(tripID=tripId, writer=UserId)
     serializer_class = DiarySerializer
 
 
-# todos/ url view
+# api/todos/ url view
 class TodoList(generics.ListAPIView):
     queryset = Todo.objects.all()
     serializer_class = TodoSerializer
 
 
-# todos/id/ url view
+# api/todos/id/ url view
 class TodoDetail(generics.RetrieveAPIView):
     queryset = Todo.objects.all()
     serializer_class = TodoSerializer
 
 
 
-# todos/trip/tripId url view
+# api/todos/trip/tripId url view
 class TodoOfTrip(generics.ListAPIView):
     queryset = Todo.objects.filter(tripID=tripId)
     serializer_class = TodoSerializer
 
 
-# rules/ url view
+# api/rules/ url view
 class RuleList(generics.ListAPIView):
     queryset = Rule.objects.all()
     serializer_class = RuleSerializer
 
 
-# rules/id/ url view
+# api/rules/id/ url view
 class RuleDetail(generics.RetrieveAPIView):
     queryset = Rule.objects.all()
     serializer_class = RuleSerializer
     
 
-# rules/trip/tripId url view
+# api/rules/trip/tripId url view
 class RuleOfTrip(generics.ListAPIView):
     queryset = Rule.objects.filter(tripID=tripId)
     serializer_class = RuleSerializer
 
 
-# schedules/ url view
+# api/schedules/ url view
 class ScheduleList(generics.ListAPIView):
     queryset = Schedule.objects.all()
     serializer_class = ScheduleSerializer
 
 
-# schedules/id/ url view
+# api/schedules/id/ url view
 class ScheduleDetail(generics.RetrieveAPIView):
     queryset = Schedule.objects.all()
     serializer_class = ScheduleSerializer
     
 
-# schedules/trip/tripId url view
+# api/schedules/trip/tripId url view
 class ScheduleOfTrip(generics.ListAPIView):
     queryset = Schedule.objects.filter(tripID=tripId)
     serializer_class = ScheduleSerializer
 
 
-# markers/ url view
+# api/markers/ url view
 class MarkerList(generics.ListAPIView):
     queryset = Marker.objects.all()
     serializer_class = MarkerSerializer
 
 
-# markers/id/ url view
+# api/markers/id/ url view
 class MarkerDetail(generics.RetrieveAPIView):
     queryset = Marker.objects.all()
     serializer_class = MarkerSerializer
     
 
-# markers/trip/tripId url view
+# api/markers/trip/tripId url view
 class MarkerOfTrip(generics.ListAPIView):
     queryset = Marker.objects.filter(tripID=tripId)
     serializer_class = MarkerSerializer
