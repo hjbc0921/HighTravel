@@ -8,8 +8,8 @@ class DiarySerializer(serializers.ModelSerializer):
         fields = ('id','contents','writer','date','tripId')
        
 class UserSerializer(serializers.ModelSerializer):
-    #spent       = serializers.PrimaryKeyRelatedField(many=True)
-    #my_diary    = serializers.PrimaryKeyRelatedField(many=True)
+    spent       = serializers.PrimaryKeyRelatedField(many=True,queryset=Expense.objects.all())
+    my_diary    = serializers.PrimaryKeyRelatedField(many=True,queryset=Diary.objects.all())
     class Meta:
         model = User
         fields = ('id','username','password','spent','my_diary')
@@ -22,14 +22,14 @@ class UserSerializer(serializers.ModelSerializer):
         return instance
     
 class TripSerializer(serializers.ModelSerializer):
-    #trip_budget     = serializers.PrimaryKeyRelatedField(many=True)
-    #trip_expense    = serializers.PrimaryKeyRelatedField(many=True)
-    #trip_photo      = serializers.PrimaryKeyRelatedField(many=True)
-    #trip_diary      = serializers.PrimaryKeyRelatedField(many=True)
-    #trip_todo       = serializers.PrimaryKeyRelatedField(many=True)
-    #trip_rule       = serializers.PrimaryKeyRelatedField(many=True)
-    #trip_schedule   = serializers.PrimaryKeyRelatedField(many=True)
-    #trip_marker     = serializers.PrimaryKeyRelatedField(many=True)
+    trip_budget     = serializers.PrimaryKeyRelatedField(many=True,queryset=Budget.objects.all())
+    trip_expense    = serializers.PrimaryKeyRelatedField(many=True,queryset=Expense.objects.all())
+    trip_photo      = serializers.PrimaryKeyRelatedField(many=True,queryset=Photo.objects.all())
+    trip_diary      = serializers.PrimaryKeyRelatedField(many=True,queryset=Diary.objects.all())
+    trip_todo       = serializers.PrimaryKeyRelatedField(many=True,queryset=Todo.objects.all())
+    trip_rule       = serializers.PrimaryKeyRelatedField(many=True,queryset=Rule.objects.all())
+    trip_schedule   = serializers.PrimaryKeyRelatedField(many=True,queryset=Schedule.objects.all())
+    trip_marker     = serializers.PrimaryKeyRelatedField(many=True,queryset=Marker.objects.all())
     users   = UserSerializer(read_only=True,many=True)
     class Meta:
         model = Trip

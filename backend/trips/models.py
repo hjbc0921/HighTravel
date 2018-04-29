@@ -9,7 +9,7 @@ class Trip(models.Model):
     title       = models.CharField(max_length=50)
     sinceWhen   = models.DateField()
     tilWhen     = models.DateField()
-    users       = models.ManyToManyField(User)
+    users       = models.ManyToManyField(User,related_name="my_trips")
 
 class Budget(models.Model):
     contents    = models.CharField(max_length=50)
@@ -34,7 +34,7 @@ class Photo(models.Model):
     image       = models.ImageField()
     folder      = models.CharField(max_length=20)
     date        = models.DateField()
-    diaries     = models.ManyToManyField(Diary)
+    diaries     = models.ManyToManyField(Diary,related_name="photos")
     tripID      = models.ForeignKey(Trip,related_name="trip_photo",on_delete=models.CASCADE)
 
 class Todo(models.Model):
