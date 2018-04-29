@@ -23,4 +23,5 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     url(r'^api-token-auth/',views.obtain_auth_token),
     url(r'^api-auth/',include('rest_framework.urls')),
+    path('accounts/', include('django.contrib.auth.urls')),
 ]
