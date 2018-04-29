@@ -6,13 +6,13 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
 from rest_framework import permissions
-from trips.serializer import IsParticipant
+from trips.permissions import IsParticipant
 
 # api/trips/ url view
-class TripList(generics.ListCreateView):
+class TripList(generics.ListCreateAPIView):
     queryset = Trip.objects.all()
     serializer_class = TripSerializer
-    permission_classes = (IsAuthenticatedOrReadOnly,)
+    permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
 
     # override post method to check condition of sinceWhen and tilWhen
     def post(self, request, *args, **kwargs):
@@ -25,10 +25,10 @@ class TripList(generics.ListCreateView):
 
 
 # api/trips/id/ url view
-class TripDetail(generics.RetrieveUpdateDestroyView):
+class TripDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = Trip.objects.all()
     serializer_class = TripSerializer
-    permission_classes = (IsAuthenticatedOrReadOnly, IsParticipant,)
+    permission_classes = (permissions.IsAuthenticatedOrReadOnly, IsParticipant,)
 
     # override put method to check condition of sinceWhen and tilWhen
     def put(self, request, *args, **kwargs):
@@ -70,7 +70,8 @@ class ExpenseDetail(generics.RetrieveAPIView):
 
 # api/expenses/trip/tripId url view
 class ExpenseOfTrip(generics.ListAPIView):
-    queryset = Expense.objects.filter(tripID=tripId)
+    queryset = Expense.objects.all()
+    #queryset = Expense.objects.filter(tripID=tripId)
     serializer_class = ExpenseSerializer
 
 
@@ -88,7 +89,8 @@ class PhotoDetail(generics.RetrieveAPIView):
 
 # api/photos/trip/tripId url view
 class PhotoOfTrip(generics.ListAPIView):
-    queryset = Photo.objects.filter(tripID=tripId)
+    queryset = Photo.objects.all()
+    #queryset = Photo.objects.filter(tripID=tripId)
     serializer_class = PhotoSerializer
 
 
@@ -106,7 +108,8 @@ class DiaryDetail(generics.RetrieveAPIView):
 
 # api/diaries/trip/tripId/user/userId url view
 class DiaryOfTrip(generics.ListAPIView):
-    queryset = Diary.objects.filter(tripID=tripId, writer=UserId)
+    queryset = Diary.objects.all()
+    #queryset = Diary.objects.filter(tripID=tripId, writer=UserId)
     serializer_class = DiarySerializer
 
 
@@ -125,7 +128,8 @@ class TodoDetail(generics.RetrieveAPIView):
 
 # api/todos/trip/tripId url view
 class TodoOfTrip(generics.ListAPIView):
-    queryset = Todo.objects.filter(tripID=tripId)
+    queryset = Todo.objects.all()
+    #queryset = Todo.objects.filter(tripID=tripId)
     serializer_class = TodoSerializer
 
 
@@ -143,7 +147,8 @@ class RuleDetail(generics.RetrieveAPIView):
 
 # api/rules/trip/tripId url view
 class RuleOfTrip(generics.ListAPIView):
-    queryset = Rule.objects.filter(tripID=tripId)
+    queryset = Rule.objects.all()
+    #queryset = Rule.objects.filter(tripID=tripId)
     serializer_class = RuleSerializer
 
 
@@ -161,7 +166,8 @@ class ScheduleDetail(generics.RetrieveAPIView):
 
 # api/schedules/trip/tripId url view
 class ScheduleOfTrip(generics.ListAPIView):
-    queryset = Schedule.objects.filter(tripID=tripId)
+    queryset = Schedule.objects.all()
+    #queryset = Schedule.objects.filter(tripID=tripId)
     serializer_class = ScheduleSerializer
 
 
@@ -179,5 +185,6 @@ class MarkerDetail(generics.RetrieveAPIView):
 
 # api/markers/trip/tripId url view
 class MarkerOfTrip(generics.ListAPIView):
-    queryset = Marker.objects.filter(tripID=tripId)
+    queryset = Marker.objects.all()
+    #queryset = Marker.objects.filter(tripID=tripId)
     serializer_class = MarkerSerializer
