@@ -1,4 +1,9 @@
 <!-- templates/registration/login.html -->
+{% extends 'base.html' %}
+
+{% block title %}Login{% endblcok %}
+
+{% block content %}
 <h2>Login</h2>
 <form method="post">
     {% csrf_token %}
