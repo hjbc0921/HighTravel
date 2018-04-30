@@ -59,7 +59,7 @@ class UserDetail(generics.RetrieveAPIView):
 
 
 # api/expenses/ url view
-class ExpenseList(generics.ListAPIView):
+class ExpenseList(generics.ListCreateAPIView):
     queryset = Expense.objects.all()
     serializer_class = ExpenseSerializer
 
@@ -78,7 +78,7 @@ class ExpenseOfTrip(generics.ListAPIView):
 
 
 # api/photos/ url view
-class PhotoList(generics.ListAPIView):
+class PhotoList(generics.ListCreateAPIView):
     queryset = Photo.objects.all()
     serializer_class = PhotoSerializer
 
@@ -97,7 +97,7 @@ class PhotoOfTrip(generics.ListAPIView):
 
 
 # api/diaries/ url view
-class DiaryList(generics.ListAPIView):
+class DiaryList(generics.ListCreateAPIView):
     queryset = Diary.objects.all()
     serializer_class = DiarySerializer
 
@@ -116,7 +116,7 @@ class DiaryOfTrip(generics.ListAPIView):
 
 
 # api/todos/ url view
-class TodoList(generics.ListAPIView):
+class TodoList(generics.ListCreateAPIView):
     queryset = Todo.objects.all()
     serializer_class = TodoSerializer
 
@@ -136,7 +136,7 @@ class TodoOfTrip(generics.ListAPIView):
 
 
 # api/rules/ url view
-class RuleList(generics.ListAPIView):
+class RuleList(generics.ListCreateAPIView):
     queryset = Rule.objects.all()
     serializer_class = RuleSerializer
 
@@ -155,7 +155,7 @@ class RuleOfTrip(generics.ListAPIView):
 
 
 # api/schedules/ url view
-class ScheduleList(generics.ListAPIView):
+class ScheduleList(generics.ListCreateAPIView):
     queryset = Schedule.objects.all()
     serializer_class = ScheduleSerializer
 
@@ -174,7 +174,7 @@ class ScheduleOfTrip(generics.ListAPIView):
 
 
 # api/markers/ url view
-class MarkerList(generics.ListAPIView):
+class MarkerList(generics.ListCreateAPIView):
     queryset = Marker.objects.all()
     serializer_class = MarkerSerializer
 
