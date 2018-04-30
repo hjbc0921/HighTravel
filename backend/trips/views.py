@@ -58,6 +58,26 @@ class UserDetail(generics.RetrieveAPIView):
 #class Signout
 
 
+# api/budget/ url view
+class BudgetList(generics.ListCreateAPIView):
+    queryset = Budget.objects.all()
+    serializer_class = BudgetSerializer
+
+
+# api/budget/id/ url view
+class BudgetDetail(generics.RetrieveAPIView):
+    queryset = Budget.objects.all()
+    serializer_class = BudgetSerializer
+
+
+# api/budget/trip/tripId url view
+class BudgetOfTrip(generics.ListAPIView):
+    queryset = Budget.objects.all()
+    #queryset = Budget.objects.filter(tripID=tripId)
+    serializer_class = BudgetSerializer
+
+
+
 # api/expenses/ url view
 class ExpenseList(generics.ListCreateAPIView):
     queryset = Expense.objects.all()
