@@ -23,6 +23,7 @@ urlpatterns = [
     path('', TemplateView.as_view(template_name='home.html'), name='home'),
     url(r'api/',include('trips.urls')),
     path('admin/', admin.site.urls),
+    path('accounts/',include('accounts.urls')),
     url(r'^api-token-auth/',views.obtain_auth_token),
     url(r'^api-auth/',include('rest_framework.urls')),
     path('accounts/', include('django.contrib.auth.urls')),
