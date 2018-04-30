@@ -22,7 +22,10 @@ class TripList(generics.ListCreateAPIView):
                 return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
             #return Response(serializer.data, status=status.HTTP_201_CREATED)
         #return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-        return self.update(request,*args,**kwargs)
+        return self.create(request,*args,**kwargs)
+
+    def perform_create(self, serializer):
+        serializer.save()
 
 # api/trips/id/ url view
 class TripDetail(generics.RetrieveUpdateDestroyAPIView):
