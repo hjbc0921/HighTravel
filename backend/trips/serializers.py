@@ -5,7 +5,7 @@ from trips.models import *
 class DiarySerializer(serializers.ModelSerializer):
     class Meta:
         model = Diary
-        fields = ('id','contents','writer','date','tripId')
+        fields = ('id','contents','writer','date','tripID')
        
 class UserSerializer(serializers.ModelSerializer):
     spent       = serializers.PrimaryKeyRelatedField(many=True,queryset=Expense.objects.all())
@@ -38,37 +38,37 @@ class TripSerializer(serializers.ModelSerializer):
 class BudgetSerializer(serializers.ModelSerializer):
     class Meta:
         model = Budget
-        fields = ('id','contents','money','tripId')
+        fields = ('id','contents','money','tripID')
 
 class ExpenseSerializer(serializers.ModelSerializer):
     class Meta:
         model = Expense
-        fields = ('id','date','contents','money','spender','tripId')
+        fields = ('id','date','contents','money','spender','tripID')
  
 class PhotoSerializer(serializers.ModelSerializer):
     diaries = DiarySerializer(read_only=True,many=True)
     class Meta:
         model = Photo
-        fields = ('id','date','contents','folder','image','tripId','diaries')
+        fields = ('id','date','contents','folder','image','tripID','diaries')
 
 class TodoSerializer(serializers.ModelSerializer):
     class Meta:
         model = Todo
-        fields = ('id','contents','tripId')
+        fields = ('id','contents','tripID')
 
 class RuleSerializer(serializers.ModelSerializer):
     class Meta:
         model = Rule
-        fields = ('id','contents','tripId')
+        fields = ('id','contents','tripID')
 
 class ScheduleSerializer(serializers.ModelSerializer):
     class Meta:
         model = Schedule
-        fields = ('id','sinceWhen','tilWhen','contents','tripId')
+        fields = ('id','sinceWhen','tilWhen','contents','tripID')
 
 class MarkerSerializer(serializers.ModelSerializer):
     class Meta:
         model = Marker
-        fields = ('id','place','tripId')
+        fields = ('id','place','tripID')
 
 

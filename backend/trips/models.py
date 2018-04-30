@@ -14,7 +14,7 @@ class Trip(models.Model):
 class Budget(models.Model):
     contents    = models.CharField(max_length=50)
     money       = models.IntegerField()
-    tripId      = models.ForeignKey(Trip,related_name="trip_budget",on_delete=models.CASCADE)
+    tripID      = models.ForeignKey(Trip,related_name="trip_budget",on_delete=models.CASCADE)
 
 class Expense(models.Model):
     date        = models.DateField()
