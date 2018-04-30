@@ -12,7 +12,7 @@ from trips.permissions import IsParticipant
 class TripList(generics.ListCreateAPIView):
     queryset = Trip.objects.all()
     serializer_class = TripSerializer
-    permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
+    #permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
 
     # override post method to check condition of sinceWhen and tilWhen
     def post(self, request, *args, **kwargs):
@@ -31,7 +31,7 @@ class TripList(generics.ListCreateAPIView):
 class TripDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = Trip.objects.all()
     serializer_class = TripSerializer
-    permission_classes = (permissions.IsAuthenticatedOrReadOnly, IsParticipant,)
+    #permission_classes = (permissions.IsAuthenticatedOrReadOnly, IsParticipant,)
 
     # override put method to check condition of sinceWhen and tilWhen
     def put(self, request, *args, **kwargs):

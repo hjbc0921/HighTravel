@@ -13,7 +13,7 @@ urlpatterns = [
     path('budgets/trip/<int:tripId>/', views.BudgetOfTrip.as_view()),
     url(r'^expenses/$',views.ExpenseList.as_view()),
     url(r'^expenses/(?P<pk>[0-9]+)/$', views.ExpenseDetail.as_view()),
-    #path('expenses/trip/<int:tripId>/', views.ExpenseOfTrip.as_view()),
+    path('expenses/trip/<int:tripId>/', views.ExpenseOfTrip.as_view()),
     url(r'^photos/$',views.PhotoList.as_view()),
     url(r'^photos/(?P<pk>[0-9]+)/$', views.PhotoDetail.as_view()),
     path('photos/trip/<int:tripId>/', views.PhotoOfTrip.as_view()),
