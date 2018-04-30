@@ -72,9 +72,16 @@ class BudgetDetail(generics.RetrieveAPIView):
 
 # api/budget/trip/tripId url view
 class BudgetOfTrip(generics.ListAPIView):
-    queryset = Budget.objects.all()
-    #queryset = Budget.objects.filter(tripID=tripId)
+    #queryset = Budget.objects.all()
     serializer_class = BudgetSerializer
+
+    def get_queryset(self):
+        """
+        This view should return a list of all budgets in tripId
+        """
+
+        tripId = self.kwargs['tripId']
+        return Budget.objects.filter(tripID__id=tripId)
 
 
 
@@ -92,9 +99,16 @@ class ExpenseDetail(generics.RetrieveAPIView):
 
 # api/expenses/trip/tripId url view
 class ExpenseOfTrip(generics.ListAPIView):
-    queryset = Expense.objects.all()
-    #queryset = Expense.objects.filter(tripID=tripId)
+    #queryset = Expense.objects.all()
     serializer_class = ExpenseSerializer
+
+    def get_queryset(self):
+        """
+        This view should return a list of all expenses in tripId
+        """
+
+        tripId = self.kwargs['tripId']
+        return Expense.objects.filter(tripID__id=tripId)
 
 
 # api/photos/ url view
@@ -111,9 +125,16 @@ class PhotoDetail(generics.RetrieveAPIView):
 
 # api/photos/trip/tripId url view
 class PhotoOfTrip(generics.ListAPIView):
-    queryset = Photo.objects.all()
-    #queryset = Photo.objects.filter(tripID=tripId)
+    #queryset = Photo.objects.all()
     serializer_class = PhotoSerializer
+
+    def get_queryset(self):
+        """
+        This view should return a list of all photos in tripId
+        """
+
+        tripId = self.kwargs['tripId']
+        return Photo.objects.filter(tripID__id=tripId)
 
 
 # api/diaries/ url view
@@ -130,9 +151,17 @@ class DiaryDetail(generics.RetrieveAPIView):
 
 # api/diaries/trip/tripId/user/userId url view
 class DiaryOfTrip(generics.ListAPIView):
-    queryset = Diary.objects.all()
-    #queryset = Diary.objects.filter(tripID=tripId, writer=UserId)
+    #queryset = Diary.objects.all()
     serializer_class = DiarySerializer
+
+    def get_queryset(self):
+        """
+        This view should return a list of all diaries in tripId of userId
+        """
+
+        tripId = self.kwargs['tripId']
+        userId = self.kwargs['userId']
+        return Diary.objects.filter(tripID__id=tripId, writer__id=userId)
 
 
 # api/todos/ url view
@@ -150,9 +179,16 @@ class TodoDetail(generics.RetrieveAPIView):
 
 # api/todos/trip/tripId url view
 class TodoOfTrip(generics.ListAPIView):
-    queryset = Todo.objects.all()
-    #queryset = Todo.objects.filter(tripID=tripId)
+    #queryset = Todo.objects.all()
     serializer_class = TodoSerializer
+
+    def get_queryset(self):
+        """
+        This view should return a list of all todos in tripId
+        """
+
+        tripId = self.kwargs['tripId']
+        return Todo.objects.filter(tripID__id=tripId)
 
 
 # api/rules/ url view
@@ -169,9 +205,16 @@ class RuleDetail(generics.RetrieveAPIView):
 
 # api/rules/trip/tripId url view
 class RuleOfTrip(generics.ListAPIView):
-    queryset = Rule.objects.all()
-    #queryset = Rule.objects.filter(tripID=tripId)
+    #queryset = Rule.objects.all()
     serializer_class = RuleSerializer
+
+    def get_queryset(self):
+        """
+        This view should return a list of all rules in tripId
+        """
+
+        tripId = self.kwargs['tripId']
+        return Rule.objects.filter(tripID__id=tripId)
 
 
 # api/schedules/ url view
@@ -188,9 +231,16 @@ class ScheduleDetail(generics.RetrieveAPIView):
 
 # api/schedules/trip/tripId url view
 class ScheduleOfTrip(generics.ListAPIView):
-    queryset = Schedule.objects.all()
-    #queryset = Schedule.objects.filter(tripID=tripId)
+    #queryset = Schedule.objects.all()
     serializer_class = ScheduleSerializer
+
+    def get_queryset(self):
+        """
+        This view should return a list of all schedules in tripId
+        """
+
+        tripId = self.kwargs['tripId']
+        return Schedule.objects.filter(tripID__id=tripId)
 
 
 # api/markers/ url view
@@ -207,6 +257,14 @@ class MarkerDetail(generics.RetrieveAPIView):
 
 # api/markers/trip/tripId url view
 class MarkerOfTrip(generics.ListAPIView):
-    queryset = Marker.objects.all()
-    #queryset = Marker.objects.filter(tripID=tripId)
+    #queryset = Marker.objects.all()
     serializer_class = MarkerSerializer
+
+    def get_queryset(self):
+        """
+        This view should return a list of all markers in tripId
+        """
+
+        tripId = self.kwargs['tripId']
+        return Marker.objects.filter(tripID__id=tripId)
+
