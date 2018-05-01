@@ -6,6 +6,3 @@
 * [0424 Project Proposal Document](https://github.com/choppaluv/HighTravel/wiki/Project-Proposal-Document)
 * [0424 Requirement and Specification](https://github.com/choppaluv/HighTravel/wiki/Requirement-Specification)
 
-## Implementation Plan
-
-![split](https://user-images.githubusercontent.com/37061052/39431619-3feb99e2-4ccc-11e8-8c95-0c35f5ff3fab.png)
