@@ -20,8 +20,6 @@ class TripList(generics.ListCreateAPIView):
         if serializer.is_valid():
             if serializer.validated_data['sinceWhen'] > serializer.validated_data['tilWhen']:
                 return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-            #return Response(serializer.data, status=status.HTTP_201_CREATED)
-        #return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
         return self.create(request,*args,**kwargs)
 
     def perform_create(self, serializer):
@@ -72,7 +70,6 @@ class BudgetDetail(generics.RetrieveAPIView):
 
 # api/budget/trip/tripId url view
 class BudgetOfTrip(generics.ListAPIView):
-    #queryset = Budget.objects.all()
     serializer_class = BudgetSerializer
 
     def get_queryset(self):

@@ -3,6 +3,7 @@ from rest_framework import serializers
 from trips.models import *
 
 class DiarySerializer(serializers.ModelSerializer):
+    photos = serializers.PrimaryKeyRelatedField(many=True,queryset=Photo.objects.all())
     class Meta:
         model = Diary
         fields = ('id','contents','writer','date','tripID','photos')
@@ -10,6 +11,7 @@ class DiarySerializer(serializers.ModelSerializer):
 class UserSerializer(serializers.ModelSerializer):
     spent       = serializers.PrimaryKeyRelatedField(many=True,queryset=Expense.objects.all())
     my_diary    = serializers.PrimaryKeyRelatedField(many=True,queryset=Diary.objects.all())
+    my_trips    = serializers.PrimaryKeyRelatedField(many=True,queryset=Trip.objects.all())
     class Meta:
         model = User
         fields = ('id','username','password','spent','my_diary','my_trips')
@@ -34,6 +36,16 @@ class TripSerializer(serializers.ModelSerializer):
     class Meta:
         model = Trip
         fields = ('id','title','sinceWhen','tilWhen','users','trip_budget','trip_expense','trip_photo','trip_diary','trip_todo','trip_rule','trip_schedule','trip_marker')
+    def create(self,validated_data):
+        users = validated_data.pop('users')
+        userobj = User.objects.create(id=users[0].id)
+        trip = Trip.objects.create(users=userobj,**validated_data)
+        trip.save()
+        return trip
+    def update(self,instance,validated_data):
+        instance.users = validated_data.get('users',instance.users)
+        instance.save()
+        return instance
 
 class BudgetSerializer(serializers.ModelSerializer):
     class Meta:
