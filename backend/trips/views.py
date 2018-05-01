@@ -1,6 +1,6 @@
 from django.contrib.auth.models import User
 from trips.models import Trip, Budget, Expense, Photo, Diary, Todo, Rule, Schedule, Marker
-from trips.serializers import TripSerializer, UserSerializer, BudgetSerializer, ExpenseSerializer, PhotoSerializer, DiarySerializer, TodoSerializer, RuleSerializer, ScheduleSerializer, MarkerSerializer  
+from trips.serializers import TripSerializer, TripDetailSerializer, UserSerializer, BudgetSerializer, ExpenseSerializer, PhotoSerializer, DiarySerializer, TodoSerializer, RuleSerializer, ScheduleSerializer, MarkerSerializer  
 from rest_framework import generics
 from rest_framework.views import APIView
 from rest_framework.response import Response
@@ -28,7 +28,7 @@ class TripList(generics.ListCreateAPIView):
 # api/trips/id/ url view
 class TripDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = Trip.objects.all()
-    serializer_class = TripSerializer
+    serializer_class = TripDetailSerializer
     #permission_classes = (permissions.IsAuthenticatedOrReadOnly, IsParticipant,)
 
     # override put method to check condition of sinceWhen and tilWhen
