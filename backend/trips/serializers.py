@@ -36,17 +36,25 @@ class TripSerializer(serializers.ModelSerializer):
     class Meta:
         model = Trip
         fields = ('id','title','sinceWhen','tilWhen','users','trip_budget','trip_expense','trip_photo','trip_diary','trip_todo','trip_rule','trip_schedule','trip_marker')
-    def create(self,validated_data):
-        users = validated_data.pop('users')
-        userobj = User.objects.create(id=users[0].id)
-        trip = Trip.objects.create(users=userobj,**validated_data)
-        trip.save()
-        return trip
+ 
+class TripDetailSerializer(serializers.ModelSerializer):
+    trip_budget     = serializers.PrimaryKeyRelatedField(many=True,queryset=Budget.objects.all())
+    trip_expense    = serializers.PrimaryKeyRelatedField(many=True,queryset=Expense.objects.all())
+    trip_photo      = serializers.PrimaryKeyRelatedField(many=True,queryset=Photo.objects.all())
+    trip_diary      = serializers.PrimaryKeyRelatedField(many=True,queryset=Diary.objects.all())
+    trip_todo       = serializers.PrimaryKeyRelatedField(many=True,queryset=Todo.objects.all())
+    trip_rule       = serializers.PrimaryKeyRelatedField(many=True,queryset=Rule.objects.all())
+    trip_schedule   = serializers.PrimaryKeyRelatedField(many=True,queryset=Schedule.objects.all())
+    trip_marker     = serializers.PrimaryKeyRelatedField(many=True,queryset=Marker.objects.all())
+    users   = UserSerializer(many=True)
+    class Meta:
+        model = Trip
+        fields = ('id','title','sinceWhen','tilWhen','users','trip_budget','trip_expense','trip_photo','trip_diary','trip_todo','trip_rule','trip_schedule','trip_marker')
     def update(self,instance,validated_data):
         instance.users = validated_data.get('users',instance.users)
         instance.save()
         return instance
-
+    
 class BudgetSerializer(serializers.ModelSerializer):
     class Meta:
         model = Budget
