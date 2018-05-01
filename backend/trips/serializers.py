@@ -30,7 +30,7 @@ class TripSerializer(serializers.ModelSerializer):
     trip_rule       = serializers.PrimaryKeyRelatedField(many=True,queryset=Rule.objects.all())
     trip_schedule   = serializers.PrimaryKeyRelatedField(many=True,queryset=Schedule.objects.all())
     trip_marker     = serializers.PrimaryKeyRelatedField(many=True,queryset=Marker.objects.all())
-    users   = UserSerializer(read_only=True,many=True)
+    users   = UserSerializer(many=True)
     class Meta:
         model = Trip
         fields = ('id','title','sinceWhen','tilWhen','users','trip_budget','trip_expense','trip_photo','trip_diary','trip_todo','trip_rule','trip_schedule','trip_marker')
