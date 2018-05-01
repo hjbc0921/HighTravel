@@ -37,8 +37,9 @@ class TripDetail(generics.RetrieveUpdateDestroyAPIView):
         if serializer.is_valid():
             if serializer.validated_data['sinceWhen'] >= serializer.validated_data['tilWhen']:
                 return Response(serializer.errors, status=status.HTTP_400_BAD_REQUESt)
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+            #return Response(serializer.data, status=status.HTTP_201_CREATED)
+        #return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        return self.update(request,*args,**kwargs)
 
 # api/users/ url view
 class UserList(generics.ListAPIView):
