@@ -90,6 +90,9 @@ class ExpenseList(generics.ListCreateAPIView):
     queryset = Expense.objects.all()
     serializer_class = ExpenseSerializer
 
+    def perform_create(self, serializer):
+        serializer.save(spender=self.request.user)
+
 
 # api/expenses/id/ url view
 class ExpenseDetail(generics.RetrieveAPIView):
@@ -141,6 +144,9 @@ class PhotoOfTrip(generics.ListAPIView):
 class DiaryList(generics.ListCreateAPIView):
     queryset = Diary.objects.all()
     serializer_class = DiarySerializer
+
+    def perform_create(self, serializer):
+        serializer.save(writer=self.request.user)
 
 
 # api/diaries/id/ url view
