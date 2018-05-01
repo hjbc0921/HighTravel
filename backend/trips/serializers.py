@@ -5,14 +5,14 @@ from trips.models import *
 class DiarySerializer(serializers.ModelSerializer):
     class Meta:
         model = Diary
-        fields = ('id','contents','writer','date','tripID')
+        fields = ('id','contents','writer','date','tripID','photos')
        
 class UserSerializer(serializers.ModelSerializer):
     spent       = serializers.PrimaryKeyRelatedField(many=True,queryset=Expense.objects.all())
     my_diary    = serializers.PrimaryKeyRelatedField(many=True,queryset=Diary.objects.all())
     class Meta:
         model = User
-        fields = ('id','username','password','spent','my_diary')
+        fields = ('id','username','password','spent','my_diary','my_trips')
     def create(self,validated_data):
         password = validated_data.pop('password',None)
         instance = self.Meta.model(**validated_data)

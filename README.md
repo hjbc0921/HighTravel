@@ -5,4 +5,5 @@
 ## Documents
 * [0424 Project Proposal Document](https://github.com/choppaluv/HighTravel/wiki/Project-Proposal-Document)
 * [0424 Requirement and Specification](https://github.com/choppaluv/HighTravel/wiki/Requirement-Specification)
+* [0501 Design and Planning](https://github.com/choppaluv/HighTravel/wiki/Design-Planning)
 
