@@ -24,7 +24,7 @@ class UserSerializer(serializers.ModelSerializer):
         return instance
 
 class TripSerializer(serializers.ModelSerializer):
-    users   = UserSerializer(read_only=True,many=True)
+    users = UserSerializer(read_only=True,many=True)
     class Meta:
         model = Trip
         fields = ('id','title','sinceWhen','tilWhen','users','trip_budget','trip_expense','trip_photo','trip_diary','trip_todo','trip_rule','trip_schedule','trip_marker')

@@ -12,7 +12,7 @@ from trips.permissions import IsParticipant
 class TripList(generics.ListCreateAPIView):
     queryset = Trip.objects.all()
     serializer_class = TripSerializer
-    #permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
+    permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
 
     # override post method to check condition of sinceWhen and tilWhen
     def post(self, request, *args, **kwargs):
@@ -29,7 +29,7 @@ class TripList(generics.ListCreateAPIView):
 class TripDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = Trip.objects.all()
     serializer_class = TripDetailSerializer
-    #permission_classes = (permissions.IsAuthenticatedOrReadOnly, IsParticipant,)
+    permission_classes = (permissions.IsAuthenticatedOrReadOnly, IsParticipant,)
 
     # override put method to check condition of sinceWhen and tilWhen
     def put(self, request, *args, **kwargs):
@@ -37,8 +37,6 @@ class TripDetail(generics.RetrieveUpdateDestroyAPIView):
         if serializer.is_valid():
             if serializer.validated_data['sinceWhen'] >= serializer.validated_data['tilWhen']:
                 return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-            #return Response(serializer.data, status=status.HTTP_201_CREATED)
-        #return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
         return self.update(request,*args,**kwargs)
 
 # api/users/ url view
@@ -46,15 +44,10 @@ class UserList(generics.ListAPIView):
     queryset = User.objects.all()
     serializer_class = UserSerializer
 
-
 # api/users/id url view
 class UserDetail(generics.RetrieveAPIView):
     queryset = User.objects.all()
     serializer_class = UserSerializer
-
-
-#class Signin
-#class Signout
 
 
 # api/budget/ url view
