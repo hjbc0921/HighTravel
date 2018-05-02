@@ -13,6 +13,7 @@ class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = ('id','username','password','spent','my_diary','my_trips')
+    
     def create(self,validated_data):
         password = validated_data.pop('password',None)
         instance = self.Meta.model(**validated_data)
@@ -33,25 +34,41 @@ class TripSerializer(serializers.ModelSerializer):
         fields = ('id','title','sinceWhen','tilWhen','users','trip_budget','trip_expense','trip_photo','trip_diary','trip_todo','trip_rule','trip_schedule','trip_marker')
 
 class TripDetailSerializer(serializers.ModelSerializer):
-    users = AddUserSerializer(many=True)
+    users = serializers.SerializerMethodField()
+    def get_users(self,obj):
+        queryset = obj.users.all()
+        return [q.id for q in queryset]
+
+    #users = AddUserSerializer(many=True)
     class Meta:
         model = Trip
         fields = ('id','title','sinceWhen','tilWhen','users','trip_budget','trip_expense','trip_photo','trip_diary','trip_todo','trip_rule','trip_schedule','trip_marker')
+    '''
     def update(self,instance,validated_data):
         instance.title = validated_data.get('title',instance.title)
         instance.sinceWhen = validated_data.get('sinceWhen',instance.sinceWhen)
         instance.tilWhen = validated_data.get('tilWhen',instance.tilWhen)
-        '''
+        instance.users.clear()
+        users_list = []
+        users_data = validated_data.get('users')
+        instance.users.set(users_data)
+        
+        for user in users_data:
+            print(user)
+            v = user['username']
+            instance.users.add(User.objects.get(username=v))
+        #instance.users.set(users_list)
+        
         users_list = []
         #instance.users.clear()
         users_data = validated_data.get('users')
         for user in users_data:
             userobj = User.objects.get(username=user["username"])
             instance.users.add(userobj)
-        '''
+        
         instance.save()
         return instance
-    
+    '''
 class BudgetSerializer(serializers.ModelSerializer):
     class Meta:
         model = Budget
