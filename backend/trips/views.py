@@ -29,7 +29,8 @@ class TripList(generics.ListCreateAPIView):
 class TripDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = Trip.objects.all()
     serializer_class = TripDetailSerializer
-    permission_classes = (permissions.IsAuthenticatedOrReadOnly, IsParticipant,)
+    #permission_classes = (permissions.IsAuthenticatedOrReadOnly, IsParticipant,)
+    permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
 
     # override put method to check condition of sinceWhen and tilWhen
     def put(self, request, *args, **kwargs):
@@ -43,28 +44,33 @@ class TripDetail(generics.RetrieveUpdateDestroyAPIView):
 class UserList(generics.ListAPIView):
     queryset = User.objects.all()
     serializer_class = UserSerializer
+    permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
 
 # api/users/id url view
 class UserDetail(generics.RetrieveAPIView):
     queryset = User.objects.all()
     serializer_class = UserSerializer
+    permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
 
 
 # api/budget/ url view
 class BudgetList(generics.ListCreateAPIView):
     queryset = Budget.objects.all()
     serializer_class = BudgetSerializer
+    permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
 
 
 # api/budget/id/ url view
 class BudgetDetail(generics.RetrieveAPIView):
     queryset = Budget.objects.all()
     serializer_class = BudgetSerializer
+    permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
 
 
 # api/budget/trip/tripId url view
 class BudgetOfTrip(generics.ListAPIView):
     serializer_class = BudgetSerializer
+    permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
 
     def get_queryset(self):
         """
@@ -80,6 +86,7 @@ class BudgetOfTrip(generics.ListAPIView):
 class ExpenseList(generics.ListCreateAPIView):
     queryset = Expense.objects.all()
     serializer_class = ExpenseSerializer
+    permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
 
     def perform_create(self, serializer):
         serializer.save(spender=self.request.user)
@@ -89,12 +96,13 @@ class ExpenseList(generics.ListCreateAPIView):
 class ExpenseDetail(generics.RetrieveAPIView):
     queryset = Expense.objects.all()
     serializer_class = ExpenseSerializer
+    permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
 
 
 # api/expenses/trip/tripId url view
 class ExpenseOfTrip(generics.ListAPIView):
-    #queryset = Expense.objects.all()
     serializer_class = ExpenseSerializer
+    permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
 
     def get_queryset(self):
         """
@@ -109,18 +117,20 @@ class ExpenseOfTrip(generics.ListAPIView):
 class PhotoList(generics.ListCreateAPIView):
     queryset = Photo.objects.all()
     serializer_class = PhotoSerializer
+    permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
 
 
 # api/photos/id/ url view
 class PhotoDetail(generics.RetrieveAPIView):
     queryset = Photo.objects.all()
     serializer_class = PhotoSerializer
+    permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
 
 
 # api/photos/trip/tripId url view
 class PhotoOfTrip(generics.ListAPIView):
-    #queryset = Photo.objects.all()
     serializer_class = PhotoSerializer
+    permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
 
     def get_queryset(self):
         """
@@ -135,6 +145,7 @@ class PhotoOfTrip(generics.ListAPIView):
 class DiaryList(generics.ListCreateAPIView):
     queryset = Diary.objects.all()
     serializer_class = DiarySerializer
+    permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
 
     def perform_create(self, serializer):
         serializer.save(writer=self.request.user)
@@ -144,12 +155,13 @@ class DiaryList(generics.ListCreateAPIView):
 class DiaryDetail(generics.RetrieveAPIView):
     queryset = Diary.objects.all()
     serializer_class = DiarySerializer
+    permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
 
 
 # api/diaries/trip/tripId/user/userId url view
 class DiaryOfTrip(generics.ListAPIView):
-    #queryset = Diary.objects.all()
     serializer_class = DiarySerializer
+    permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
 
     def get_queryset(self):
         """
@@ -165,19 +177,21 @@ class DiaryOfTrip(generics.ListAPIView):
 class TodoList(generics.ListCreateAPIView):
     queryset = Todo.objects.all()
     serializer_class = TodoSerializer
+    permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
 
 
 # api/todos/id/ url view
 class TodoDetail(generics.RetrieveAPIView):
     queryset = Todo.objects.all()
     serializer_class = TodoSerializer
+    permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
 
 
 
 # api/todos/trip/tripId url view
 class TodoOfTrip(generics.ListAPIView):
-    #queryset = Todo.objects.all()
     serializer_class = TodoSerializer
+    permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
 
     def get_queryset(self):
         """
@@ -192,18 +206,20 @@ class TodoOfTrip(generics.ListAPIView):
 class RuleList(generics.ListCreateAPIView):
     queryset = Rule.objects.all()
     serializer_class = RuleSerializer
+    permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
 
 
 # api/rules/id/ url view
 class RuleDetail(generics.RetrieveAPIView):
     queryset = Rule.objects.all()
     serializer_class = RuleSerializer
+    permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
     
 
 # api/rules/trip/tripId url view
 class RuleOfTrip(generics.ListAPIView):
-    #queryset = Rule.objects.all()
     serializer_class = RuleSerializer
+    permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
 
     def get_queryset(self):
         """
@@ -218,18 +234,20 @@ class RuleOfTrip(generics.ListAPIView):
 class ScheduleList(generics.ListCreateAPIView):
     queryset = Schedule.objects.all()
     serializer_class = ScheduleSerializer
+    permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
 
 
 # api/schedules/id/ url view
 class ScheduleDetail(generics.RetrieveAPIView):
     queryset = Schedule.objects.all()
     serializer_class = ScheduleSerializer
+    permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
     
 
 # api/schedules/trip/tripId url view
 class ScheduleOfTrip(generics.ListAPIView):
-    #queryset = Schedule.objects.all()
     serializer_class = ScheduleSerializer
+    permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
 
     def get_queryset(self):
         """
@@ -244,18 +262,20 @@ class ScheduleOfTrip(generics.ListAPIView):
 class MarkerList(generics.ListCreateAPIView):
     queryset = Marker.objects.all()
     serializer_class = MarkerSerializer
+    permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
 
 
 # api/markers/id/ url view
 class MarkerDetail(generics.RetrieveAPIView):
     queryset = Marker.objects.all()
     serializer_class = MarkerSerializer
+    permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
     
 
 # api/markers/trip/tripId url view
 class MarkerOfTrip(generics.ListAPIView):
-    #queryset = Marker.objects.all()
     serializer_class = MarkerSerializer
+    permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
 
     def get_queryset(self):
         """
