@@ -135,7 +135,7 @@ USE_TZ = True
 STATIC_URL = '/static/'
 
 # Redirect user to homepage after login
-LOGIN_REDIRECT_URL ='home'
+#LOGIN_REDIRECT_URL ='home'
 
 # Redirect user to homepage after login
-LOGOUT_REDIRECT_URL ='home'
+#LOGOUT_REDIRECT_URL ='home'
