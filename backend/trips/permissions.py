@@ -1,6 +1,6 @@
 from rest_framework import permissions
 
-class IsParticipant(permissions.BasePermission):
+class IsParticipantOrReadOnly(permissions.BasePermission):
     """
         Custom permission to only allow partipants of trip to put or delete
         In other case, Read-Only
@@ -12,4 +12,4 @@ class IsParticipant(permissions.BasePermission):
         if request.method in permissions.SAFE_METHODS:
             return True
         else:
-            return True 
+            return request.user in obj.users.all()
