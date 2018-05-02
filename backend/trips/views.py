@@ -48,7 +48,7 @@ class UserList(generics.ListAPIView):
     permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
 
 # api/users/id url view
-class UserDetail(generics.RetrieveAPIView):
+class UserDetail(generics.RetrieveUpdateDeleteAPIView):
     queryset = User.objects.all()
     serializer_class = UserSerializer
     permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
@@ -61,7 +61,7 @@ class BudgetList(generics.ListCreateAPIView):
     permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
 
 # api/budget/id/ url view
-class BudgetDetail(generics.RetrieveAPIView):
+class BudgetDetail(generics.RetrieveUpdateDeleteAPIView):
     queryset = Budget.objects.all()
     serializer_class = BudgetSerializer
     permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
@@ -90,7 +90,7 @@ class ExpenseList(generics.ListCreateAPIView):
         serializer.save(spender=self.request.user)
 
 # api/expenses/id/ url view
-class ExpenseDetail(generics.RetrieveAPIView):
+class ExpenseDetail(generics.RetrieveUpdateDeleteAPIView):
     queryset = Expense.objects.all()
     serializer_class = ExpenseSerializer
     permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
@@ -116,7 +116,7 @@ class PhotoList(generics.ListCreateAPIView):
     permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
 
 # api/photos/id/ url view
-class PhotoDetail(generics.RetrieveAPIView):
+class PhotoDetail(generics.RetrieveUpdateDeleteAPIView):
     queryset = Photo.objects.all()
     serializer_class = PhotoSerializer
     permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
@@ -145,7 +145,7 @@ class DiaryList(generics.ListCreateAPIView):
         serializer.save(writer=self.request.user)
 
 # api/diaries/id/ url view
-class DiaryDetail(generics.RetrieveAPIView):
+class DiaryDetail(generics.RetrieveUpdateDeleteAPIView):
     queryset = Diary.objects.all()
     serializer_class = DiarySerializer
     permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
@@ -172,7 +172,7 @@ class TodoList(generics.ListCreateAPIView):
     permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
 
 # api/todos/id/ url view
-class TodoDetail(generics.RetrieveAPIView):
+class TodoDetail(generics.RetrieveUpdateDeleteAPIView):
     queryset = Todo.objects.all()
     serializer_class = TodoSerializer
     permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
@@ -198,7 +198,7 @@ class RuleList(generics.ListCreateAPIView):
     permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
 
 # api/rules/id/ url view
-class RuleDetail(generics.RetrieveAPIView):
+class RuleDetail(generics.RetrieveUpdateDeleteAPIView):
     queryset = Rule.objects.all()
     serializer_class = RuleSerializer
     permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
@@ -224,7 +224,7 @@ class ScheduleList(generics.ListCreateAPIView):
     permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
 
 # api/schedules/id/ url view
-class ScheduleDetail(generics.RetrieveAPIView):
+class ScheduleDetail(generics.RetrieveUpdateDeleteAPIView):
     queryset = Schedule.objects.all()
     serializer_class = ScheduleSerializer
     permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
@@ -250,7 +250,7 @@ class MarkerList(generics.ListCreateAPIView):
     permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
 
 # api/markers/id/ url view
-class MarkerDetail(generics.RetrieveAPIView):
+class MarkerDetail(generics.RetrieveUpdateDeleteAPIView):
     queryset = Marker.objects.all()
     serializer_class = MarkerSerializer
     permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
