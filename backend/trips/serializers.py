@@ -1,6 +1,7 @@
 from django.contrib.auth.models import User
 from rest_framework import serializers
 from trips.models import *
+from drf_writable_nested import WritableNestedModelSerializer
 
 class DiarySerializer(serializers.ModelSerializer):
     photos = serializers.PrimaryKeyRelatedField(many=True,queryset=Photo.objects.all())
@@ -21,54 +22,18 @@ class UserSerializer(serializers.ModelSerializer):
             instance.set_password(password)
         instance.save()
         return instance
-    
-class AddUserSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = User
-        fields = ('id','username')
 
 class TripSerializer(serializers.ModelSerializer):
-    users   = AddUserSerializer(read_only=True,many=True)
+    users   = UserSerializer(read_only=True,many=True)
     class Meta:
         model = Trip
         fields = ('id','title','sinceWhen','tilWhen','users','trip_budget','trip_expense','trip_photo','trip_diary','trip_todo','trip_rule','trip_schedule','trip_marker')
 
-class TripDetailSerializer(serializers.ModelSerializer):
-    users = serializers.SerializerMethodField()
-    def get_users(self,obj):
-        queryset = obj.users.all()
-        return [q.id for q in queryset]
-
-    #users = AddUserSerializer(many=True)
+class TripDetailSerializer(WritableNestedModelSerializer):
     class Meta:
         model = Trip
         fields = ('id','title','sinceWhen','tilWhen','users','trip_budget','trip_expense','trip_photo','trip_diary','trip_todo','trip_rule','trip_schedule','trip_marker')
-    '''
-    def update(self,instance,validated_data):
-        instance.title = validated_data.get('title',instance.title)
-        instance.sinceWhen = validated_data.get('sinceWhen',instance.sinceWhen)
-        instance.tilWhen = validated_data.get('tilWhen',instance.tilWhen)
-        instance.users.clear()
-        users_list = []
-        users_data = validated_data.get('users')
-        instance.users.set(users_data)
-        
-        for user in users_data:
-            print(user)
-            v = user['username']
-            instance.users.add(User.objects.get(username=v))
-        #instance.users.set(users_list)
-        
-        users_list = []
-        #instance.users.clear()
-        users_data = validated_data.get('users')
-        for user in users_data:
-            userobj = User.objects.get(username=user["username"])
-            instance.users.add(userobj)
-        
-        instance.save()
-        return instance
-    '''
+
 class BudgetSerializer(serializers.ModelSerializer):
     class Meta:
         model = Budget
@@ -79,8 +44,7 @@ class ExpenseSerializer(serializers.ModelSerializer):
         model = Expense
         fields = ('id','date','contents','money','spender','tripID')
  
-class PhotoSerializer(serializers.ModelSerializer):
-    diaries = DiarySerializer(read_only=True,many=True)
+class PhotoSerializer(WritableNestedModelSerializer):
     class Meta:
         model = Photo
         fields = ('id','date','contents','folder','image','tripID','diaries')
