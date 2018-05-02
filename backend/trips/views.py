@@ -6,7 +6,7 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
 from rest_framework import permissions
-from trips.permissions import IsParticipantOrReadOnly
+from trips.permissions import IsParticipantOrReadOnly, IsSpenderOrReadOnly, IsWriterOrReadOnly
 
 # api/trips/ url view
 class TripList(generics.ListCreateAPIView):
@@ -93,7 +93,7 @@ class ExpenseList(generics.ListCreateAPIView):
 class ExpenseDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = Expense.objects.all()
     serializer_class = ExpenseSerializer
-    permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
+    permission_classes = (permissions.IsAuthenticatedOrReadOnly, IsSpenderOrReadOnly)
 
 # api/expenses/trip/tripId url view
 class ExpenseOfTrip(generics.ListAPIView):
@@ -148,7 +148,7 @@ class DiaryList(generics.ListCreateAPIView):
 class DiaryDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = Diary.objects.all()
     serializer_class = DiarySerializer
-    permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
+    permission_classes = (permissions.IsAuthenticatedOrReadOnly, IsWriterOrReadOnly)
 
 # api/diaries/trip/tripId/user/userId url view
 class DiaryOfTrip(generics.ListAPIView):
