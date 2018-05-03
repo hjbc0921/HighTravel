@@ -6,7 +6,7 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
 from rest_framework import permissions
-from trips.permissions import IsParticipant
+from trips.permissions import IsParticipantOrReadOnly, IsSpenderOrReadOnly, IsWriterOrReadOnly
 
 # api/trips/ url view
 class TripList(generics.ListCreateAPIView):
@@ -29,7 +29,8 @@ class TripList(generics.ListCreateAPIView):
 class TripDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = Trip.objects.all()
     serializer_class = TripDetailSerializer
-    permission_classes = (permissions.IsAuthenticatedOrReadOnly, IsParticipant,)
+    permission_classes = (permissions.IsAuthenticatedOrReadOnly, IsParticipantOrReadOnly,)
+    #permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
 
     # override put method to check condition of sinceWhen and tilWhen
     def put(self, request, *args, **kwargs):
@@ -39,32 +40,36 @@ class TripDetail(generics.RetrieveUpdateDestroyAPIView):
                 return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
         return self.update(request,*args,**kwargs)
 
+
 # api/users/ url view
 class UserList(generics.ListAPIView):
     queryset = User.objects.all()
     serializer_class = UserSerializer
+    permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
 
 # api/users/id url view
-class UserDetail(generics.RetrieveAPIView):
+class UserDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = User.objects.all()
     serializer_class = UserSerializer
+    permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
 
 
 # api/budget/ url view
 class BudgetList(generics.ListCreateAPIView):
     queryset = Budget.objects.all()
     serializer_class = BudgetSerializer
-
+    permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
 
 # api/budget/id/ url view
-class BudgetDetail(generics.RetrieveAPIView):
+class BudgetDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = Budget.objects.all()
     serializer_class = BudgetSerializer
-
+    permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
 
 # api/budget/trip/tripId url view
 class BudgetOfTrip(generics.ListAPIView):
     serializer_class = BudgetSerializer
+    permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
 
     def get_queryset(self):
         """
@@ -75,26 +80,25 @@ class BudgetOfTrip(generics.ListAPIView):
         return Budget.objects.filter(tripID__id=tripId)
 
 
-
 # api/expenses/ url view
 class ExpenseList(generics.ListCreateAPIView):
     queryset = Expense.objects.all()
     serializer_class = ExpenseSerializer
+    permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
 
     def perform_create(self, serializer):
         serializer.save(spender=self.request.user)
 
-
 # api/expenses/id/ url view
-class ExpenseDetail(generics.RetrieveAPIView):
+class ExpenseDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = Expense.objects.all()
     serializer_class = ExpenseSerializer
-
+    permission_classes = (permissions.IsAuthenticatedOrReadOnly, IsSpenderOrReadOnly)
 
 # api/expenses/trip/tripId url view
 class ExpenseOfTrip(generics.ListAPIView):
-    #queryset = Expense.objects.all()
     serializer_class = ExpenseSerializer
+    permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
 
     def get_queryset(self):
         """
@@ -109,18 +113,18 @@ class ExpenseOfTrip(generics.ListAPIView):
 class PhotoList(generics.ListCreateAPIView):
     queryset = Photo.objects.all()
     serializer_class = PhotoSerializer
-
+    permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
 
 # api/photos/id/ url view
-class PhotoDetail(generics.RetrieveAPIView):
+class PhotoDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = Photo.objects.all()
     serializer_class = PhotoSerializer
-
+    permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
 
 # api/photos/trip/tripId url view
 class PhotoOfTrip(generics.ListAPIView):
-    #queryset = Photo.objects.all()
     serializer_class = PhotoSerializer
+    permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
 
     def get_queryset(self):
         """
@@ -135,21 +139,21 @@ class PhotoOfTrip(generics.ListAPIView):
 class DiaryList(generics.ListCreateAPIView):
     queryset = Diary.objects.all()
     serializer_class = DiarySerializer
+    permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
 
     def perform_create(self, serializer):
         serializer.save(writer=self.request.user)
 
-
 # api/diaries/id/ url view
-class DiaryDetail(generics.RetrieveAPIView):
+class DiaryDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = Diary.objects.all()
     serializer_class = DiarySerializer
-
+    permission_classes = (permissions.IsAuthenticatedOrReadOnly, IsWriterOrReadOnly)
 
 # api/diaries/trip/tripId/user/userId url view
 class DiaryOfTrip(generics.ListAPIView):
-    #queryset = Diary.objects.all()
     serializer_class = DiarySerializer
+    permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
 
     def get_queryset(self):
         """
@@ -165,19 +169,18 @@ class DiaryOfTrip(generics.ListAPIView):
 class TodoList(generics.ListCreateAPIView):
     queryset = Todo.objects.all()
     serializer_class = TodoSerializer
-
+    permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
 
 # api/todos/id/ url view
-class TodoDetail(generics.RetrieveAPIView):
+class TodoDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = Todo.objects.all()
     serializer_class = TodoSerializer
-
-
+    permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
 
 # api/todos/trip/tripId url view
 class TodoOfTrip(generics.ListAPIView):
-    #queryset = Todo.objects.all()
     serializer_class = TodoSerializer
+    permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
 
     def get_queryset(self):
         """
@@ -192,18 +195,18 @@ class TodoOfTrip(generics.ListAPIView):
 class RuleList(generics.ListCreateAPIView):
     queryset = Rule.objects.all()
     serializer_class = RuleSerializer
-
+    permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
 
 # api/rules/id/ url view
-class RuleDetail(generics.RetrieveAPIView):
+class RuleDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = Rule.objects.all()
     serializer_class = RuleSerializer
-    
+    permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
 
 # api/rules/trip/tripId url view
 class RuleOfTrip(generics.ListAPIView):
-    #queryset = Rule.objects.all()
     serializer_class = RuleSerializer
+    permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
 
     def get_queryset(self):
         """
@@ -218,18 +221,18 @@ class RuleOfTrip(generics.ListAPIView):
 class ScheduleList(generics.ListCreateAPIView):
     queryset = Schedule.objects.all()
     serializer_class = ScheduleSerializer
-
+    permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
 
 # api/schedules/id/ url view
-class ScheduleDetail(generics.RetrieveAPIView):
+class ScheduleDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = Schedule.objects.all()
     serializer_class = ScheduleSerializer
-    
+    permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
 
 # api/schedules/trip/tripId url view
 class ScheduleOfTrip(generics.ListAPIView):
-    #queryset = Schedule.objects.all()
     serializer_class = ScheduleSerializer
+    permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
 
     def get_queryset(self):
         """
@@ -244,18 +247,18 @@ class ScheduleOfTrip(generics.ListAPIView):
 class MarkerList(generics.ListCreateAPIView):
     queryset = Marker.objects.all()
     serializer_class = MarkerSerializer
-
+    permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
 
 # api/markers/id/ url view
-class MarkerDetail(generics.RetrieveAPIView):
+class MarkerDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = Marker.objects.all()
     serializer_class = MarkerSerializer
+    permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
     
-
 # api/markers/trip/tripId url view
 class MarkerOfTrip(generics.ListAPIView):
-    #queryset = Marker.objects.all()
     serializer_class = MarkerSerializer
+    permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
 
     def get_queryset(self):
         """
