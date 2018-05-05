@@ -1,6 +1,6 @@
 import { take, put, call, fork, select } from 'redux-saga/effects'
 import api from 'services/api'
-import * as functions from './actions'
+import * as actions from './actions'
 
 const url = 'http://127.0.0.1:8000/api/rules/'
 const tripID = 1
