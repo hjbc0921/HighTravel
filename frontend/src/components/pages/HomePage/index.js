@@ -1,10 +1,13 @@
 import React from 'react'
-
-import { PageTemplate } from 'components'
+import AddRule from '../../../containers/AddRule'
+import RuleList from '../../../containers/RuleList'
 
 const HomePage = () => {
   return (
-    <PageTemplate>Hello World</PageTemplate>
+    <div>
+        <RuleList/>
+        <AddRule/>
+    </div>
   )
 }
 
