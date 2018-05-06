@@ -1,4 +1,4 @@
-export { default as Home  } from './Homepage'
+export { default as Home  } from './HomePage'
 export { default as Rules } from './Rules'
 export { default as User  } from './User'
 export { default as Intro } from './Intro'

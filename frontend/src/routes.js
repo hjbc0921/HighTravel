@@ -2,13 +2,12 @@ import React from 'react'
 import { Route, IndexRoute } from 'react-router'
 
 import App from 'components/App'
-import { HomePage } from 'components'
-import AddRule from './containers/AddRule'
+import { Home, Rules } from './components/pages'
 
 const routes = (
   <Route path="/" component={App}>
-    <IndexRoute component={HomePage} />
-    <Route path="/rules" component={AddRule} />
+    <IndexRoute component={Home} />
+    <Route path="/rules" component={Rules} />
   </Route>
 )
 
