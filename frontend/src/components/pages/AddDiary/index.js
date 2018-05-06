@@ -2,7 +2,7 @@ import React from 'react'
 
 const AddDiary = () => {
   return (
-    <div>Generic Page</div>
+    <div>add diary</div>
   )
 }
 

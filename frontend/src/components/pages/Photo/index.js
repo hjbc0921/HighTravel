@@ -2,7 +2,7 @@ import React from 'react'
 
 const Photo = () => {
   return (
-    <div>Generic Page</div>
+    <div>photo</div>
   )
 }
 

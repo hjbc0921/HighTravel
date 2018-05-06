@@ -2,7 +2,7 @@ import React from 'react'
 
 const User = () => {
   return (
-    <div>Generic Page</div>
+    <div>user</div>
   )
 }
 
