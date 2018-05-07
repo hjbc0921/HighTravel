@@ -21,7 +21,6 @@ export function* loadRules() {
             console.log('rules for trip')
             tripRules = data
             console.log(tripRules)
-            //console.log(JSON.stringfy(tripRules))
         })
     console.log('tripRules')
     console.log(tripRules)
@@ -29,7 +28,6 @@ export function* loadRules() {
     console.log(Array.isArray(tripRules))
 
     //var rules = tripRules.contents
-    var rules = tripRules
     yield put({ type : 'STORE_RULE', tripRules });
 
 }
@@ -45,18 +43,22 @@ export function* postRule(contents) {
     console.log('**************')
 
     let data;
+    /*
     if (contents != undefined) {
-    console.log('**************')
+        console.log('**************')
         data = yield call(fetch, url, {
             method: 'POST',
-            body: JSON.stringfy({ contents: contents, tripID: tripID }),
+            body: JSON.stringify({ contents: contents, tripID: tripID }),
             headers: {
                 //'Authorization': `JWT ${token}`,
-                //Authorization:  `Bearer ${token}`,
+                Authorization:  'Bearer ' +  token,
                 'Content-Type': 'application/json;'
             }
         })
+        console.log('---------------------------')
     }
+    */
+    console.log('before loadRules')
     yield call(loadRules);
 }
 
@@ -71,9 +73,10 @@ export function* watchPostRuleRequest() {
 }
 
 export default function* () {
+    yield call(loadRules)
     console.log(typeof token)
     console.log('watchPostRuleRequest')
     yield fork(watchPostRuleRequest)
-    console.log('watchPostRuleRequest')
-    yield fork(loadRules)
+    console.log('watchloadRules')
+    //yield fork(loadRules)
 }
