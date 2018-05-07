@@ -4,6 +4,8 @@ const rules_reducer = (state = initialState, action) => {
     console.log('reducer')
     console.log(state)
     console.log(action.type)
+    console.log(action.rules)
+    console.log(typeof action.rules)
     switch (action.type) {
         case 'STORE_RULE': 
             return Object.assign({}, state, {

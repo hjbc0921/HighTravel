@@ -11,23 +11,23 @@ export function* loadRules() {
     //let tripID;
     const state = yield select()
     //tripID = state.tripID
-    var tripRuleUrl = url + tripID + '/'
+    var tripRuleUrl = url + 'trip/' + tripID + '/'
     console.log(tripRuleUrl)
     
     var tripRules;
-    yield fetch(trupRuleUrl)
+    yield fetch(tripRuleUrl)
         .then((resp) => resp.json())
         .then(function(data) {
             console.log('rules for trip')
             tripRules = data
             console.log(tripRules)
-            console.log(JSON.stringfy(tripRules))
+            //console.log(JSON.stringfy(tripRules))
         })
     console.log('tripRules')
     console.log(tripRules)
 
-    var rules = tripRules.contents
-    yield put({ type : 'STORE_RULE', rules });
+    //var rules = tripRules.contents
+    yield put({ type : 'STORE_RULE', tripRules });
 
 }
 
@@ -43,11 +43,13 @@ export function* postRule(contents) {
 
     let data;
     if (contents != undefined) {
+    console.log('**************')
         data = yield call(fetch, url, {
             method: 'POST',
             body: JSON.stringfy({ contents: contents, tripID: tripID }),
             headers: {
-                'Authorization': `Token ${token}`,
+                //'Authorization': `JWT ${token}`,
+                //Authorization:  `Bearer ${token}`,
                 'Content-Type': 'application/json;'
             }
         })
@@ -66,6 +68,9 @@ export function* watchPostRuleRequest() {
 }
 
 export default function* () {
+    console.log(typeof token)
     console.log('watchPostRuleRequest')
     yield fork(watchPostRuleRequest)
+    console.log('watchPostRuleRequest')
+    yield fork(loadRules)
 }
