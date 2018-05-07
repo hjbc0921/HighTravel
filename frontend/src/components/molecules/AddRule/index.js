@@ -4,8 +4,12 @@ import { font, palette } from 'styled-theme'
 import Button from '../../../components/atoms/Button'
 
 const Wrapper = styled.div`
+  display: flex;
+  padding: 5px;
   font-family: ${font('primary')};
   color: ${palette('grayscale', 0)};
+  flex-direction: column;
+  align-items: center;
 `
 
 export const AddRule = ({ statefunction, onPostRule }) => {
