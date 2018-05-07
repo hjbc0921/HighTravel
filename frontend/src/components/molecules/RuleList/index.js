@@ -9,11 +9,17 @@ const Wrapper = styled.ul`
 `
 
 export const RuleList = ({ rules = [] }) => {
+    console.log('RuleList component')
+    console.log(rules)
+    rules.map(rule => {
+        console.log(rule.contents)
+        console.log(rule.tripID)})
   return (
     <Wrapper>
         { rules.map(rule => 
           <Rule key={rule.id}
-             {...rule}
+                contents={rule.contents}
+                tripID={rule.tripID}
           />
         )}
     </Wrapper>

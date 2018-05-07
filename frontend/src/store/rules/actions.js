@@ -6,7 +6,7 @@ export const STORE_RULE = 'STORE_RULE'
 export const storeRule = (rules) => {
     console.log('action stroeRule')
     return {
-        type: STORE_RULE,
+        type: 'STORE_RULE',
         rules: rules
     }
 }

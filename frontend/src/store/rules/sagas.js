@@ -25,8 +25,11 @@ export function* loadRules() {
         })
     console.log('tripRules')
     console.log(tripRules)
+    console.log(typeof tripRules)
+    console.log(Array.isArray(tripRules))
 
     //var rules = tripRules.contents
+    var rules = tripRules
     yield put({ type : 'STORE_RULE', tripRules });
 
 }
