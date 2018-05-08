@@ -1,6 +1,6 @@
 import { connect } from 'react-redux'
-import SignUp from "../components/molecules/SignUp";
-import {signupRequest} from "../store/signup/actions";
+import { SignUp } from "../components/molecules/SignUp";
+import { signupRequest } from "../store/signup/actions";
 
 const mapStateToProps = (state) => {
   return {
