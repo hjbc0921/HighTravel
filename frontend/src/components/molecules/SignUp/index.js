@@ -11,7 +11,7 @@ const Wrapper = styled.div`
 
 export const SignUp = ({signUp, onSignUp }) => {
   let username,password,pwd_check;
-  cons onSignUpBtn = () =>{
+  const onSignUpBtn = () =>{
     if(password.value == pwd_check.value)
       throw "password is not same with pwd_check"
     else 	
@@ -38,4 +38,7 @@ SignUp.defaultProps = {
   password='',
   pwd_check=''
 }
+
 export default SignUp
+
+
