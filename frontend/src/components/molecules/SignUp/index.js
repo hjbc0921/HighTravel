@@ -9,23 +9,23 @@ const Wrapper = styled.div`
   color: ${palette('grayscale', 0)};
 `
 
-export const SignUp = ({signUp, onSignUp }) => {
+export const SignUp = ({ signUp, onSignUp }) => {
   let username,password,pwd_check;
-  const onSignUpBtn = () =>{
-    if(password.value == pwd_check.value)
+  const onSignUpBtn = () => {
+    if(password.value != pwd_check.value)
       throw "password is not same with pwd_check"
     else 	
       onSignUp(username.value, password.value);
+  }
   return (
     <Wrapper>
-	username : <input ref={node =>{username = node;}} />
-	password : <input ref={node =>{password = node;}} />
-	pwd_check : <input ref={node =>{pwd_check =node;}} />
-        <Button type = "submit" onclick={onSignUpBtn}>SignUp</Button>
+        <div>username  : <input ref={node =>{username = node;}} /></div>
+        <div>password  : <input ref={node =>{password = node;}} /></div>
+        <div>pwd_check : <input ref={node =>{pwd_check =node;}} /></div>
+        <Button type = "submit" onClick={onSignUpBtn}>SignUp</Button>
     </Wrapper>
 
   )
-  }
 }
 
 SignUp.propTypes = {
@@ -36,8 +36,8 @@ SignUp.propTypes = {
 
 SignUp.defaultProps = {
   username: '',
-  password:'',
-  pwd_check:''
+  password: '',
+  pwd_check: ''
 }
 
 //export default SignUp
