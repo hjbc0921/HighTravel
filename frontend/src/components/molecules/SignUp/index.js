@@ -25,6 +25,7 @@ export const SignUp = ({signUp, onSignUp }) => {
     </Wrapper>
 
   )
+  }
 }
 
 SignUp.propTypes = {
@@ -34,11 +35,9 @@ SignUp.propTypes = {
  }
 
 SignUp.defaultProps = {
-  username= '',
-  password='',
-  pwd_check=''
+  username: '',
+  password:'',
+  pwd_check:''
 }
 
-export default SignUp
-
-
+//export default SignUp
