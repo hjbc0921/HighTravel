@@ -36,6 +36,7 @@ export function* postRule(contents) {
     console.log('post in postRule')
 
     //let token;
+    //let tripID;
     const state = yield select()
     //token = state.token
     //tripID = state.tripID
@@ -43,21 +44,19 @@ export function* postRule(contents) {
     console.log('**************')
 
     let data;
-    /*
     if (contents != undefined) {
         console.log('**************')
         data = yield call(fetch, url, {
             method: 'POST',
             body: JSON.stringify({ contents: contents, tripID: tripID }),
             headers: {
-                //'Authorization': `JWT ${token}`,
-                Authorization:  'Bearer ' +  token,
+                'Authorization': `token ${token}`,
                 'Content-Type': 'application/json;'
             }
         })
         console.log('---------------------------')
     }
-    */
+    
     console.log('before loadRules')
     yield call(loadRules);
 }
