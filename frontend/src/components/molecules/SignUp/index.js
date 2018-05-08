@@ -20,8 +20,8 @@ export const SignUp = ({ signUp, onSignUp }) => {
   return (
     <Wrapper>
         <div>username  : <input ref={node =>{username = node;}} /></div>
-        <div>password  : <input ref={node =>{password = node;}} /></div>
-        <div>pwd_check : <input ref={node =>{pwd_check =node;}} /></div>
+        <div>password  : <input type="password" ref={node =>{password = node;}} /></div>
+        <div>pwd_check : <input type="password" ref={node =>{pwd_check =node;}} /></div>
         <Button type = "submit" onClick={onSignUpBtn}>SignUp</Button>
     </Wrapper>
 

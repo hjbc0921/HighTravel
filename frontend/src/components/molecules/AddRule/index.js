@@ -13,25 +13,44 @@ const Wrapper = styled.div`
 `
 
 export const AddRule = ({ statefunction, onPostRule }) => {
-  let input;
-  console.log(onPostRule);
-  console.log('asdf');
+  let input
+  var empty
+  console.log(onPostRule)
+  console.log('asdf')
 
   const onSubmit = () => {
-    console.log('outer scope of it');
+    console.log('outer scope of it')
+    console.log(input)
+    console.log(input.value)
+    console.log(input.value == '')
     if (input != undefined) {
-        console.log('inner scope of it');
-        onPostRule(input.value);
-        console.log('post is done');
-        input = '';
+        console.log('inner scope of it')
+        onPostRule(input.value)
+        console.log('post is done')
+        document.getElementById("content").required = true
+        input = ''
+        console.log('rerender')
+        ReactDOM.render(
+            <input id="content" required type="text" placeholder="contents for new rule" ref={node => {input = node;}} />,
+            document.getElementById("content")
+        )
+        //document.getElementById("new_rule_input").reset()
+        /*
+        if (input.value=='')
+            document.getElementById("content").required = true
+        else
+            document.getElementById("content").required = false
+            */
     }
   };
 
   return (
-    <Wrapper>
-        <input placeholder="contents for new rule" ref={node => {input = node;}} />
-        <Button type="submit" onClick={onSubmit}>Add Rule</Button>
-    </Wrapper>
+    <form id="new_rule_input">
+        <Wrapper>
+            <input id="content" required type="text" placeholder="contents for new rule" ref={node => {input = node;}} />
+            <Button type="submit" onClick={onSubmit}>Add Rule</Button>
+        </Wrapper>
+    </form>
   )
 }
 
