@@ -12,6 +12,13 @@ const Wrapper = styled.div`
 export const SignUp = ({ signUp, onSignUp }) => {
   let username,password,pwd_check;
   const onSignUpBtn = () => {
+    if(username.value == '')
+      throw "fill username"
+    if(password.value == '')
+      throw "fill password"
+    if(pwd_check.value == '')
+      throw "type password confirmation"
+
     if(password.value != pwd_check.value)
       throw "password is not same with pwd_check"
     else 	
