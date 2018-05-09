@@ -8,7 +8,8 @@ const Wrapper = styled.div`
   padding: 5px;
   font-family: ${font('primary')};
   color: ${palette('grayscale', 0)};
-  flex-direction: column;
+  flex-direction: row;
+  justify-content: center;
   align-items: center;
 `
 

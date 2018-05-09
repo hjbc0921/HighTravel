@@ -6,14 +6,14 @@ const Button = styled.span`
   font-family: ${font('primary')};
   color: ${palette({ grayscale: 0 }, 1)};
   background: #dce3ef
-  width: 250px;
   height: 20px;
-  position: relative;
   text-align: center;
   verical-align: middle;
   line-height: 20px;
   padding: 5px;
   margin-top: 5px;
+  margin-left: 10px;
+  margin-right: 10px;
   margin-bottom: 2.5px;
   top: 50%;
   trasnform: translateY(-50%);

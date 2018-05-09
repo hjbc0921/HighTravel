@@ -1,6 +1,7 @@
 import React, { PropTypes } from 'react'
 import styled from 'styled-components'
 import { font, palette } from 'styled-theme'
+import Button from '../../../components/atoms/Button'
 //import Rule from '../../../components/atoms/Rule'
 
 const Wrapper = styled.div`
@@ -12,10 +13,10 @@ const Wrapper = styled.div`
   align-items: center;
 `
 const Rule = styled.div`
+  display: flex;
   font-family: ${font('primary')};
   color: ${palette('grayscale', 0)};
   width: 250px;
-  position: relative;
   text-align: center;
   verical-align: middle;
   line-height: 20px;
@@ -28,6 +29,14 @@ const Rule = styled.div`
   border-radius: 20px;
   word-wrap: break-word;
   display: inline-block;
+`
+const Container = styled.div`
+  display: flex;
+  font-family: ${font('primary')};
+  color: ${palette('grayscale', 0)};
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
 `
 
 export const RuleList = ({ rules = [] }) => {
@@ -48,7 +57,10 @@ export const RuleList = ({ rules = [] }) => {
                 contents={rule.contents}
                 tripID={rule.tripID}
           />*/
-          <Rule key={rule.id} onClick={ event => changeRule(rule.id) }>{rule.contents}</Rule>
+          <Container key={rule.id}>
+          <Rule onClick={ event => changeRule(rule.id) }>{rule.contents}</Rule>
+          <Button>Delete</Button>
+          </Container>
         )}
     </Wrapper>
   )
