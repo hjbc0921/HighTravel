@@ -12,9 +12,9 @@ export const AddTrip = ({ children, ...props }) => {
   const onAddTripBtn = () => {
    if(title.value=='')
    throw "fill title"
-   if(sinceWhen.value=='')
+   else if(sinceWhen.value=='')
    throw "fill sinceWhen"
-   if(untilWhen.value=='')
+   else if(untilWhen.value=='')
    throw "fill untilWhen")
    else 
     onAddTrip(title.value,sinceWhen.value,untilWhen.value);

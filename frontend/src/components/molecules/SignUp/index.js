@@ -14,12 +14,12 @@ export const SignUp = ({ signUp, onSignUp }) => {
   const onSignUpBtn = () => {
     if(username.value == '')
       throw "fill username"
-    if(password.value == '')
+    else if(password.value == '')
       throw "fill password"
-    if(pwd_check.value == '')
+    else if(pwd_check.value == '')
       throw "type password confirmation"
 
-    if(password.value != pwd_check.value)
+    else if(password.value != pwd_check.value)
       throw "password is not same with pwd_check"
     else 	
       onSignUp(username.value, password.value);
