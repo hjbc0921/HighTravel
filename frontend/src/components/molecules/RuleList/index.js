@@ -15,7 +15,6 @@ const Rule = styled.div`
   font-family: ${font('primary')};
   color: ${palette('grayscale', 0)};
   width: 250px;
-  height: 20px;
   position: relative;
   text-align: center;
   verical-align: middle;
@@ -27,6 +26,8 @@ const Rule = styled.div`
   trasnform: translateY(-50%);
   background: #ccccff;
   border-radius: 20px;
+  word-wrap: break-word;
+  display: inline-block;
 `
 
 export const RuleList = ({ rules = [] }) => {
@@ -35,6 +36,11 @@ export const RuleList = ({ rules = [] }) => {
     rules.map(rule => {
         console.log(rule.contents)
         console.log(rule.tripID)})
+
+  function changeRule(ruleId) {
+    console.log(ruleId)
+  }
+
   return (
     <Wrapper>
         { rules.map(rule => 
@@ -42,7 +48,7 @@ export const RuleList = ({ rules = [] }) => {
                 contents={rule.contents}
                 tripID={rule.tripID}
           />*/
-          <Rule key={rule.id}>{rule.contents}</Rule>
+          <Rule key={rule.id} onClick={ event => changeRule(rule.id) }>{rule.contents}</Rule>
         )}
     </Wrapper>
   )

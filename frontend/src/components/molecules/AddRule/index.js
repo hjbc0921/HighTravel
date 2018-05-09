@@ -28,24 +28,17 @@ export const AddRule = ({ statefunction, onPostRule }) => {
         onPostRule(input.value)
         console.log('post is done')
         document.getElementById("content").required = true
-        input = ''
+        input.value = ''
         console.log('rerender')
         ReactDOM.render(
             <input id="content" required type="text" placeholder="contents for new rule" ref={node => {input = node;}} />,
             document.getElementById("content")
         )
-        //document.getElementById("new_rule_input").reset()
-        /*
-        if (input.value=='')
-            document.getElementById("content").required = true
-        else
-            document.getElementById("content").required = false
-            */
     }
   };
 
   return (
-    <form id="new_rule_input">
+    <form>
         <Wrapper>
             <input id="content" required type="text" placeholder="contents for new rule" ref={node => {input = node;}} />
             <Button type="submit" onClick={onSubmit}>Add Rule</Button>
@@ -58,5 +51,3 @@ AddRule.propTypes = {
   reverse: PropTypes.bool,
   children: PropTypes.node,
 }
-
-//export default AddRule
