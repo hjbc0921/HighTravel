@@ -1,8 +1,12 @@
 import React from 'react'
 
+import AddTrip from "../../../containers/AddTrip";
+
 const AddTrip = () => {
   return (
-    <div>add trip</div>
+    <div>
+     <AddTrip/>
+   </div>
   )
 }
 
