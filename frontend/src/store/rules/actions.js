@@ -22,3 +22,14 @@ export const postRuleRequest = (contents) => {
         contents
     }
 }
+
+export const DELETE_RULE_REQUEST = 'DELETE_RULE_REQUEST'
+
+// action for server communication (send Delete to server)
+export const deleteRuleRequest = (ruleId) => {
+    console.log('action to deleteRuleRequest')
+    return {
+        type: DELETE_RULE_REQUEST,
+        ruleId
+    }
+}

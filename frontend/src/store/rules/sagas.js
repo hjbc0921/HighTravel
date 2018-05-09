@@ -71,11 +71,53 @@ export function* watchPostRuleRequest() {
     }
 }
 
+export function* deleteRule(ruleId) {
+    console.log('post in deleteRule')
+
+    //let token;
+    //let tripID;
+    const state = yield select()
+    //token = state.token
+    //tripID = state.tripID
+
+    console.log('**************')
+    console.log(ruleId)
+
+    let ruleUrl = url + ruleId + '/'
+    console.log(ruleUrl)
+    let data;
+    if (ruleId != undefined) {
+        console.log('**************')
+        data = yield call(fetch, ruleUrl, {
+            method: 'DELETE',
+            headers: {
+                'Authorization': `token ${token}`,
+                'Content-Type': 'application/json;'
+            }
+        })
+        console.log('---------------------------')
+    }
+    
+    console.log('before loadRules')
+    yield call(loadRules);
+}
+
+export function* watchDeleteRuleRequest() {
+    while (true) {
+        console.log('post in watch')
+        const { ruleId } = yield take(actions.DELETE_RULE_REQUEST)
+        console.log(ruleId)
+        yield call(deleteRule, ruleId)
+        console.log('post in watch end')
+    }
+}
+
 export default function* () {
     yield call(loadRules)
     console.log(typeof token)
     console.log('watchPostRuleRequest')
     yield fork(watchPostRuleRequest)
+    yield fork(watchDeleteRuleRequest)
     console.log('watchloadRules')
     //yield fork(loadRules)
 }

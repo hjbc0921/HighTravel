@@ -39,16 +39,25 @@ const Container = styled.div`
   align-items: center;
 `
 
-export const RuleList = ({ rules = [] }) => {
+export const RuleList = ({ rules = [], onDeleteRule }) => {
     console.log('RuleList component')
     console.log(rules)
     rules.map(rule => {
         console.log(rule.contents)
         console.log(rule.tripID)})
+     
+     const deleteRule = (ruleId) => {
+        console.log('delete Rule')
+        console.log(ruleId)
+        console.log(typeof ruleId)
+        onDeleteRule(ruleId)
+    }
 
+/*
   function changeRule(ruleId) {
     console.log(ruleId)
   }
+  */
 
   return (
     <Wrapper>
@@ -58,8 +67,8 @@ export const RuleList = ({ rules = [] }) => {
                 tripID={rule.tripID}
           />*/
           <Container key={rule.id}>
-          <Rule onClick={ event => changeRule(rule.id) }>{rule.contents}</Rule>
-          <Button>Delete</Button>
+          <Rule>{rule.contents}</Rule>
+          <Button onClick={ event => deleteRule(rule.id) }>Delete</Button>
           </Container>
         )}
     </Wrapper>
