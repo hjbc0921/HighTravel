@@ -59,6 +59,11 @@ const config = createConfig([
 
   env('development', [
     devServer({
+      proxy: {
+      '/api':{
+        target : 'http://localhost:8000'
+      }
+      },
       contentBase: 'public',
       stats: 'errors-only',
       publicPath,
