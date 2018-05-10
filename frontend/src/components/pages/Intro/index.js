@@ -1,8 +1,8 @@
 import React from 'react'
-
-const Intro = () => {
+import Intro from '../../../containers/Intro'
+const intro = () => {
   return (
-    <div>intro</div>
+    <div><Intro/></div>
   )
 }
 
