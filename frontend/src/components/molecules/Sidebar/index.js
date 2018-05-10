@@ -15,27 +15,27 @@ const routes = [
   main: () => <h2>Home</h2>
  },
  {
-  path: "/",
+  path: "/money",
   sidebar: () => <div>money!</div>,
   main: () => <h2>Money</h2>
  },
  {
-  path: "/",
+  path: "/map",
   sidebar: () => <div>map!</div>,
   main: () => <h2>Map</h2>
  },
  { 
-  path: "/",
+  path: "/rules",
   sidebar: () => <div>rules!</div>,
   main: () => <h2>Rules</h2>
  },
  {
-  path: "/",
+  path: "/photo",
   sidebar: () => <div>photo! </div>,
   main: () => <h2>Photo</h2>
  },
  { 
-  path: "/",
+  path: "/diary",
   sidebar: () => <div>diary! </div>,
   main: () => <h2>Diary </h2>
  }
@@ -56,19 +56,19 @@ const Sidebar = () => {
        <Link to="/"> Home </Link>
      </li>
      <li>
-       <Link to="/ "> Money </Link>
+       <Link to="/money"> Money </Link>
      </li>
      <li>
-       <Link to=" /"> Map </Link>
+       <Link to="/map"> Map </Link>
      </li>
      <li>
-       <Link to=" /">Rules </Link>
+       <Link to="/rules">Rules </Link>
      </li>
      <li>
-       <Link to=" /">Photo </Link>
+       <Link to="/photo">Photo </Link>
      </li>
      <li>
-       <Link to=" /">Diary </Link>
+       <Link to="/diary">Diary </Link>
      </li>
    </ul>
    {routes.map((route, index) => (
