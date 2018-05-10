@@ -2,15 +2,13 @@ import { PropTypes } from 'react'
 import styled from 'styled-components'
 import { font, palette } from 'styled-theme'
 
-const Button = styled.span`
+const Button = styled.button`
   font-family: ${font('primary')};
   color: ${palette({ grayscale: 0 }, 1)};
-  background: #dce3ef
-  height: 20px;
+  background: #dce3ef;
   text-align: center;
   verical-align: middle;
-  line-height: 20px;
-  padding: 5px;
+  padding: 5px 10px;
   margin-top: 5px;
   margin-left: 10px;
   margin-right: 10px;
