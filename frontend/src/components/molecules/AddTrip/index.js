@@ -32,8 +32,8 @@ export const AddTrip = ({addTrip,onAddTrip}) => {
 
 AddTrip.propTypes = {
   title : PropTypes.string.isRequired,
-  sinceWhen : PropTypes.object.isRequired,
-  untilWhen : PropTypes.object.isRequired
+  sinceWhen : PropTypes.string.isRequired,
+  untilWhen : PropTypes.string.isRequired
 }
 
 AddTrip.defaultProps = {
