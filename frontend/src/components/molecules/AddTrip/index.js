@@ -11,13 +11,14 @@ export const AddTrip = ({ children, ...props }) => {
  let title,sinceWhen,untilWhen;
   const onAddTripBtn = () => {
    if(title.value=='')
-   throw "fill title"
+   throw "fill title";
    else if(sinceWhen.value=='')
-   throw "fill sinceWhen"
+   throw "fill sinceWhen";
    else if(untilWhen.value=='')
-   throw "fill untilWhen")
+   throw "fill untilWhen";
    else 
     onAddTrip(title.value,sinceWhen.value,untilWhen.value);
+ }
   return (
     <Wrapper>
       <div> title : <input ref={node=>{title = node;}} /></div>
@@ -39,4 +40,4 @@ AddTrip.defaultProps = {
   sinceWhen:'',
   untilWhen:''
 }
-export default AddTrip
+//export default AddTrip

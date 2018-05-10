@@ -1,11 +1,11 @@
 import React from 'react'
 
-import AddTrip from "../../../containers/AddTrip";
+import Addtrip from "../../../containers/Addtrip";
 
 const AddTrip = () => {
   return (
     <div>
-     <AddTrip/>
+     <Addtrip/>
    </div>
   )
 }
