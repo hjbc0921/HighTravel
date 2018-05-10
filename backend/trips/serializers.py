@@ -23,17 +23,6 @@ class UserSerializer(serializers.ModelSerializer):
         instance.save()
         return instance
 
-class TripSerializer(serializers.ModelSerializer):
-    users = UserSerializer(read_only=True,many=True)
-    class Meta:
-        model = Trip
-        fields = ('id','title','sinceWhen','tilWhen','users','trip_budget','trip_expense','trip_photo','trip_diary','trip_todo','trip_rule','trip_schedule','trip_marker')
-
-class TripDetailSerializer(WritableNestedModelSerializer):
-    class Meta:
-        model = Trip
-        fields = ('id','title','sinceWhen','tilWhen','users','trip_budget','trip_expense','trip_photo','trip_diary','trip_todo','trip_rule','trip_schedule','trip_marker')
-
 class BudgetSerializer(serializers.ModelSerializer):
     class Meta:
         model = Budget
@@ -69,4 +58,22 @@ class MarkerSerializer(serializers.ModelSerializer):
         model = Marker
         fields = ('id','place','tripID')
 
+class TripSerializer(serializers.ModelSerializer):
+    users = UserSerializer(read_only=True,many=True)
+    trip_budget     = BudgetSerializer(read_only=True, many=True)
+    trip_expense    = ExpenseSerializer(read_only=True, many=True)
+    trip_photo      = PhotoSerializer(read_only=True, many=True)
+    trip_diary      = DiarySerializer(read_only=True, many=True)
+    trip_todo       = TodoSerializer(read_only=True, many=True)
+    trip_rule       = RuleSerializer(read_only=True, many=True)
+    trip_schedule   = ScheduleSerializer(read_only=True, many=True)
+    trip_marker     = MarkerSerializer(read_only=True, many=True)
+    class Meta:
+        model = Trip
+        fields = ('id','title','sinceWhen','tilWhen','users','trip_budget','trip_expense','trip_photo','trip_diary','trip_todo','trip_rule','trip_schedule','trip_marker')
+
+class TripDetailSerializer(WritableNestedModelSerializer):
+    class Meta:
+        model = Trip
+        fields = ('id','title','sinceWhen','tilWhen','users','trip_budget','trip_expense','trip_photo','trip_diary','trip_todo','trip_rule','trip_schedule','trip_marker')
 
