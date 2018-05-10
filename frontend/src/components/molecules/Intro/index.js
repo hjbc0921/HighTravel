@@ -17,8 +17,7 @@ export const Intro = ({intro, onLogin}) => {
 	else if(password.value == '')
 		throw "fill password"
 	else if(username.value == '')
-		throw "fill username"*/
-    // change state
+		throw "fill username"*/    // change state
   };//make function
   console.log(intro);
   return (
