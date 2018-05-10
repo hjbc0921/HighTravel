@@ -1,13 +1,14 @@
 import React, { PropTypes } from 'react'
 import styled from 'styled-components'
 import { font, palette } from 'styled-theme'
+import Button from '../../../components/atoms/Button'
 
 const Wrapper = styled.div`
   font-family: ${font('primary')};
   color: ${palette('grayscale', 0)};
 `
 
-export const AddTrip = ({ children, ...props }) => {
+export const AddTrip = ({addTrip,onAddTrip}) => {
  let title,sinceWhen,untilWhen;
   const onAddTripBtn = () => {
    if(title.value=='')
