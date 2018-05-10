@@ -1,6 +1,6 @@
 import { connect } from 'react-redux'
 import Intro from "../components/molecules/Intro";
-import {loginRequest} from "../store/Intro/actions";//modify code!
+import {loginRequest} from "../store/intro/actions";//modify code!
 
 const mapStateToProps = (state) => {
   return {

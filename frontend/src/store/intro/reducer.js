@@ -1,4 +1,4 @@
-mport { initialState } from "./selectors"
+import { initialState } from "./selectors"
 import {LOGIN_FAILED, INTRO_RECEIVED} from "./actions";
 
 const intro_reducer = (state = initialState, action) => {
