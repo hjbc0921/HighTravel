@@ -30,7 +30,7 @@ export const Intro = ({intro, onLogin}) => {
   return (
     <Wrapper>
       <InnerWrapper>
-      <h1>뀨여닝 여행회사</h1>
+      <h1>High, Travel!</h1>
       <input type="text" placeholder="username" ref={ref => { console.log(ref);username = ref;}}/>
 	  <input type="password" placeholder="password" ref={node => {password = node;}}  />
       <p>Error message : {intro.errorMessage}</p>
