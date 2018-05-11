@@ -1,6 +1,6 @@
 from django.contrib.auth.models import User
 from trips.models import Trip, Budget, Expense, Photo, Diary, Todo, Rule, Schedule, Marker
-from trips.serializers import TripSerializer, TripDetailSerializer, UserSerializer, BudgetSerializer, ExpenseSerializer, PhotoSerializer, DiarySerializer, TodoSerializer, RuleSerializer, ScheduleSerializer, MarkerSerializer  
+from trips.serializers import UserRegSerializer, TripSerializer, TripDetailSerializer, UserSerializer, BudgetSerializer, ExpenseSerializer, PhotoSerializer, DiarySerializer, TodoSerializer, RuleSerializer, ScheduleSerializer, MarkerSerializer  
 from rest_framework import generics
 from rest_framework.views import APIView
 from rest_framework.response import Response
@@ -40,6 +40,10 @@ class TripDetail(generics.RetrieveUpdateDestroyAPIView):
                 return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
         return self.update(request,*args,**kwargs)
 
+class UserRegister(generics.ListCreateAPIView):
+    queryset = User.objects.all()
+    serializer_class = UserRegSerializer
+    permission_classes = (permissions.AllowAny,)    
 
 # api/users/ url view
 class UserList(generics.ListAPIView):
