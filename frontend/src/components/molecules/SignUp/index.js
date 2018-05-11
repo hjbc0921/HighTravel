@@ -2,7 +2,7 @@ import React, { PropTypes } from 'react'
 import styled from 'styled-components'
 import { font, palette } from 'styled-theme'
 import Button from '../../../components/atoms/Button'
-
+import {Redirect} from 'react-router-dom'
 
 const Wrapper = styled.div`
   font-family: ${font('primary')};
@@ -26,10 +26,25 @@ export const SignUp = ({ signUp, onSignUp }) => {
   }
   return (
     <Wrapper>
+        {!signUp.trying && !signUp.success && (
+        <div>
+        {signUp.message}
         <div>username  : <input ref={node =>{username = node;}} /></div>
         <div>password  : <input type="password" ref={node =>{password = node;}} /></div>
         <div>pwd_check : <input type="password" ref={node =>{pwd_check =node;}} /></div>
         <Button type = "submit" onClick={onSignUpBtn}>SignUp</Button>
+        </div>
+        )}
+        {signUp.trying && signUp.success && <Redirect to="/intro" /> }
+        {signUp.trying && !signUp.success && (
+        <div>
+        {signUp.message}
+        <div>username  : <input ref={node =>{username = node;}} /></div>
+        <div>password  : <input type="password" ref={node =>{password = node;}} /></div>
+        <div>pwd_check : <input type="password" ref={node =>{pwd_check =node;}} /></div>
+        <Button type = "submit" onClick={onSignUpBtn}>SignUp</Button>
+        </div>
+        )}
     </Wrapper>
 
   )

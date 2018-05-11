@@ -25,18 +25,23 @@ export function* signUp(username, password) {
     console.log('post in postRule')
     console.log(username)
     console.log(password)
-    let csrftoken = getCSRFToken()
-    console.log(csrftoken)
+    //let csrftoken = getCSRFToken()
+    //console.log(csrftoken)
     let data;
     if (username != undefined && password != undefined) {
         console.log('**************')
-        data = yield call(fetch, url, {
+        try {data = yield call(fetch, url, {
             method: 'POST',
             body: JSON.stringify({ username: username, password: password}),
             headers: {
             'Content-Type': 'application/json;',
             }
         })
+        yield put(actions.signupSuc())
+        }catch(err){
+        console.log(err.toString());
+        yield put(actions.signupFail(err.toString()))
+        }
     console.log('---------------------------')
     }
 }
