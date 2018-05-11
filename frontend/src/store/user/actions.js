@@ -1,7 +1,9 @@
-export const ADDTRIP_REQUEST = 'ADDTRIP_REQUEST';
+export const STORE_TRIP = 'STORE_TRIP';
 
-export const addtripRequest = () => {
+export const storeTrip = (ownTrip) => {
+  console.log('action storeTrip')
   return {
-    type: ADDTRIP_REQUEST
+    type: STORE_TRIP,
+    ownTrip: ownTrip
   }
-};
+}

@@ -3,16 +3,18 @@ import  User  from "../components/molecules/User";
 import { addtripRequest } from "../store/user/actions";
 
 const mapStateToProps = (state) => {
+    console.log('container')
+    console.log(state)
+    console.log(state.user)
   return {
-    addtrip: state.addtrip,
+    triplist: state.user.user,
   }
 };
 
 const mapDispatchToProps = (dispatch) => {
-  console.log('onAddTrip')
+  console.log('tripIdSave')
   return {
-    onAddTrip: () => {
-      dispatch(addtripRequest())
+    tripIdSave: (tripID) => {
     }
   }
 };
