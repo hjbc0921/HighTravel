@@ -1,8 +1,9 @@
 import React from 'react'
+import User from '../../../containers/User'
 
-const User = () => {
+const user = () => {
   return (
-    <div>user</div>
+    <div><User/></div>
   )
 }
 
