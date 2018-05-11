@@ -2,7 +2,7 @@ import React, { PropTypes } from 'react'
 import styled from 'styled-components'
 import { font, palette } from 'styled-theme'
 import Button from '../../../components/atoms/Button'
-import {Redirect} from 'react-router-dom'
+import {Redirect} from 'react-router'
 
 const Wrapper = styled.div`
   font-family: ${font('primary')};
