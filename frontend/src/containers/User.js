@@ -1,5 +1,5 @@
 import { connect } from 'react-redux'
-import { User } from "../components/molecules/User";
+import  User  from "../components/molecules/User";
 import { addtripRequest } from "../store/user/actions";
 
 const mapStateToProps = (state) => {
