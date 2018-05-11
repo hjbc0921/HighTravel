@@ -7,6 +7,7 @@ urlpatterns = [
     url(r'^trips/$',views.TripList.as_view()),
     url(r'^trips/(?P<pk>[0-9]+)/$', views.TripDetail.as_view()),
     url(r'^users/$',views.UserList.as_view()),
+    url(r'^addusers/',views.UserRegister.as_view()),
     url(r'^users/(?P<pk>[0-9]+)/$', views.UserDetail.as_view()),
     url(r'^budgets/$',views.BudgetList.as_view()),
     url(r'^budgets/(?P<pk>[0-9]+)/$', views.BudgetDetail.as_view()),

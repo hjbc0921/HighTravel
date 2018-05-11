@@ -34,8 +34,6 @@ export function* signUp(username, password) {
             body: JSON.stringify({ username: username, password1: password, password2: password }),
             headers: {
             'Content-Type': 'application/json;',
-            'Cookie' : 'csrftoken='+csrftoken,
-            'X-CSRFToken' : csrftoken,
             }
         })
     console.log('---------------------------')
