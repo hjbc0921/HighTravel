@@ -6,6 +6,13 @@ import Button from '../../../components/atoms/Button'
 const Wrapper = styled.div`
   font-family: ${font('primary')};
   color: ${palette('grayscale', 0)};
+  text-align: center;
+  margin: auto;
+`;
+
+const InnerWrapper = styled.div`
+  display: inline-grid;
+  margin-top: 20px;
 `;
 
 export const Intro = ({intro, onLogin}) => {
@@ -22,10 +29,13 @@ export const Intro = ({intro, onLogin}) => {
   console.log(intro);
   return (
     <Wrapper>
+      <InnerWrapper>
+      <h1>High, Travel!</h1>
       <input type="text" placeholder="username" ref={ref => { console.log(ref);username = ref;}}/>
 	  <input type="password" placeholder="password" ref={node => {password = node;}}  />
       <p>Error message : {intro.errorMessage}</p>
 	  <Button type="submit" onClick={onLoginBtn}>login</Button>
+      </InnerWrapper>
     </Wrapper>
   );
 };

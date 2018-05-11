@@ -1,8 +1,7 @@
 import { PropTypes } from 'react'
 import styled from 'styled-components'
 import { font, palette } from 'styled-theme'
-
-const Button = styled.button`
+const StyledButton = styled.button`
   font-family: ${font('primary')};
   color: ${palette({ grayscale: 0 }, 1)};
   background: #dce3ef;
@@ -18,13 +17,18 @@ const Button = styled.button`
   border-radius: 20px;
 `
 
-Button.propTypes = {
+const TripTitle = ({title}) => (
+   <StyledButton>{ title }</StyledButton>
+);
+
+TripTitle.propTypes = {
+  title: PropTypes.string.isRequired,
   palette: PropTypes.string,
   reverse: PropTypes.bool,
 }
 
-Button.defaultProps = {
+TripTitle.defaultProps = {
   palette: 'grayscale',
 }
 
-export default Button
+export default TripTitle
