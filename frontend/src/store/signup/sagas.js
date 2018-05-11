@@ -2,7 +2,8 @@ import { take, put, call, fork, select } from 'redux-saga/effects'
 import api from 'services/api'
 import * as actions from './actions'
 
-const url = 'http://127.0.0.1:8000/accounts/signup/'
+//const url = 'http://127.0.0.1:8000/accounts/signup/'
+const url = 'http://127.0.0.1:8000/api/addusers/'
 
 function getCSRFToken() {
     var cookieValue = null;
@@ -31,7 +32,7 @@ export function* signUp(username, password) {
         console.log('**************')
         data = yield call(fetch, url, {
             method: 'POST',
-            body: JSON.stringify({ username: username, password1: password, password2: password }),
+            body: JSON.stringify({ username: username, password: password}),
             headers: {
             'Content-Type': 'application/json;',
             }
