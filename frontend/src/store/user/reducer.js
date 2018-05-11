@@ -8,7 +8,11 @@ const user_reducer = (state = initialState, action) => {
    switch (action.type) {
         case 'STORE_TRIP':
 			return Object.assign({}, state, {
-                user: action.ownTrip
+                trips: action.ownTrip
+            })
+        case 'STORE_TRIP_ID':
+			return Object.assign({}, state, {
+                tripID: action.tripID
             })
         default:
             return state
