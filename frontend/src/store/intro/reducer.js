@@ -1,23 +1,30 @@
 import { initialState } from "./selectors"
-import {LOGIN_FAILED, INTRO_RECEIVED} from "./actions";
+import {LOGIN_FAILED, USER_INFO_RECEIVED} from "./actions";
 
 const intro_reducer = (state = initialState, action) => {
+    console.log('intro_reducer')
+    console.log(action)
   switch(action.type) {
-    case INTRO_RECEIVED:
-      return {
+    case USER_INFO_RECEIVED:
+      return Object.assign({},state,{
+        trying : true,
+        success : true,
+        error : false,
+        message : "",
         username: action.username,
-        password: action.password,
-        isLogin: true,
-        errorMessage: ''
-      };
+        token: action.token,
+        userId: action.userId,
+      })
     case LOGIN_FAILED:
-      return {
-        userId: '',
-        username: '',
-        password: '',
-        isLogin: false,
-        errorMessage: action.errorMessage
-      };
+      return Object.assign({},state,{
+        trying : true,
+        success : false,
+        error : true,
+        message : action.errorMessage,
+        username : "",
+        token : "",
+        userId : ""
+      })
     default:
       return state
   }

@@ -1,1 +1,4 @@
-export const initialState = []
+export const initialState = {
+    message : "JOIN US"
+}
+

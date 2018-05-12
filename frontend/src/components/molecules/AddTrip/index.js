@@ -9,22 +9,19 @@ const Wrapper = styled.div`
 `
 
 export const AddTrip = ({addTrip,onAddTrip}) => {
+
  let title,sinceWhen,untilWhen;
+
   const onAddTripBtn = () => {
-   if(title.value=='')
-   throw "fill title";
-   else if(sinceWhen.value=='')
-   throw "fill sinceWhen";
-   else if(untilWhen.value=='')
-   throw "fill untilWhen";
-   else 
-    onAddTrip(title.value,sinceWhen.value,untilWhen.value);
- }
+    onAddTrip(title.value,sinceWhen.value,untilWhen.value)
+  }
+ 
   return (
     <Wrapper>
-      <div> title : <input ref={node=>{title = node;}} /></div>
-      <div> sinceWhen : <input type ="date" ref={node=>{sinceWhen = node;}}/></div>
-      <div> untilWhen : <input type ="date" ref={node=>{untilWhen = node;}}/></div>
+      <div> {addTrip.message} </div>
+      <div> title : <input required ref={node=>{title = node;}} /></div>
+      <div> sinceWhen : <input required type ="date" ref={node=>{sinceWhen = node;}}/></div>
+      <div> untilWhen : <input required type ="date" ref={node=>{untilWhen = node;}}/></div>
       <Button type ="submit" onClick={onAddTripBtn}>AddTrip</Button>
     </Wrapper>
   )
