@@ -21,23 +21,11 @@ export const Intro = ({intro, onLogin}) => {
   let username, password;
   const onLoginBtn = () => {
     onLogin(username.value, password.value);
-//<<<<<<< HEAD
-	/*if(username.value == '')
-		throw "fill username"
-	else if(password.value == '')
-		throw "fill password"
-	else if(username.value == '')
-		throw "fill username"*/    // change state
-  };//make function
-//  const onSignUpPageBtn = () => {
-//     onSignUpPage();
-//};
-
     username.value = ''
     password.value = ''
   console.log("index.js of Intro page#########");
  console.log(intro);
-  
+ } 
 
   return (
     <Wrapper>
@@ -47,8 +35,6 @@ export const Intro = ({intro, onLogin}) => {
 	  <input type="password" required placeholder="password" ref={node => {password = node;}}  />
       <p>{intro.message}</p>
 	  <Button type="submit" onClick={onLoginBtn}>login</Button>
-//	  <Button type="submit" onClick={onSignUpPageBtn}>Sign up</Button>
-//=======
       <Link to="/signup" > <Button> signup </Button> </Link>
       </InnerWrapper>
     </Wrapper>
