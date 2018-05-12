@@ -1,5 +1,5 @@
 import {connect} from 'react-redux'
-import {Sidebar} from '../components/molecules/Sidebar";
+import {Sidebar} from "../components/molecules/Sidebar";
 
 const mapStateToProps = (state) => {
    return {
