@@ -16,9 +16,12 @@ const InnerWrapper = styled.div`
 `;
 
 export const Intro = ({intro, onLogin}) => {
+
   let username, password;
   const onLoginBtn = () => {
     onLogin(username.value, password.value);
+    username.value = ''
+    password.value = ''
 	/*if(username.value == '')
 		throw "fill username"
 	else if(password.value == '')
@@ -27,6 +30,11 @@ export const Intro = ({intro, onLogin}) => {
 		throw "fill username"*/    // change state
   };//make function
   console.log(intro);
+
+  // routing after sign up button is clicked (move to Signup Page)
+  const onSignupBtn = () => {
+  }
+
   return (
     <Wrapper>
       <InnerWrapper>
@@ -35,6 +43,7 @@ export const Intro = ({intro, onLogin}) => {
 	  <input type="password" placeholder="password" ref={node => {password = node;}}  />
       <p>Error message : {intro.errorMessage}</p>
 	  <Button type="submit" onClick={onLoginBtn}>login</Button>
+	  <Button type="submit" onClick={onSignupBtn}>sign up</Button>
       </InnerWrapper>
     </Wrapper>
   );

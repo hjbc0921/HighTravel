@@ -3,6 +3,8 @@ import Intro from "../components/molecules/Intro";
 import {loginRequest} from "../store/intro/actions";//modify code!
 
 const mapStateToProps = (state) => {
+    console.log('container')
+    console.log(state.intro)
   return {
     intro: state.intro,
   }
