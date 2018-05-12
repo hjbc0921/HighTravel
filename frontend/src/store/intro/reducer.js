@@ -1,12 +1,12 @@
 import { initialState } from "./selectors"
-import {LOGIN_FAILED, INTRO_RECEIVED} from "./actions";
+import {LOGIN_FAILED, USER_INFO_RECEIVED} from "./actions";
 
 const intro_reducer = (state = initialState, action) => {
     console.log('intro_reducer')
     console.log(action)
   switch(action.type) {
-    case INTRO_RECEIVED:
-      return Object.assign({},stats,{
+    case USER_INFO_RECEIVED:
+      return Object.assign({},state,{
         trying : true,
         success : true,
         error : false,
@@ -20,7 +20,7 @@ const intro_reducer = (state = initialState, action) => {
         trying : true,
         success : false,
         error : true,
-        message : actions.errMsg,
+        message : action.errorMessage,
         username : "",
         token : "",
         userId : ""

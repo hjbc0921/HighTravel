@@ -6,7 +6,7 @@ export const LOGIN_FAILED = 'LOGIN_FAILED';
 
 export const IntroReceived = ({uname, token, userId}) => {
   return {
-    type: INTRO_RECEIVED,
+    type: USER_INFO_RECEIVED,
     username: uname,
     token: token,
     userId: userId

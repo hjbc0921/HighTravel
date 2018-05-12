@@ -23,13 +23,16 @@ export const Intro = ({intro, onLogin}) => {
     onLogin(username.value, password.value);
     username.value = ''
     password.value = ''
-	/*if(username.value == '')
-		throw "fill username"
-	else if(password.value == '')
-		throw "fill password"
-	else if(username.value == '')
-		throw "fill username"*/    // change state
-  };//make function
+    console.log("index.js of Intro page#########")
+  console.log(intro);
+  console.log(intro.message);
+  };
+  
+  if (intro.success && intro.trying){
+    console.log(intro.success);
+  var Router = require('react-router')
+  Router.browserHistory.push('/user')
+  }
   console.log(intro);
 
   return (
