@@ -38,7 +38,7 @@ export const Intro = ({intro, onLogin}) => {
       <h1>High, Travel!</h1>
       <input type="text" placeholder="username" ref={ref => { console.log(ref);username = ref;}}/>
 	  <input type="password" placeholder="password" ref={node => {password = node;}}  />
-      <p>Error message : {intro.errorMessage}</p>
+      <p>{intro.message}</p>
 	  <Button type="submit" onClick={onLoginBtn}>login</Button>
       <Link to="/signup" > <Button> signup </Button> </Link>
       </InnerWrapper>

@@ -3,6 +3,7 @@ export const LOGOUT_REQUEST = 'LOGOUT_REQUEST';
 export const USER_INFO_RECEIVED = 'INTRO_RECEIVED';
 export const LOGIN_FAILED = 'LOGIN_FAILED';
 
+
 export const IntroReceived = ({uname, token, userId}) => {
   return {
     type: INTRO_RECEIVED,

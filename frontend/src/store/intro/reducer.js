@@ -6,21 +6,25 @@ const intro_reducer = (state = initialState, action) => {
     console.log(action)
   switch(action.type) {
     case INTRO_RECEIVED:
-      return {
+      return Object.assign({},stats,{
+        trying : true,
+        success : true,
+        error : false,
+        message : "",
         username: action.username,
         token: action.token,
         userId: action.userId,
-        isLogin: true,
-        errorMessage: ''
-      };
+      })
     case LOGIN_FAILED:
-      return {
-        username: '',
-        token: '',
-        userId: '',
-        isLogin: false,
-        errorMessage: action.errMsg
-      };
+      return Object.assign({},state,{
+        trying : true,
+        success : false,
+        error : true,
+        message : actions.errMsg,
+        username : "",
+        token : "",
+        userId : ""
+      })
     default:
       return state
   }
