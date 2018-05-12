@@ -26,6 +26,9 @@ export const Intro = ({intro, onLogin}) => {
 	else if(username.value == '')
 		throw "fill username"*/    // change state
   };//make function
+  const onSignUpPageBtn = () => {
+     onSignUpPage();
+};
   console.log(intro);
   return (
     <Wrapper>
@@ -35,6 +38,7 @@ export const Intro = ({intro, onLogin}) => {
 	  <input type="password" placeholder="password" ref={node => {password = node;}}  />
       <p>Error message : {intro.errorMessage}</p>
 	  <Button type="submit" onClick={onLoginBtn}>login</Button>
+	  <Button type="submit" onClick={onSignUpPageBtn}>Sign up</Button>
       </InnerWrapper>
     </Wrapper>
   );
