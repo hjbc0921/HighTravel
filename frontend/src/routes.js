@@ -1,9 +1,9 @@
 import React from 'react';
-import {BrowserRouter as Router, Route } from 'react-router-dom';
+import { IndexRoute, Route, browserHistory } from 'react-router';
 import { None, Home, Rules, User, Money, Map, AddTrip, AddPhoto, AddDiary, Photo, Diary, Signup, Intro } from './components/pages'
 
 const routes = (
-    <Router>
+    <Route history={browserHistory}>
     <div>
       <Route path="/" component={Home} />
       <Route path="/rules" component={Rules} />
@@ -18,7 +18,7 @@ const routes = (
       <Route path="/signup" component={Signup} />
       <Route path="/intro" component={Intro} />       
     </div>
-  </Router>
+  </Route>
 )
 
 export default routes
