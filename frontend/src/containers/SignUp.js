@@ -11,8 +11,8 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   console.log('onSignUp')
   return {
-    onSignUp: (username,password) => {
-      dispatch(signupRequest(username, password))
+    onSignUp: (username,password,pwd_check) => {
+      dispatch(signupRequest(username, password,pwd_check))
     }
   }
 };

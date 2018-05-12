@@ -31,8 +31,8 @@ export const Intro = ({intro, onLogin}) => {
     <Wrapper>
       <InnerWrapper>
       <h1>High, Travel!</h1>
-      <input type="text" placeholder="username" ref={ref => { console.log(ref);username = ref;}}/>
-	  <input type="password" placeholder="password" ref={node => {password = node;}}  />
+      <input type="text" required placeholder="username" ref={ref => { console.log(ref);username = ref;}}/>
+	  <input type="password" required placeholder="password" ref={node => {password = node;}}  />
       <p>{intro.message}</p>
 	  <Button type="submit" onClick={onLoginBtn}>login</Button>
       <Link to="/signup" > <Button> signup </Button> </Link>
