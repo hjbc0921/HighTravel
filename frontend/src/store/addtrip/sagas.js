@@ -4,16 +4,13 @@ import * as actions from './actions'
 import {push} from 'react-router-redux'
 
 const url = 'http://127.0.0.1:8000/api/trips/'
-const token = 'd741b531943db7d1f456af85105ce666624089b2'
 
 export function* postTrip(title, sinceWhen, untilWhen) {
     console.log('post in postTrip')
 
-    //let token;
-    //let tripID;
     const state = yield select()
-    //token = state.token
-    //tripID = state.tripID
+    var token = state.intro.token
+    var ownTrip = state.user.trips
 
     console.log('**************')
 
@@ -35,6 +32,11 @@ export function* postTrip(title, sinceWhen, untilWhen) {
     }
     else{
         yield put(push('/user'))
+        console.log('@@@@@@@@@@@@@@@@@@')
+        let body = yield call([data, data.json])
+        console.log(body)
+        ownTrip.push({id: body.id, title: title});
+        yield put({ type : 'STORE_TRIP', ownTrip });
     }
 }
 
