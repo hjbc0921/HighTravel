@@ -1,6 +1,7 @@
-import { take, call, fork, select } from 'redux-saga/effects'
+import { take, call, fork, select, put} from 'redux-saga/effects'
 import api from 'services/api'
 import * as actions from './actions'
+import {push} from 'react-router-redux'
 
 const url = 'http://127.0.0.1:8000/api/trips/'
 const token = 'd741b531943db7d1f456af85105ce666624089b2'
@@ -28,6 +29,12 @@ export function* postTrip(title, sinceWhen, untilWhen) {
             }
         })
         console.log('---------------------------')
+    }
+    if (!data.ok){
+        yield put(actions.addtripFail("Check the date"))
+    }
+    else{
+        yield put(push('/user'))
     }
 }
 

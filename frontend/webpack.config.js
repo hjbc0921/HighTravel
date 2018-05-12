@@ -9,7 +9,7 @@ const {
   sourceMaps, defineConstants, webpack,
 } = require('@webpack-blocks/webpack2')
 
-const host = process.env.HOST || '0.0.0.0'
+const host = process.env.HOST || 'localhost'
 const port = process.env.PORT || 3000
 const publicPath = `/${process.env.PUBLIC_PATH || ''}/`.replace('//', '/')
 const sourcePath = path.join(process.cwd(), 'src')
@@ -51,6 +51,10 @@ const config = createConfig([
     },
     module: {
       rules: [
+        {
+          test: /\.css$/,
+          use: [ 'style-loader', 'css-loader' ]
+      },
         { test: /\.(png|jpe?g|svg)$/, loader: 'url-loader?&limit=8000' },
         { test: /\.(woff2?|ttf|eot)$/, loader: 'url-loader?&limit=8000' },
       ],

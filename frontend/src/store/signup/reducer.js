@@ -8,16 +8,10 @@ const signup_reducer = (state = initialState, action) => {
         };
       case SIGNUP_SUCCESS:
         return Object.assign({},state,{
-            trying : true,
-            success : true,
-            error : false,
-            message : "LOGIN",
+            message : "",
         })
       case SIGNUP_FAIL:
         return Object.assign({},state,{
-            trying : false,
-            success : false,
-            error : true,
             message : action.err,
         })
       default:

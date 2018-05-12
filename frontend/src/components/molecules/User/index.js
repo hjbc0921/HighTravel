@@ -3,6 +3,7 @@ import styled from 'styled-components'
 import { font, palette } from 'styled-theme'
 //import TripTitle from '../../../components/atoms/TripTitle'
 import Button from '../../../components/atoms/Button'
+import {Link} from 'react-router'
 
 const Wrapper = styled.div`
   font-family: ${font('primary')};
@@ -32,9 +33,6 @@ const TripTitle = styled.button`
 `
 
 const User = ({ triplist = [], tripIdSave }) => {
-  // routing after add trip button is clicked (move to AddTrip page)
-  const onAddTripBtn = () => {
-  }
 
   // routing after TripTitle button is clicked (move to Home page)
   const onTripTitleClick = (tripID) => {
@@ -52,10 +50,11 @@ const User = ({ triplist = [], tripIdSave }) => {
 			  onClick={() => onTripTitleClick(trip.id)}
         />
         */
-        <TripTitle key={trip.id} onClick={ event => onTripTitleClick(trip.id) }>{trip.title}</TripTitle>
+       <Link to ="/"> <TripTitle key={trip.id} onClick={ event => onTripTitleClick(trip.id) }>{trip.title}</TripTitle>
+      </Link>
       )}
 	  <br></br><br></br>
-	  <Button type="submit" onClick={onAddTripBtn}>Add Trip</Button>
+      <Link to="/add"> <Button> Add Trip </Button> </Link>
       </InnerWrapper>
     </Wrapper>
   );
