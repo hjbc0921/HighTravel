@@ -2,6 +2,7 @@ import React, { PropTypes } from 'react'
 import styled from 'styled-components'
 import { font, palette } from 'styled-theme'
 import Button from '../../../components/atoms/Button'
+import {Link} from 'react-router'
 
 const Wrapper = styled.div`
   font-family: ${font('primary')};
@@ -31,10 +32,6 @@ export const Intro = ({intro, onLogin}) => {
   };//make function
   console.log(intro);
 
-  // routing after sign up button is clicked (move to Signup Page)
-  const onSignupBtn = () => {
-  }
-
   return (
     <Wrapper>
       <InnerWrapper>
@@ -43,7 +40,7 @@ export const Intro = ({intro, onLogin}) => {
 	  <input type="password" placeholder="password" ref={node => {password = node;}}  />
       <p>Error message : {intro.errorMessage}</p>
 	  <Button type="submit" onClick={onLoginBtn}>login</Button>
-	  <Button type="submit" onClick={onSignupBtn}>sign up</Button>
+      <Link to="/signup" > <Button> signup </Button> </Link>
       </InnerWrapper>
     </Wrapper>
   );

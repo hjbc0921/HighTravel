@@ -2,7 +2,7 @@ import React, { PropTypes } from 'react'
 import styled from 'styled-components'
 import { font, palette } from 'styled-theme'
 import Button from '../../../components/atoms/Button'
-import {Redirect} from 'react-router'
+import {Link} from 'react-router'
 
 const Wrapper = styled.div`
   font-family: ${font('primary')};
@@ -35,7 +35,9 @@ export const SignUp = ({ signUp, onSignUp }) => {
         <Button type = "submit" onClick={onSignUpBtn}>SignUp</Button>
         </div>
         )}
-        {signUp.trying && signUp.success && <Redirect to="/intro" /> }
+        {signUp.trying && signUp.success &&
+        <Link to="/intro" > <Button> login </Button> </Link>
+        }
         {signUp.trying && !signUp.success && (
         <div>
         {signUp.message}
