@@ -1,6 +1,7 @@
 import { take, put, call, fork, select } from 'redux-saga/effects'
 import api from 'services/api'
 import * as actions from './actions'
+import { push } from 'react-router-redux'
 
 //const url = 'http://127.0.0.1:8000/api/accounts/signup/'
 const url = 'http://127.0.0.1:8000/api/addusers/'
@@ -38,6 +39,7 @@ export function* signUp(username, password) {
             }
         })
         yield put(actions.signupSuc())
+        yield put(push('/login'))
         }catch(err){
         console.log(err.toString());
         yield put(actions.signupFail(err.toString()))

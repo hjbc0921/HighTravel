@@ -35,9 +35,6 @@ export const SignUp = ({ signUp, onSignUp }) => {
         <Button type = "submit" onClick={onSignUpBtn}>SignUp</Button>
         </div>
         )}
-        {signUp.trying && signUp.success &&
-        <Link to="/intro" > <Button> login </Button> </Link>
-        }
         {signUp.trying && !signUp.success && (
         <div>
         {signUp.message}
