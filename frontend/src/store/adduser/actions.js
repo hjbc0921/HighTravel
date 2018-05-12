@@ -6,3 +6,12 @@ export const adduserRequest = (username) => {
     username
   }
 };
+
+export const STORE_USERS = 'STORE_USERS';
+
+export const storeUsers = (names) => {
+  return {
+    type: STORE_USERS,
+    users: names
+  }
+};
