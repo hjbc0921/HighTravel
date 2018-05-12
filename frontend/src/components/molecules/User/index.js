@@ -1,7 +1,7 @@
 import React, { PropTypes } from 'react'
 import styled from 'styled-components'
 import { font, palette } from 'styled-theme'
-import TripTitle from '../../../components/atoms/TripTitle'
+//import TripTitle from '../../../components/atoms/TripTitle'
 import Button from '../../../components/atoms/Button'
 
 const Wrapper = styled.div`
@@ -15,20 +15,44 @@ const InnerWrapper = styled.div`
   margin-top: 20px;
 `;
 
+const TripTitle = styled.button`
+  font-family: ${font('primary')};
+  color: ${palette( 'grayscale', 0 )};
+  background: #dce3ef;
+  text-align: center;
+  verical-align: middle;
+  padding: 5px 10px;
+  margin-top: 5px;
+  margin-left: 10px;
+  margin-right: 10px;
+  margin-bottom: 2.5px;
+  top: 50%;
+  trasnform: translateY(-50%);
+  border-radius: 20px;
+`
 
-const User = ({ triplist = [] }) => {
-	const onAddTripBtn = () => {
-      onAddTrip();
+const User = ({ triplist = [], tripIdSave }) => {
+  // routing after add trip button is clicked (move to AddTrip page)
+  const onAddTripBtn = () => {
   }
+
+  // routing after TripTitle button is clicked (move to Home page)
+  const onTripTitleClick = (tripID) => {
+    tripIdSave(tripID)
+  }
+
   return (
     <Wrapper>
       <InnerWrapper>
       <h1>Trip List</h1>
 	  {triplist.map(trip =>
+      /*
         <TripTitle key={trip.id}
               {...trip}
 			  onClick={() => onTripTitleClick(trip.id)}
         />
+        */
+        <TripTitle key={trip.id} onClick={ event => onTripTitleClick(trip.id) }>{trip.title}</TripTitle>
       )}
 	  <br></br><br></br>
 	  <Button type="submit" onClick={onAddTripBtn}>Add Trip</Button>
