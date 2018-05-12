@@ -3,6 +3,7 @@ import AddUser from "../../../containers/AddUser";
 import AddSchedule from "../../../containers/AddSchedule";
 import AddTodo from "../../../containers/AddTodo";
 import Sidebar from "../../../containers/Sidebar";
+import TodoList from "../../../containers/TodoList";
 
 const HomePage = () => {
   return (
@@ -10,6 +11,7 @@ const HomePage = () => {
      <AddUser/>
      <AddSchedule/>
      <AddTodo/>
+     <TodoList/>
      <Sidebar/>
     </div>
   )

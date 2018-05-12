@@ -8,7 +8,7 @@ const Wrapper = styled.div`
   color: ${palette('grayscale', 0)};
 `
 
-export const AddTodo = ({addTodo,onAddTodo}) => {
+export const AddTodo = ({statefunction,onAddTodo}) => {
  let contents;
   const onAddTodoBtn = () =>{
    if(contents.value=='')
