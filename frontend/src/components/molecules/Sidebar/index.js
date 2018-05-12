@@ -41,7 +41,8 @@ const routes = [
  }
 ]; 
 
-const Sidebar = ({sidebar}) => {
+const Sidebar = ({sidebar=[]}) => {
+ return(
   <Router>
   <div style ={{ display: "flex"}}>
    <div
@@ -93,6 +94,7 @@ const Sidebar = ({sidebar}) => {
   </div>
  </div>
 </Router>
+)
 };
 
 export default Sidebar

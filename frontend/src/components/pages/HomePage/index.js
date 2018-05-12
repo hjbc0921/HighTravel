@@ -8,9 +8,9 @@ const HomePage = () => {
   return (
     <div>
      <AddUser/>
-     <Sidebar/>
      <AddSchedule/>
      <AddTodo/>
+     <Sidebar/>
     </div>
   )
 }

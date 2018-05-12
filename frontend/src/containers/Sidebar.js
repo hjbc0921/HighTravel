@@ -3,7 +3,7 @@ import Sidebar from "../components/molecules/Sidebar";
 
 const mapStateToProps = (state) => {
    return {
-      sidebar: state.sidebar  
+      sidebar: state.sidebar,
    }
 };
 
