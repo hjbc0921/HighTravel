@@ -37,7 +37,7 @@ export const Intro = ({intro, onLogin}) => {
     password.value = ''
   console.log("index.js of Intro page#########");
  console.log(intro);
-  };
+  
 
   return (
     <Wrapper>
@@ -48,7 +48,7 @@ export const Intro = ({intro, onLogin}) => {
       <p>{intro.message}</p>
 	  <Button type="submit" onClick={onLoginBtn}>login</Button>
 //	  <Button type="submit" onClick={onSignUpPageBtn}>Sign up</Button>
-=======
+//=======
       <Link to="/signup" > <Button> signup </Button> </Link>
       </InnerWrapper>
     </Wrapper>
