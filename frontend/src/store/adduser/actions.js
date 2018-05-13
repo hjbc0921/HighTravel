@@ -9,6 +9,8 @@ export const storeEnds = () => {
 export const ADDUSER_REQUEST = 'ADDUSER_REQUEST';
 
 export const adduserRequest = (username) => {
+    console.log('=====Adduser Request action==')
+    console.log(username)
   return {
     type: ADDUSER_REQUEST,
     username
@@ -17,10 +19,10 @@ export const adduserRequest = (username) => {
 
 export const STORE_USERS = 'STORE_USERS';
 
-export const storeUsers = (names) => {
+export const storeUsers = (users) => {
   return {
     type: STORE_USERS,
-    users: names
+    users: users
   }
 };
 

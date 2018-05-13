@@ -6,20 +6,11 @@ import { STORE_TRIP_ID } from '../user/actions'
 
 const url = 'http://127.0.0.1:8000/api/trips/'
 const userUrl = 'http://127.0.0.1:8000/api/users/'
-// const tripID = 7
-// const token = 'd741b531943db7d1f456af85105ce666624089b2'
 
-export function *changeStatus(msg, err) {
-    yield take(actions.STORE_ENDS)
-    yield put({ type : 'STORE_STATUS', msg: msg, err: err });
-}
 
 export function* loadUsers(tripID) {
     console.log('loadUsers')
-    // wait until trip ID is given from User page (TripTitle button is clicked)
-
     console.log(tripID)
-    //tripID = state.tripID
     
     var ourTrip;
     yield fetch(url)
@@ -43,18 +34,15 @@ export function* loadUsers(tripID) {
     var memberlist = members.join()
     console.log(memberlist)
     var msg = 'Trip with ' + memberlist
+    var err = false
 
-    yield put({ type : 'STORE_USERS', names });
-    yield put({ type : 'STORE_ENDS' })
-    yield fork(changeStatus, msg, false)
+    yield put({ type : 'STORE_USERS', names, msg, err });
 }
 
 export function* addUser(username) {
-    //let token;
-    //let tripID;
     console.log('post in addUser')
+    console.log(username)
     const state = yield select()
-    console.log('*******!!!!!!!!!!!!')
     console.log(state)
     var token = state.intro.token
     var users = state.adduser.adduser
@@ -70,10 +58,13 @@ export function* addUser(username) {
     }
 
     var member = users.find(u => u.name === username)
+    var msg, err
     console.log(member)
     if (member != undefined) { // user is already in trip
         console.log('already exists')
-        yield put({ type : 'STORE_STATUS', msg: username + ' already exists', err: true });
+        msg = username + ' already exists'
+        err = true
+        yield put({ type : 'STORE_USERS', users, msg, err });
     }
     else {
         // change username to userID
@@ -96,7 +87,6 @@ export function* addUser(username) {
             var tripUrl = url + tripID + '/'
             var data
             if (userID != undefined) {
-                console.log('**************')
                 data = yield call(fetch, tripUrl, {
                     method: 'PATCH',
                     body: JSON.stringify({ users: ids }),
@@ -109,12 +99,15 @@ export function* addUser(username) {
             console.log('before loadRules')
             yield call(loadUsers, tripID)
             names.push(username)
-            var members = names.join()
-            var msg = 'Trip with ' + members
-            yield put({ type : 'STORE_STATUS', msg: msg, err: false });
+            members = names.join()
+            msg = 'Trip with ' + members
+            err = false
+            yield put({ type : 'STORE_USERS', users, msg, err });
         }
         else { // invalid username input
-            yield put({ type : 'STORE_STATUS', msg: 'Invalid username', err: true });
+            msg = 'Invalid username'
+            err = true
+            yield put({ type : 'STORE_USERS',users,  msg, err });
         }
     }
 }
@@ -122,14 +115,15 @@ export function* addUser(username) {
 export function* watchAddUserRequest() {
     while (true) {
         console.log('adduser watch')
-        const { username } = yield take(actions.ADDUSER_REQUEST)
-        console.log(username)
-        yield call(addUser, username)
+        const action = yield take(actions.ADDUSER_REQUEST)
+        console.log(action)
+        yield call(addUser, action.username)
         console.log('adduser watch end')
     }
 }
 
 export default function* () {
+    // wait until trip ID is given from User page (TripTitle button is clicked)
     const { tripID } = yield take(STORE_TRIP_ID) 
     yield call(loadUsers, tripID)
     console.log(tripID)

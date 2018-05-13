@@ -1,8 +1,9 @@
 import React from 'react'
+import Header from "../../../components/molecules/Header";
 
 const Diary = () => {
   return (
-    <div>diary</div>
+    <Header/>
   )
 }
 

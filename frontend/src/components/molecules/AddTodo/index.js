@@ -2,6 +2,7 @@ import React, { PropTypes } from 'react'
 import styled from 'styled-components'
 import { font, palette } from 'styled-theme'
 import Button from "../../../components/atoms/Button"
+import './../../item.css'
 
 const Wrapper = styled.div`
   font-family: ${font('primary')};
@@ -15,12 +16,13 @@ export const AddTodo = ({statefunction,onAddTodo}) => {
    throw "fill contents";
   else
    onAddTodo(contents.value);
+   contents.value = ''
 } 
   return (
-    <Wrapper>
-      <div> contents: <input ref={node =>{contents = node;}} /></div>
+    <div className="schedule">
+      <div> contents: <input required ref={node =>{contents = node;}} /></div>
       <Button type = "submit" onClick = {onAddTodoBtn}>AddTodo</Button>
-    </Wrapper>
+    </div>
   )
 }
 

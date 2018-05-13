@@ -1,10 +1,30 @@
 .header {
-    background : #5c7cfa;
+    background : #27b9cc;
     display : table;
     table-layout : fixed;
     width: 100%;
 }
-
+.adduser {
+    background : #d5f0ed;
+    display : table;
+    table-layout : fixed;
+    box-align : right;
+    width: 100%;
+    text-align : center;
+    color : black;
+    padding-top : 1rem;
+    padding-bottom: 1rem;
+}
+.schedule {
+    background : #c9e4e7;
+    display : table;
+    table-layout : fixed;
+    width: 100%;
+    text-align : center;
+    color : black;
+    padding-top : 1rem;
+    padding-bottom: 1rem;   
+}
 .item {
     text-align:center;
     padding-top: 1rem;
@@ -16,10 +36,10 @@
 }
 
 .item:hover {
-    background: #748ffc;
+    background: #0b363b;
 }
 
 .item:active {
-    background : white;
-    color : #5c7cfa;
+    background : #0b363b;
+    color : white;
 }

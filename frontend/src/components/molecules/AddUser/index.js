@@ -2,6 +2,7 @@ import React, { PropTypes } from 'react'
 import styled from 'styled-components'
 import { font, palette } from 'styled-theme'
 import Button from '../../../components/atoms/Button'
+import './../../item.css'
 
 const Wrapper = styled.div`
   font-family: ${font('primary')};
@@ -9,6 +10,8 @@ const Wrapper = styled.div`
 `
 
 export const AddUser = ({ addUser,onAddUser }) => {
+    console.log('======rerender component========')
+    console.log(addUser)
   let username;
   const onAddUserBtn = () =>{
    if(username.value == '')
@@ -18,11 +21,11 @@ export const AddUser = ({ addUser,onAddUser }) => {
    username.value = ''
   }	
   return (
-    <Wrapper>
+    <div className="adduser">
       <div> username : <input required ref = {node=>{username = node;}} /></div>
       <p style= {{ color: addUser.err ? 'red' : 'black' }}>{ addUser.msg }</p>
       <Button type = "submit" onClick={onAddUserBtn}>AddUser</Button>
-    </Wrapper>
+    </div>
   )
 }
 

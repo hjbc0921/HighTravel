@@ -4,10 +4,12 @@ import AddSchedule from "../../../containers/AddSchedule";
 import AddTodo from "../../../containers/AddTodo";
 import Sidebar from "../../../containers/Sidebar";
 import TodoList from "../../../containers/TodoList";
+import Header from "../../../components/molecules/Header";
 
 const HomePage = () => {
   return (
     <div>
+     <Header/>
      <AddUser/>
      <br/><br/>
      <AddSchedule/>
@@ -15,7 +17,6 @@ const HomePage = () => {
      <AddTodo/>
      <br/><br/>
      <TodoList/>
-     <br/><br/>
      <Sidebar/>
     </div>
   )

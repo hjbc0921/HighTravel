@@ -1,6 +1,6 @@
 import {connect} from 'react-redux'
 import {AddTodo} from '../components/molecules/AddTodo';
-import {addTodo,addtodoRequest} from '../store/addtodo/actions';
+import { addtodoRequest } from '../store/todos/actions';
 
 const mapStateToProps = (state) => {
    return {
@@ -11,7 +11,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) =>{
   return {
      onAddTodo: (contents) =>{
-       dispatch(addTodo(contents))
+       dispatch(addtodoRequest(contents))
      }
   }
 };

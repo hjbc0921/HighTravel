@@ -2,6 +2,7 @@ import React, { PropTypes } from 'react'
 import styled from 'styled-components'
 import { font, palette } from 'styled-theme'
 import Button from '../../../components/atoms/Button'
+import './../../item.css'
 
 const Wrapper = styled.div`
   font-family: ${font('primary')};
@@ -24,12 +25,12 @@ export const AddSchedule = ({ onAddSchedule }) => {
    until.value = ''
   }
   return (
-    <Wrapper>
+    <div className="schedule">
       <div> contents: <input required ref={node=>{contents = node;}} /></div>
       <div> since: <input required type="date" ref={node=>{since=node;}}/></div>
       <div> until: <input required type="date" ref={node=>{until=node;}}/></div>
       <Button type="submit" onClick={onAddScheduleBtn}>AddSchedule</Button>
-    </Wrapper>
+    </div>
   )
 }
 

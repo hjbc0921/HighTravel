@@ -3,8 +3,6 @@ import {AddUser} from "../components/molecules/AddUser";
 import {adduserRequest} from "../store/adduser/actions";
 
 const mapStateToProps = (state) => {
-    console.log('%%%%%%%%%%')
-    console.log(state)
    return {
      addUser: state.adduser,
    }

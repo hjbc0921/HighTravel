@@ -60,7 +60,9 @@ export const RuleList = ({ rules = [], onDeleteRule }) => {
   */
 
   return (
+  <div>
     <Wrapper>
+        <h1>Rules for our Happy Trip</h1>
         { rules.map(rule => 
 /*          <Rule key={rule.id}
                 contents={rule.contents}
@@ -72,6 +74,7 @@ export const RuleList = ({ rules = [], onDeleteRule }) => {
           </Container>
         )}
     </Wrapper>
+   </div>
   )
 }
 
