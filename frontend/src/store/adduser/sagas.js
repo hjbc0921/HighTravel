@@ -58,7 +58,7 @@ export function* addUser(username) {
     console.log('*******!!!!!!!!!!!!')
     console.log(state)
     var token = state.intro.token
-    var users = state.adduser.adduser
+    var users = state.adduser.adduser.adduser
     var tripID = state.user.tripID
     console.log(users)
     console.log(tripID)
