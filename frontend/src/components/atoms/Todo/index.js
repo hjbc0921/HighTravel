@@ -6,7 +6,7 @@ const Styledli = styled.li`
   font-family: ${font('primary')};
 `
   
-const Todo = ({onClick,completed,text}) => (
+const Todo = ({onClick,completed,contents}) => (
  <Styledli
    onClick={onClick}
    style = {{

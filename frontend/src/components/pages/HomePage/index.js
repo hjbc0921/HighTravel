@@ -9,9 +9,13 @@ const HomePage = () => {
   return (
     <div>
      <AddUser/>
+     <br/><br/>
      <AddSchedule/>
+     <br/><br/>
      <AddTodo/>
+     <br/><br/>
      <TodoList/>
+     <br/><br/>
      <Sidebar/>
     </div>
   )
