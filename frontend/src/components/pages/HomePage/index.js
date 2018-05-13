@@ -17,7 +17,6 @@ const HomePage = () => {
      <AddTodo/>
      <br/><br/>
      <TodoList/>
-     <Sidebar/>
     </div>
   )
 }
