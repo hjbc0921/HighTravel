@@ -24,7 +24,7 @@ function getCSRFToken() {
 
 export function* signUp(username, password,pwd_check) {
     console.log('post in postRule')
-    if (password != pwd_check) yield put(actions.signupFail("pwd_check is difference from your password"))
+    if (password != pwd_check) yield put(actions.signupFail("pwd_check is different from your password"))
     else{
     //let csrftoken = getCSRFToken()
     //console.log(csrftoken)

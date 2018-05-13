@@ -1,8 +1,9 @@
 import React from 'react'
+import Header from "../../../components/molecules/Header";
 
 const Money = () => {
   return (
-    <div>money</div>
+    <Header/>
   )
 }
 

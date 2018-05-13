@@ -4,7 +4,7 @@ import * as actions from './actions'
 
 const url = 'http://127.0.0.1:8000/api/trips/'
 const userID = 1
-const token = 'd741b531943db7d1f456af85105ce666624089b2'
+const token = '703064ee14987e8bf3b6023620042bf8b644d52a'
 
 export function* loadTrips() {
     console.log('loadTrips')
