@@ -9,6 +9,8 @@ const Wrapper = styled.div`
 `
 
 export const AddUser = ({ addUser,onAddUser }) => {
+    console.log('======rerender component========')
+    console.log(addUser)
   let username;
   const onAddUserBtn = () =>{
    if(username.value == '')

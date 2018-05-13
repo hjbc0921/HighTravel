@@ -6,7 +6,7 @@ const mapStateToProps = (state) => {
     console.log('%%%%%%%%%%')
     console.log(state)
    return {
-     addUser: state.adduser,
+     addUser: state.adduser.adduser,
    }
 };
 

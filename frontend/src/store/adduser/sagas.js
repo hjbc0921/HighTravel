@@ -11,6 +11,8 @@ const userUrl = 'http://127.0.0.1:8000/api/users/'
 
 export function *changeStatus(msg, err) {
     yield take(actions.STORE_ENDS)
+    console.log('====change status========')
+    console.log(msg)
     yield put({ type : 'STORE_STATUS', msg: msg, err: err });
 }
 
@@ -43,15 +45,14 @@ export function* loadUsers(tripID) {
     var memberlist = members.join()
     console.log(memberlist)
     var msg = 'Trip with ' + memberlist
+    var err = false
 
-    yield put({ type : 'STORE_USERS', names });
-    yield put({ type : 'STORE_ENDS' })
-    yield fork(changeStatus, msg, false)
+    yield put({ type : 'STORE_USERS', names, msg, err });
+    // yield put({ type : 'STORE_ENDS' })
+    // yield fork(changeStatus, msg, false)
 }
 
 export function* addUser(username) {
-    //let token;
-    //let tripID;
     console.log('post in addUser')
     const state = yield select()
     console.log('*******!!!!!!!!!!!!')
@@ -70,10 +71,13 @@ export function* addUser(username) {
     }
 
     var member = users.find(u => u.name === username)
+    var msg, err
     console.log(member)
     if (member != undefined) { // user is already in trip
         console.log('already exists')
-        yield put({ type : 'STORE_STATUS', msg: username + ' already exists', err: true });
+        msg = username + ' already exists'
+        err = true
+        yield put({ type : 'STORE_USERS', users, msg, err });
     }
     else {
         // change username to userID
@@ -109,12 +113,15 @@ export function* addUser(username) {
             console.log('before loadRules')
             yield call(loadUsers, tripID)
             names.push(username)
-            var members = names.join()
-            var msg = 'Trip with ' + members
-            yield put({ type : 'STORE_STATUS', msg: msg, err: false });
+            members = names.join()
+            msg = 'Trip with ' + members
+            err = false
+            yield put({ type : 'STORE_USERS', users, msg, err });
         }
         else { // invalid username input
-            yield put({ type : 'STORE_STATUS', msg: 'Invalid username', err: true });
+            msg = 'Invalid username'
+            err = true
+            yield put({ type : 'STORE_USERS',users,  msg, err });
         }
     }
 }
