@@ -1,17 +1,16 @@
 import {connect} from 'react-redux'
 import {AddSchedule} from "../components/molecules/AddSchedule";
-import {addscheduleRequest} from "../store/addschedule/actions";
+import {postScheduleRequest} from "../store/schedules/actions";
 
 const mapStateToProps = (state) => {
   return {
-      addSchedule: state.addschedule,
   }
 };
 
 const mapDispatchToProps = (dispatch) => {
  return {
      onAddSchedule: (contents,since,until)=>{
-         dispatch(addscheduleRequest(contents,since,until))
+         dispatch(postScheduleRequest(contents,since,until))
         }
      }
 };

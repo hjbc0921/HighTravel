@@ -8,10 +8,10 @@ const Wrapper = styled.div`
   color: ${palette('grayscale', 0)};
 `
 
-export const AddSchedule = ({addSchedule,onAddSchedule }) => {
+export const AddSchedule = ({ onAddSchedule }) => {
   let contents,since,until;
   const onAddScheduleBtn = () => {
-  if(contents.value = '')
+  if(contents.value == '')
   throw "fill contents";
   else if (since.value == '')
   throw "fill since";
@@ -19,12 +19,15 @@ export const AddSchedule = ({addSchedule,onAddSchedule }) => {
   throw "fill until";
   else
    onAddSchedule(contents.value,since.value,until.value);
+   contents.value = ''
+   since.value = ''
+   until.value = ''
   }
   return (
     <Wrapper>
-      <div> contents: <input ref={node=>{contents = node;}} /></div>
-      <div> since: <input type="date" ref={node=>{since=node;}}/></div>
-      <div> until: <input type="date" ref={node=>{until=node;}}/></div>
+      <div> contents: <input required ref={node=>{contents = node;}} /></div>
+      <div> since: <input required type="date" ref={node=>{since=node;}}/></div>
+      <div> until: <input required type="date" ref={node=>{until=node;}}/></div>
       <Button type="submit" onClick={onAddScheduleBtn}>AddSchedule</Button>
     </Wrapper>
   )
