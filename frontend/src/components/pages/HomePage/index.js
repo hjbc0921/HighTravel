@@ -11,9 +11,13 @@ const HomePage = () => {
     <div>
      <Header/>
      <AddUser/>
+     <br/><br/>
      <AddSchedule/>
+     <br/><br/>
      <AddTodo/>
+     <br/><br/>
      <TodoList/>
+     <Sidebar/>
     </div>
   )
 }

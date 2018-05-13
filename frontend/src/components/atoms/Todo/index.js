@@ -5,15 +5,14 @@ import { font } from 'styled-theme'
 const Styledli = styled.li`
   font-family: ${font('primary')};
 `
-  
-const Todo = ({onClick,contens}) => (
- <Styledli
+const Todo = ({onClick,contents}) => (
+<Styledli
    onClick={onClick}
-   /*
-   style = {{
+   
+   /*style = {{
  textDecoration: completed ? 'line-through':'none'
-   }}
-   */
+   }}*/
+   
  >
    {contents}
     </Styledli>
