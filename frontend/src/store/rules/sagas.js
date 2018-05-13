@@ -7,11 +7,11 @@ const tripID = 1
 const token = 'd741b531943db7d1f456af85105ce666624089b2'
 
 export function* loadRules() {
-    console.log('loadRule')
+    console.log('loadRules')
     //let tripID;
     const state = yield select()
     console.log(state)
- //   var toekn = state.intro.token
+ //   var token = state.intro.token
     //tripID = state.tripID
     var tripRuleUrl = url + 'trip/' + tripID + '/'
     console.log(tripRuleUrl)

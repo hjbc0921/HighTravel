@@ -1,18 +1,24 @@
 import { take, put, call, fork, select } from 'redux-saga/effects'
+import { delay } from 'redux-saga'
 import api from 'services/api'
 import * as actions from './actions'
+import { STORE_TRIP_ID } from '../user/actions'
 
 const url = 'http://127.0.0.1:8000/api/trips/'
 const userUrl = 'http://127.0.0.1:8000/api/users/'
-const tripID = 7
-const token = 'd741b531943db7d1f456af85105ce666624089b2'
+// const tripID = 7
+// const token = 'd741b531943db7d1f456af85105ce666624089b2'
 
-export function* loadUsers() {
+export function *changeStatus(msg, err) {
+    yield take(actions.STORE_ENDS)
+    yield put({ type : 'STORE_STATUS', msg: msg, err: err });
+}
+
+export function* loadUsers(tripID) {
     console.log('loadUsers')
-    //let tripID;
-    const state = yield select()
-    console.log(state)
- //   var token = state.intro.token
+    // wait until trip ID is given from User page (TripTitle button is clicked)
+
+    console.log(tripID)
     //tripID = state.tripID
     
     var ourTrip;
@@ -33,29 +39,41 @@ export function* loadUsers() {
     }
     
     console.log(names)
+    var members = names.map(u => u.name)
+    var memberlist = members.join()
+    console.log(memberlist)
+    var msg = 'Trip with ' + memberlist
 
     yield put({ type : 'STORE_USERS', names });
-
+    yield put({ type : 'STORE_ENDS' })
+    yield fork(changeStatus, msg, false)
 }
 
 export function* addUser(username) {
     //let token;
     //let tripID;
-     
     console.log('post in addUser')
     const state = yield select()
+    console.log('*******!!!!!!!!!!!!')
     console.log(state)
+    var token = state.intro.token
     var users = state.adduser.adduser
+    var tripID = state.user.tripID
     console.log(users)
+    console.log(tripID)
     var userID, invitee
     var ids = []
-    if (users != undefined)
+    var names = []
+    if (users != undefined) {
         ids = users.map(u => u.id)
+        names = users.map(u => u.username)
+    }
 
     var member = users.find(u => u.name === username)
     console.log(member)
     if (member != undefined) { // user is already in trip
         console.log('already exists')
+        yield put({ type : 'STORE_STATUS', msg: username + ' already exists', err: true });
     }
     else {
         // change username to userID
@@ -89,7 +107,14 @@ export function* addUser(username) {
                 })
             }
             console.log('before loadRules')
-            yield call(loadUsers);
+            yield call(loadUsers, tripID)
+            names.push(username)
+            var members = names.join()
+            var msg = 'Trip with ' + members
+            yield put({ type : 'STORE_STATUS', msg: msg, err: false });
+        }
+        else { // invalid username input
+            yield put({ type : 'STORE_STATUS', msg: 'Invalid username', err: true });
         }
     }
 }
@@ -105,7 +130,9 @@ export function* watchAddUserRequest() {
 }
 
 export default function* () {
-    yield call(loadUsers)
+    const { tripID } = yield take(STORE_TRIP_ID) 
+    yield call(loadUsers, tripID)
+    console.log(tripID)
     console.log('watchAddUserRequest')
     yield fork(watchAddUserRequest)
 }

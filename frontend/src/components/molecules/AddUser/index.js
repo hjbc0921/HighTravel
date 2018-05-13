@@ -8,17 +8,19 @@ const Wrapper = styled.div`
   color: ${palette('grayscale', 0)};
 `
 
-export const AddUser = ({addUser,onAddUser }) => {
+export const AddUser = ({ addUser,onAddUser }) => {
   let username;
   const onAddUserBtn = () =>{
    if(username.value == '')
     throw "fill username"
    else
     onAddUser(username.value);
+   username.value = ''
   }	
   return (
     <Wrapper>
-      <div> username : <input ref = {node=>{username = node;}} /></div>
+      <div> username : <input required ref = {node=>{username = node;}} /></div>
+      <p style= {{ color: addUser.err ? 'red' : 'black' }}>{ addUser.msg }</p>
       <Button type = "submit" onClick={onAddUserBtn}>AddUser</Button>
     </Wrapper>
   )
