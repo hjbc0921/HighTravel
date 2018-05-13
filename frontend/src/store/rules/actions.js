@@ -1,8 +1,6 @@
-let nextRuleId = 0
-
 export const STORE_RULE = 'STORE_RULE'
 
-// action for load rules and stroer them
+// action for load rules and strore them
 export const storeRule = (rules) => {
     console.log('action stroeRule')
     return {

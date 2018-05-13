@@ -6,12 +6,14 @@ const Styledli = styled.li`
   font-family: ${font('primary')};
 `
   
-const Todo = ({onClick,completed,text}) => (
+const Todo = ({onClick,contens}) => (
  <Styledli
    onClick={onClick}
+   /*
    style = {{
  textDecoration: completed ? 'line-through':'none'
    }}
+   */
  >
    {contents}
     </Styledli>
@@ -19,7 +21,7 @@ const Todo = ({onClick,completed,text}) => (
 
 Todo.propTypes = {
   onClick: PropTypes.func.isRequired,
-  completed:PropTypes.bool.isRequired,
+  //completed:PropTypes.bool.isRequired,
   contents:PropTypes.string.isRequired,
   reverse: PropTypes.bool
 }

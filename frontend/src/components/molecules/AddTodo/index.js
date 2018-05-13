@@ -15,10 +15,11 @@ export const AddTodo = ({statefunction,onAddTodo}) => {
    throw "fill contents";
   else
    onAddTodo(contents.value);
+   contents.value = ''
 } 
   return (
     <Wrapper>
-      <div> contents: <input ref={node =>{contents = node;}} /></div>
+      <div> contents: <input required ref={node =>{contents = node;}} /></div>
       <Button type = "submit" onClick = {onAddTodoBtn}>AddTodo</Button>
     </Wrapper>
   )
