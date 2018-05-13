@@ -193,12 +193,9 @@ post_or_error(link,data4,user_tokens[6])
 post_or_error(link,data5,user_tokens[6])
 '''
 print("\n--------------------------------------------------------") 
-# delete all rules of certain trip
-print("9. Get rules for trip1 from /api/rules/trip/2/")
-link = "http://localhost:8000/api/rules/trips/2/"
-trips_json = get_json_or_error(link)
-print(trips_json)
-delete_or_error(link,user_tokens[5])
+# get all rules of certain trip
+print("9. Get rules for trip2 from /api/rules/trip/2/")
+link = "http://localhost:8000/api/rules/trip/2/"
 trips_json = get_json_or_error(link)
 print(trips_json)
 print("\n--------------------------------------------------------") 
