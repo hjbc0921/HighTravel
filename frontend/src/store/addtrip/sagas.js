@@ -31,12 +31,12 @@ export function* postTrip(title, sinceWhen, untilWhen) {
         yield put(actions.addtripFail("Check the date"))
     }
     else{
-        yield put(push('/user'))
         console.log('@@@@@@@@@@@@@@@@@@')
         let body = yield call([data, data.json])
         console.log(body)
         ownTrip.push({id: body.id, title: title});
         yield put({ type : 'STORE_TRIP', ownTrip });
+        yield put(push('/user'))
     }
 }
 
