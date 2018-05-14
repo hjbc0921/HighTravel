@@ -1,4 +1,4 @@
-import requests
+import requests,json
 from time import sleep
 from random import randint
 import os
@@ -168,13 +168,13 @@ patch_or_error(link,data,token)
 print("\n--------------------------------------------------------") 
 # add user to trips
 print("7. Add another user to trip3 in /api/trips/3/")
-'''
+
 link = "http://localhost:8000/api/trips/3/"
-data = "\"users\":[7,8]\""
+data = "users:=\'[7,8]\'"
 token = user_tokens[6] #user:swpp7
 patch_or_error(link,data,token)
 print(get_json_or_error(link))
-'''
+
 print("\n--------------------------------------------------------") 
 # add rules to trips
 print("8. Add rules to trip2,3 in /api/rules/")
