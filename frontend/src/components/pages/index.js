@@ -10,5 +10,5 @@ export { default as Signup} from './Signup'
 export { default as AddTrip  } from './AddTrip'
 export { default as AddPhoto } from './AddPhoto'
 export { default as AddDiary } from './AddDiary'
-export { default as None } from './NotFoundPage'
+// export { default as None } from './NotFoundPage'
 
