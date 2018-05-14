@@ -5,10 +5,10 @@ export const LOGIN_FAILED = 'LOGIN_FAILED';
 export const SIGNUPPAGE_REQUEST = 'SIGNUPPAGE_REQUEST';
 
 
-export const IntroReceived = ({uname, token, userId}) => {
+export const IntroReceived = ({username, token, userId}) => {
   return {
     type: USER_INFO_RECEIVED,
-    username: uname,
+    username: username,
     token: token,
     userId: userId
   }
