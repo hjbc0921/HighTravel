@@ -7,11 +7,9 @@ const url = 'http://127.0.0.1:8000/api/trips/'
 
 export function* postTrip(title, sinceWhen, untilWhen) {
     console.log('post in postTrip')
-
     const state = yield select()
     var token = state.intro.token
     var ownTrip = state.user.trips
-
     console.log('**************')
 
     let data;
