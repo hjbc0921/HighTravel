@@ -1,6 +1,6 @@
 import React from 'react';
 import { IndexRoute, Route, browserHistory } from 'react-router';
-import { None, Home, Rules, User, Money, Map, AddTrip, AddPhoto, AddDiary, Photo, Diary, Signup, Intro } from './components/pages'
+import { Home, Rules, User, Money, Map, AddTrip, AddPhoto, AddDiary, Photo, Diary, Signup, Intro } from './components/pages'
 
 function requireAuth(nextState, replace) {
   if (sessionStorage.getItem('token')==="null" || sessionStorage.getItem('token')===null) {
