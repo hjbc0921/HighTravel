@@ -8,7 +8,7 @@ const schedules_reducer = (state = initialState, action) => {
     switch (action.type) {
         case 'STORE_SCHEDULE': 
             return Object.assign({}, state, {
-                schedules: action.tripSchedules
+                schedules: action.schedules
             })
 
         default:

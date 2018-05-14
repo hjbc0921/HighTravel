@@ -24,8 +24,8 @@ export function* loadSchedules(tripID) {
     console.log('tripSchedules')
     console.log(tripSchedules)
 
-    //var rules = tripRules.contents
-    yield put({ type : 'STORE_SCHEDULE', tripSchedules })
+    var schedules = tripSchedules
+    yield put({ type : 'STORE_SCHEDULE', schedules })
 }
 
 export function* postSchedule(contents, since, until) {
