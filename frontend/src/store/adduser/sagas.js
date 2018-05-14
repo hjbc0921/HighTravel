@@ -21,22 +21,22 @@ export function* loadUsers(tripID) {
         })
 
     console.log(ourTrip)
-    var users = ourTrip.users
-    console.log(users)
-    var names = []
-    for (var i=0; i<users.length; i++) {
-        var u = users[i]
-        names.push({ id : u.id, name: u.username })
+    var userlist = ourTrip.users
+    console.log(userlist)
+    var users = []
+    for (var i=0; i<userlist.length; i++) {
+        var u = userlist[i]
+        users.push({ id : u.id, name: u.username })
     }
     
-    console.log(names)
-    var members = names.map(u => u.name)
+    console.log(users)
+    var members = users.map(u => u.name)
     var memberlist = members.join()
     console.log(memberlist)
     var msg = 'Trip with ' + memberlist
     var err = false
 
-    yield put({ type : 'STORE_USERS', names, msg, err });
+    yield put({ type : 'STORE_USERS', users, msg, err });
 }
 
 export function* addUser(username) {
@@ -45,7 +45,7 @@ export function* addUser(username) {
     const state = yield select()
     console.log(state)
     var token = state.intro.token
-    var users = state.adduser.adduser
+    var users = state.adduser.users
     var tripID = state.user.tripID
     console.log(users)
     console.log(tripID)
