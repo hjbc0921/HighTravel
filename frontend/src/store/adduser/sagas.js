@@ -86,23 +86,27 @@ export function* addUser(username) {
             console.log(userID)
             var tripUrl = url + tripID + '/'
             var data
-            if (userID != undefined) {
-                data = yield call(fetch, tripUrl, {
-                    method: 'PATCH',
-                    body: JSON.stringify({ users: ids }),
-                    headers: {
-                        'Authorization': `token ${token}`,
-                        'Content-Type': 'application/json;'
-                    }
-                })
+            try {
+                if (userID != undefined) {
+                    data = yield call(fetch, tripUrl, {
+                        method: 'PATCH',
+                        body: JSON.stringify({ users: ids }),
+                        headers: {
+                            'Authorization': `token ${token}`,
+                            'Content-Type': 'application/json;'
+                        }
+                    })
+                }
+                console.log('before loadRules')
+                yield call(loadUsers, tripID)
+                names.push(username)
+                members = names.join()
+                msg = 'Trip with ' + members
+                err = false
+                yield put({ type : 'STORE_USERS', users, msg, err });
+            } catch(e) {
+                console.log('add user failed')
             }
-            console.log('before loadRules')
-            yield call(loadUsers, tripID)
-            names.push(username)
-            members = names.join()
-            msg = 'Trip with ' + members
-            err = false
-            yield put({ type : 'STORE_USERS', users, msg, err });
         }
         else { // invalid username input
             msg = 'Invalid username'
