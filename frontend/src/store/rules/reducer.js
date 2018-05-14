@@ -10,7 +10,7 @@ const rules_reducer = (state = initialState, action) => {
     switch (action.type) {
         case 'STORE_RULE': 
             return Object.assign({}, state, {
-                rules: action.tripRules
+                rules: action.rules
             })
 
         default:
