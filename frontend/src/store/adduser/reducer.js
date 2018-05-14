@@ -8,7 +8,7 @@ const adduser_reducer = (state = initialState, action) => {
     switch (action.type) {
         case 'STORE_USERS': 
             return Object.assign({}, state, {
-                adduser: action.err ? action.users : action.names,
+                users: action.users,
                 msg: action.msg,
                 err: action.err
             })

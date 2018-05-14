@@ -19,13 +19,16 @@ export const adduserRequest = (username) => {
 
 export const STORE_USERS = 'STORE_USERS';
 
-export const storeUsers = (users) => {
+export const storeUsers = (users, msg, err) => {
   return {
     type: STORE_USERS,
-    users: users
+    users,
+    msg,
+    err
   }
 };
 
+/*
 export const STORE_STATUS = 'STORE_STATUS';
 
 export const storeStatus = (msg, err) => {
@@ -35,3 +38,4 @@ export const storeStatus = (msg, err) => {
     err: err
   }
 };
+*/
