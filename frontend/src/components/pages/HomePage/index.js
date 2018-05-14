@@ -5,11 +5,13 @@ import AddTodo from "../../../containers/AddTodo";
 import Sidebar from "../../../containers/Sidebar";
 import TodoList from "../../../containers/TodoList";
 import Header from "../../../components/molecules/Header";
+import Logout from "../../../containers/Logout"
 
 const HomePage = () => {
   return (
     <div>
      <Header/>
+     <Logout/>
      <AddUser/>
      <br/><br/>
      <AddSchedule/>
