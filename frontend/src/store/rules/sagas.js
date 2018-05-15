@@ -1,18 +1,16 @@
 import { take, put, call, fork, select } from 'redux-saga/effects'
 import api from 'services/api'
 import * as actions from './actions'
+import { STORE_TRIP_ID } from '../user/actions'
 
 const url = 'http://127.0.0.1:8000/api/rules/'
-const tripID = 1
-const token = '703064ee14987e8bf3b6023620042bf8b644d52a'
+// const token = '703064ee14987e8bf3b6023620042bf8b644d52a'
 
 export function* loadRules() {
     console.log('loadRules')
-    //let tripID;
     const state = yield select()
     console.log(state)
- //   var token = state.intro.token
-    //tripID = state.tripID
+    var tripID = state.user.tripID
     var tripRuleUrl = url + 'trip/' + tripID + '/'
     console.log(tripRuleUrl)
     
@@ -37,26 +35,28 @@ export function* loadRules() {
 export function* postRule(contents) {
     console.log('post in postRule')
 
-    //let token;
-    //let tripID;
     const state = yield select()
-    //token = state.token
-    //tripID = state.tripID
+    var token = token = state.intro.token
+    var tripID = state.user.tripID
 
     console.log('**************')
 
-    let data;
-    if (contents != undefined) {
-        console.log('**************')
-        data = yield call(fetch, url, {
-            method: 'POST',
-            body: JSON.stringify({ contents: contents, tripID: tripID }),
-            headers: {
-                'Authorization': `token ${token}`,
-                'Content-Type': 'application/json;'
-            }
-        })
-        console.log('---------------------------')
+    let data
+    try {
+        if (contents != undefined) {
+            console.log('**************')
+            data = yield call(fetch, url, {
+                method: 'POST',
+                body: JSON.stringify({ contents: contents, tripID: tripID }),
+                headers: {
+                    'Authorization': `token ${token}`,
+                    'Content-Type': 'application/json;'
+                }
+            })
+            console.log('---------------------------')
+        }
+    } catch (e) {
+        console.log('post rule failed')
     }
     
     console.log('before loadRules')
@@ -76,18 +76,16 @@ export function* watchPostRuleRequest() {
 export function* deleteRule(ruleId) {
     console.log('post in deleteRule')
 
-    //let token;
-    //let tripID;
     const state = yield select()
-    //token = state.token
-    //tripID = state.tripID
+    var token = token = state.intro.token
+    var tripID = state.user.tripID
 
     console.log('**************')
     console.log(ruleId)
 
     let ruleUrl = url + ruleId + '/'
     console.log(ruleUrl)
-    let data;
+    let data
     if (ruleId != undefined) {
         console.log('**************')
         data = yield call(fetch, ruleUrl, {
@@ -101,7 +99,7 @@ export function* deleteRule(ruleId) {
     }
     
     console.log('before loadRules')
-    yield call(loadRules);
+    yield call(loadRules)
 }
 
 export function* watchDeleteRuleRequest() {
@@ -115,11 +113,10 @@ export function* watchDeleteRuleRequest() {
 }
 
 export default function* () {
+    const tripID = yield take(STORE_TRIP_ID)
     yield call(loadRules)
-    console.log(typeof token)
     console.log('watchPostRuleRequest')
     yield fork(watchPostRuleRequest)
     yield fork(watchDeleteRuleRequest)
     console.log('watchloadRules')
-    //yield fork(loadRules)
 }
