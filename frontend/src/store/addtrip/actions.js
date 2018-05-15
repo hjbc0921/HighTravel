@@ -8,7 +8,7 @@ export const addtripFail = (err) => {
   }
 }
 export const addtripRequest = (title,sinceWhen,untilWhen) => {
-  return{
+   return{
    type: ADDTRIP_REQUEST,
    title,
    sinceWhen,

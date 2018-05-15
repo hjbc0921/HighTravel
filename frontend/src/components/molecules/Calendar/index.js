@@ -1,22 +1,32 @@
 import React, { Component } from 'react';
 import Calendar from 'react-calendar';
  
-class MyApp extends Component {
-  state = {
-    date: new Date(),
-  }
  
-  onChange = date => this.setState({ date })
+export const ShowSchedule = ({onDay}) =>{
+    state = { date : new Date()}
  
-  render() {
+    const onchange = date =>{
+     state.date = date
+    }
+    const onDayClick => {
+     onDay(date)
+   }
     return (
       <div>
         <Calendar
-          onChange={this.onChange}
-          value={this.state.date}
+          onChange={onChange}
+          onClickDay={onDayClick}
+          value={state.date}
         />
       </div>
     );
-  }
 }
+
+ShowSchedule.propTypes = {
+  state: PropTypes.arrayof(PropTypes.shape({
+             date:PropTypes.string
+  })),
+  reverse: PropTypes.bool,
+}
+
 
