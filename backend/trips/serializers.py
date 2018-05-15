@@ -45,7 +45,7 @@ class PhotoSerializer(WritableNestedModelSerializer):
 class TodoSerializer(serializers.ModelSerializer):
     class Meta:
         model = Todo
-        fields = ('id','contents','tripID')
+        fields = ('id','contents','tripID', 'done')
 
 class RuleSerializer(serializers.ModelSerializer):
     class Meta:
