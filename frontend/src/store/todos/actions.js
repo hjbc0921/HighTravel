@@ -14,7 +14,7 @@ export const toggleTodo = (id) => {
 
 // action for post todo (POST to backend)
 export const addtodoRequest = (contents) => {
-  return {
+   return {
     type: POST_TODO_REQUEST,
     contents
   }
