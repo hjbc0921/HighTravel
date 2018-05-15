@@ -1,20 +1,20 @@
-import React, { Component } from 'react';
+import React, { PropTypes } from 'react';
 import Calendar from 'react-calendar';
  
  
 export const ShowSchedule = ({onDay}) =>{
-    state = { date : new Date()}
+  let state = { date : new Date()}
  
     const onchange = date =>{
      state.date = date
     }
-    const onDayClick => {
-     onDay(date)
+    const onDayClick = date => {
+    // onDay(date)
    }
     return (
       <div>
         <Calendar
-          onChange={onChange}
+          onChange={onchange}
           onClickDay={onDayClick}
           value={state.date}
         />
@@ -23,10 +23,10 @@ export const ShowSchedule = ({onDay}) =>{
 }
 
 ShowSchedule.propTypes = {
-  state: PropTypes.arrayof(PropTypes.shape({
+  state: PropTypes.arrayOf(PropTypes.shape({
              date:PropTypes.string
   })),
   reverse: PropTypes.bool,
 }
 
-
+export default ShowSchedule

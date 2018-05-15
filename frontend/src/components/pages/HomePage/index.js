@@ -6,6 +6,7 @@ import Sidebar from "../../../containers/Sidebar";
 import TodoList from "../../../containers/TodoList";
 import Header from "../../../components/molecules/Header";
 import Logout from "../../../containers/Logout"
+import ShowSchedule from "../../../components/molecules/Calendar";
 
 const HomePage = () => {
   return (
@@ -15,6 +16,8 @@ const HomePage = () => {
      <AddUser/>
      <br/><br/>
      <AddSchedule/>
+     <br/><br/>
+     <ShowSchedule/>
      <br/><br/>
      <AddTodo/>
      <br/><br/>
