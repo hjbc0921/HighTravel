@@ -15,7 +15,7 @@ describe('Store Trip ID', () => {
     it('Store Trip change state', () => {
         expect(user_reducer(
             {},
-            storeTripId(1)
-        )).toEqual({tripID: 1})
+            storeTripId(1, 'my first trip')
+        )).toEqual({tripID: 1, tripTitle: 'my first trip'})
     })
 })

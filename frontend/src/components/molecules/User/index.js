@@ -50,7 +50,7 @@ const User = ({ triplist = [], tripIdSave }) => {
 			  onClick={() => onTripTitleClick(trip.id)}
         />
         */
-       <div key={trip.id}><Link to ="/"> <TripTitle onClick={ event => onTripTitleClick(trip.id) }>{trip.title}</TripTitle>
+       <div key={trip.id}><Link to ="/"> <TripTitle onClick={ event => tripIdSave(trip.id, trip.title) }>{trip.title}</TripTitle>
       </Link></div>
       )}
 	  <br></br><br></br>
