@@ -14,8 +14,8 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   console.log('tripIdSave')
   return {
-    tripIdSave: (tripID) => {
-        dispatch(storeTripId(tripID))
+    tripIdSave: (tripID, tripTitle) => {
+        dispatch(storeTripId(tripID, tripTitle))
     }
   }
 }

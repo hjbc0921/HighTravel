@@ -12,10 +12,11 @@ export const storeTrip = (ownTrip) => {
 export const STORE_TRIP_ID = 'STORE_TRIP_ID';
 
 // action for save trip ID in state
-export const storeTripId = (tripID) => {
+export const storeTripId = (tripID, tripTitle) => {
   console.log('action storeTripId')
   return {
     type: STORE_TRIP_ID,
-    tripID
+    tripID,
+    tripTitle
   }
 }

@@ -13,7 +13,8 @@ const user_reducer = (state = initialState, action) => {
         case 'STORE_TRIP_ID':
         sessionStorage.setItem('tripID',action.tripID)
 			return Object.assign({}, state, {
-                tripID: action.tripID
+                tripID: action.tripID,
+                tripTitle: action.tripTitle
             })
         default:
             return state
