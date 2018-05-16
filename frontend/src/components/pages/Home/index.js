@@ -1,7 +1,7 @@
 import React from 'react'
 import Antd from '../../../containers/Antd'
 
-const Test = () => {
+const Home = () => {
     return (
       <div>
         <Antd/>
@@ -9,5 +9,5 @@ const Test = () => {
     )
   }
   
-  export default Test
+  export default Home
   

@@ -68,8 +68,7 @@
     color: #ffffff; 
     font-size: 32px; 
     font-weight: 600; 
-    line-height: 72px; 
-    margin: 0 0 24px; 
+    line-height: 64px; 
     text-align: center; 
 }
 
@@ -77,8 +76,12 @@
     color: #ffffff; 
     font-size: 18px; 
     font-weight: 500; 
-    line-height: 72px; 
-    margin: 0 0 24px; 
-    text-align: left; 
+    line-height: 64px; 
+    text-align: center; 
+    margin-left:12px;
+}
+
+.myuser:hover{
+    background:#00474f;
 }
   

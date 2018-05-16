@@ -1,7 +1,5 @@
 import React from 'react'
 import Rules from '../../organisms/Rules'
-import AddDiary from '../../organisms/AddDiary'
-import AddPhoto from '../../organisms/AddPhoto'
 import Diary from '../../organisms/Diary'
 import HomePage from '../../organisms/HomePage'
 import Map from '../../organisms/Map'
@@ -34,7 +32,7 @@ const Antd = ({antd,changeContent,toggleCol}) => {
     <Layout>
         <Header style={{ background: '#002329' }}>
             <Row type="flex">
-            <Col span={4}><div className="myuser"><Icon type="user" /> {sessionStorage.getItem('username')}</div></Col>
+            <Col span={4}><Link to="/user"><Button icon="user" ghost> {sessionStorage.getItem('username')}</Button></Link></Col>
             <Col span={18}><div className="mytitle">Title</div></Col>
             <Col span={2}><Logout/></Col>
             </Row>
