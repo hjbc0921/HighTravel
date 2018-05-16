@@ -1,5 +1,5 @@
-.header {
-    background : #070bc4;
+.head {
+    background : #4bb462;
     display : table;
     table-layout : fixed;
     width: 100%;
@@ -43,3 +43,24 @@
     background : #0b363b;
     color : white;
 }
+
+.hiuser {
+    width: 120px;
+    height: 31px;
+    background: rgba(255, 255, 255, 0.781);  
+    margin: 16px 28px 16px 0;
+    float: left;
+}
+
+.trigger {
+    font-size: 18px;
+    line-height: 64px;
+    padding: 0 24px;
+    cursor: pointer;
+    transition: color .3s;
+  }
+  
+.trigger:hover {
+    color: #1890ff;
+  }
+  

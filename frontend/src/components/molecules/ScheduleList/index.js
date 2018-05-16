@@ -15,14 +15,14 @@ const ScheduleList = ({scheduleliststate= [],onScheduleClick }) => {
   return (
     <Styledul>
       {scheduleliststate.map(schedule =>
-       <Schedule key={schedule.id} onClick={event =>onScheduleClick(schedule.id)}>{schedule.contents}</Scheudle>
+       <Schedule key={schedule.id} onClick={event =>onScheduleClick(schedule.id)}>{schedule.contents}</Schedule>
     ) }
     </Styledul>
   );
 };
 
 ScheduleList.propTypes = {
-  scheduleliststate.PropTypes.arrayOf(PropTypes.shape({
+  scheduleliststate:PropTypes.arrayOf(PropTypes.shape({
   id:PropTypes.number,
   completed:PropTypes.bool,
   contents:PropTypes.string
