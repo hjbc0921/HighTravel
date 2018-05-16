@@ -10,7 +10,6 @@ import Photo from '../../organisms/Photo'
 
 import AddUser from "../../../containers/AddUser";
 import AddSchedule from "../../../containers/AddSchedule";
-import Sidebar from "../../../containers/Sidebar";
 import TodoList from "../../../containers/TodoList";
 import Logout from "../../../containers/Logout"
 import {Link} from 'react-router'
@@ -33,10 +32,10 @@ const Antd = ({antd,changeContent,toggleCol}) => {
     }
     return (
     <Layout>
-        <Header style={{ background: '#fff' }}>
-            <Row type="flex" justify="end">
-            <Col span={4}></Col>
-            <Col span={18}></Col>
+        <Header style={{ background: '#002329' }}>
+            <Row type="flex">
+            <Col span={4}><div className="myuser"><Icon type="user" /> {sessionStorage.getItem('username')}</div></Col>
+            <Col span={18}><div className="mytitle">Title</div></Col>
             <Col span={2}><Logout/></Col>
             </Row>
         </Header>
@@ -69,7 +68,7 @@ const Antd = ({antd,changeContent,toggleCol}) => {
             <Layout style={{ padding: '10px 10px 10px',minHeight: '100vh' }}>
                 <Content style={{ margin: '0 16px', }}>
                     <div style={{ padding: 24, background: '#fff', minHeight: '100vh' }}>
-                    {(antd.current==="home") && <div> <Logout/> </div>}
+                    {(antd.current==="home") && <div> <HomePage/> </div>}
                     {(antd.current==="rules") && <div> <Rules/> </div>}
                     {(antd.current==="money") && <div> <Money/> </div>}
                     {(antd.current==="photo") && <div> <Photo/> </div>}

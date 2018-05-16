@@ -1,8 +1,8 @@
 import React from 'react'
 import { shallow } from 'enzyme'
-import Sidebar from '.'
+import Budget from '.'
 
-const wrap = (props = {}) => shallow(<Sidebar {...props} />)
+const wrap = (props = {}) => shallow(<Budget {...props} />)
 
 it('renders children when passed in', () => {
   const wrapper = wrap({ children: 'test' })

@@ -1,9 +1,8 @@
 import React from 'react'
-import Head from "../../../components/molecules/Head";
 
 const Map = () => {
   return (
-    <Head/>
+    <h1>map</h1>
   )
 }
 

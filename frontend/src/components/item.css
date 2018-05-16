@@ -63,4 +63,22 @@
 .trigger:hover {
     color: #1890ff;
   }
+
+.mytitle { 
+    color: #ffffff; 
+    font-size: 32px; 
+    font-weight: 600; 
+    line-height: 72px; 
+    margin: 0 0 24px; 
+    text-align: center; 
+}
+
+.myuser { 
+    color: #ffffff; 
+    font-size: 18px; 
+    font-weight: 500; 
+    line-height: 72px; 
+    margin: 0 0 24px; 
+    text-align: left; 
+}
   
