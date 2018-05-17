@@ -7,8 +7,6 @@ import Money from '../../organisms/Money'
 import Photo from '../../organisms/Photo'
 
 import AddUser from "../../../containers/AddUser";
-import AddSchedule from "../../../containers/AddSchedule";
-import TodoList from "../../../containers/TodoList";
 import Logout from "../../../containers/Logout"
 import {Link} from 'react-router'
 

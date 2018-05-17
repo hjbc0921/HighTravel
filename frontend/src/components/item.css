@@ -72,6 +72,29 @@
     text-align: center; 
 }
 
+.mymargin {
+    width: 100px;
+    margin: 0 8px 8px 0;
+}
+
+.hightravel { 
+    color:#002766; 
+    font-size: 54px; 
+    font-family:"Tahoma";
+    font-weight: 600; 
+    line-height: 64px; 
+    text-align: center; 
+    margin : 0 8px 48px 0;
+}
+
+.mywarning { 
+    color:#f5222d; 
+    font-size: 15px; 
+    font-weight: 400; 
+    text-align: center; 
+    margin : 0 8px 8px 0;
+}
+
 .myuser { 
     color: #ffffff; 
     font-size: 18px; 
@@ -85,3 +108,6 @@
     background:#00474f;
 }
   
+.introback{
+    background:#00474f;
+}

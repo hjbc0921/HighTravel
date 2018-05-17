@@ -1,9 +1,13 @@
 import React from 'react'
+import Test from '../../../components/molecules/Test'
 
 const None = () => {
-  return (
-    <h1>404 Not Found</h1>
-  )
-}
-
-export default None
+    return (
+      <div>
+        <Test/>
+      </div>
+    )
+  }
+  
+  export default None
+  

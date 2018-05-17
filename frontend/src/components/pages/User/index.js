@@ -1,10 +1,14 @@
 import React from 'react'
 import User from '../../../containers/User'
+import Addtrip from '../../../containers/Addtrip'
 
 const user = () => {
   return (
-    <div><User/></div>
+    <div><User/>
+    <Addtrip/>
+    </div>
+
   )
 }
 
-export default User
+export default user
