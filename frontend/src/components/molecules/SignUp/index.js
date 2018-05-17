@@ -1,30 +1,48 @@
 import React, { PropTypes } from 'react'
 import styled from 'styled-components'
 import { font, palette } from 'styled-theme'
-import Button from '../../../components/atoms/Button'
 import {Link} from 'react-router'
+import img from './../../image.jpg';
+import { Input, Button} from 'antd';
+import Icon from 'antd/lib/icon';
+import 'antd/dist/antd.css';
+import '../../item.css'
 
 const Wrapper = styled.div`
   font-family: ${font('primary')};
-  color: ${palette('grayscale', 0)};
-`
+  text-align: center;
+  margin: auto;
+  border: 1px solid #000;
+  background-image: url(${img});
+  background-size: cover;
+  width: 100vw;
+  height: 100vh;
+`;
+
+const InnerWrapper = styled.div`
+  display: inline-grid;
+  margin-top: 12vh;
+  text-align: center;
+`;
 
 export const SignUp = ({ signUp, onSignUp }) => {
   let username,password,pwd_check;
-  const onSignUpBtn = () => {
-      onSignUp(username.value, password.value, pwd_check.value);
+    const onSignUpBtn = () => {
+    onSignUp(username.value, password.value, pwd_check.value);
   }
   return (
-    <Wrapper>
-        <div>
-        {signUp.message}
-        <div>username  : <input required ref={node =>{username = node;}} /></div>
-        <div>password  : <input required type="password" ref={node =>{password = node;}} /></div>
-        <div>pwd_check : <input required type="password" ref={node =>{pwd_check =node;}} /></div>
-        <Button type = "submit" onClick={onSignUpBtn}>SignUp</Button>
-        </div>
-    </Wrapper>
-
+  <Wrapper>
+    <InnerWrapper>
+    <div>
+    <h1 className="hightravel">JOIN US</h1>
+    <div><input placeholder="username" required ref={node =>{username = node;}} /></div>
+    <div><input placeholder="password" required type="password" ref={node =>{password = node;}} /></div>
+    <div><input placeholder="pwd check"required type="password" ref={node =>{pwd_check =node;}} /></div>
+    <div className="mywarning">{signUp.message}</div>
+    <Button type="submit" style={{ width:'200px', margin: '4px 0' }} onClick={onSignUpBtn} icon="user-add">signup</Button> 
+    </div>
+    </InnerWrapper>
+  </Wrapper>
   )
 }
 
@@ -32,7 +50,7 @@ SignUp.propTypes = {
   username: PropTypes.string.isRequired,
   password: PropTypes.string.isRequired,
   pwd_check: PropTypes.string.isRequired
- }
+}
 
 SignUp.defaultProps = {
   username: '',

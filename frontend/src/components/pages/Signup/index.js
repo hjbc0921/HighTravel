@@ -4,9 +4,7 @@ import SignUp from "../../../containers/SignUp";
 
 const Signup = () => {
     return (
-    <div>
      <SignUp/>
-    </div>
    )
 }
 
