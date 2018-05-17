@@ -1,11 +1,9 @@
 import React from 'react'
-import Test from '../../../components/molecules/Test'
+import AddTrip from '../../../components/molecules/AddTrip'
 
 const None = () => {
     return (
-      <div>
-        <Test/>
-      </div>
+      <AddTrip/>
     )
   }
   

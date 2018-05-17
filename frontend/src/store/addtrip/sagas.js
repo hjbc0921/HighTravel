@@ -1,14 +1,14 @@
 import { take, call, fork, select, put} from 'redux-saga/effects'
 import api from 'services/api'
 import * as actions from './actions'
-import {push} from 'react-router-redux'
 
 const url = 'http://127.0.0.1:8000/api/trips/'
 
 export function* postTrip(title, sinceWhen, untilWhen) {
-    console.log('post in postTrip')
+    
     const state = yield select()
-    var token = state.intro.token
+    console.log("addtrip saga#########@@@@@@@@@@@@@@",state.user.trips)
+    var token = sessionStorage.getItem('token')
     var ownTrip = state.user.trips
     console.log('**************')
 
@@ -34,7 +34,6 @@ export function* postTrip(title, sinceWhen, untilWhen) {
         console.log(body)
         ownTrip.push({id: body.id, title: title});
         yield put({ type : 'STORE_TRIP', ownTrip });
-        yield put(push('/user'))
     }
 }
 
