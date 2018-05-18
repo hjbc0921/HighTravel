@@ -31,7 +31,7 @@ const Antd = ({antd,changeContent,toggleCol}) => {
         <Header style={{ background: '#002329' }}>
             <Row type="flex">
             <Col span={4}><Link to="/user"><Button icon="user" ghost> {sessionStorage.getItem('username')}</Button></Link></Col>
-            <Col span={18}><div className="mytitle">Title</div></Col>
+            <Col span={18}><div className="mytitle">{sessionStorage.getItem("triptitle")}</div></Col>
             <Col span={2}><Logout/></Col>
             </Row>
         </Header>
