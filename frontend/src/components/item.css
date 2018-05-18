@@ -87,6 +87,24 @@
     margin : 0 8px 48px 0;
 }
 
+.yourtrip { 
+    color:#030508; 
+    font-size: 44px; 
+    font-weight: 600; 
+    line-height: 54px; 
+    text-align: center; 
+    margin : 0 8px 48px 0;
+}
+
+.hellouser { 
+    color: #ffffff; 
+    font-size: 24px; 
+    font-weight: 500; 
+    line-height: 30px; 
+    text-align: center; 
+    margin : 0 38px 38px 0; 
+}
+
 .mywarning { 
     color:#f5222d; 
     font-size: 15px; 

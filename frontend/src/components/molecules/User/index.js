@@ -4,6 +4,7 @@ import { font, palette } from 'styled-theme'
 //import TripTitle from '../../../components/atoms/TripTitle'
 import Button from '../../../components/atoms/Button'
 import {Link} from 'react-router'
+import AddTrip from '../../../containers/Addtrip'
 
 const Wrapper = styled.div`
   font-family: ${font('primary')};
@@ -32,30 +33,31 @@ const TripTitle = styled.button`
   border-radius: 20px;
 `
 
-const User = ({ triplist = [], tripIdSave }) => {
-
-  // routing after TripTitle button is clicked (move to Home page)
-  const onTripTitleClick = (tripID) => {
-    tripIdSave(tripID)
+const User = ({tripIdSave }) => {
+  var triplist = []
+  if (sessionStorage.getItem('titles')!==null || sessionStorage.getItem('titles')!=="null" ){
+    var tripIDs = sessionStorage.getItem('tripIDs').split(",")
+    var titles = sessionStorage.getItem('titles').split(",")
+    console.log("#######usertriplist@@@@",tripIDs,titles)
+    var i
+    for (i=0; i<titles.length-1; i++){
+      triplist.push({id:tripIDs[i],title:titles[i]})
+    }
   }
+  console.log("#######usertriplist@@@@",triplist)
 
   return (
     <Wrapper>
-      <InnerWrapper>
-      <h1>Trip List</h1>
-	  {triplist.map(trip =>
-      /*
-        <TripTitle key={trip.id}
-              {...trip}
-			  onClick={() => onTripTitleClick(trip.id)}
-        />
-        */
-       <div key={trip.id}><Link to ="/"> <TripTitle onClick={ event => tripIdSave(trip.id, trip.title) }>{trip.title}</TripTitle>
+    <InnerWrapper>
+    <br></br>
+      <h1 className="yourtrip">Your Trips</h1>
+      {triplist.map(trip =>
+      <div key={trip.id}><Link to ="/"> <TripTitle onClick={ event => tripIdSave(trip.id, trip.title) }>{trip.title}</TripTitle>
       </Link></div>
       )}
-	  <br></br><br></br>
-      <Link to="/add"> <Button> Add Trip </Button> </Link>
-      </InnerWrapper>
+      <br></br><br></br>
+      <AddTrip/>
+    </InnerWrapper>
     </Wrapper>
   );
 }

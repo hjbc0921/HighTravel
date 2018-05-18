@@ -1,5 +1,5 @@
 import { initialState} from "./selectors"
-import { ADDTRIP_REQUEST, ADDTRIP_FAIL} from "./actions";
+import { ADDTRIP_REQUEST, ADDTRIP_FAIL, ADDTRIP_SUCCESS} from "./actions";
 
 const addtrip_reducer = (state = initialState, action) => {
    switch (action.type) {
@@ -10,6 +10,10 @@ const addtrip_reducer = (state = initialState, action) => {
       case ADDTRIP_FAIL:
        return Object.assign({},state,{
         message : action.err
+       })
+      case ADDTRIP_SUCCESS:
+       return Object.assign({},state,{
+         
        })
      default:
        return state

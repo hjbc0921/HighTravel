@@ -1,12 +1,15 @@
 import { connect } from 'react-redux'
-import  User  from "../components/molecules/User";
+import { Triplist }  from "../components/molecules/Triplist";
 import { storeTripId } from "../store/user/actions";
 
 const mapStateToProps = (state) => {
+    console.log('container')
+    console.log("######TRIPLIST@@@@@@@@@@@",state)
+    console.log(state.user)
   return {
-    trips: state.user,
+    triplist: state.user.trips,
   }
-};
+}
 
 const mapDispatchToProps = (dispatch) => {
   console.log('tripIdSave')
@@ -17,4 +20,4 @@ const mapDispatchToProps = (dispatch) => {
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(User)
+export default connect(mapStateToProps, mapDispatchToProps)(Triplist)

@@ -1,20 +1,16 @@
 import { take, call, fork, select, put} from 'redux-saga/effects'
 import api from 'services/api'
 import * as actions from './actions'
-
 const url = 'http://127.0.0.1:8000/api/trips/'
 
 export function* postTrip(title, sinceWhen, untilWhen) {
     
-    const state = yield select()
-    console.log("addtrip saga#########@@@@@@@@@@@@@@",state.user.trips)
     var token = sessionStorage.getItem('token')
-    var ownTrip = state.user.trips
-    console.log('**************')
-
+    var tripIDs = sessionStorage.getItem('tripIDs')
+    var titles = sessionStorage.getItem('titles')
+    console.log("sagaADDTRIP@@@@@@@",token,tripIDs,titles)
     let data;
     if (title != undefined && sinceWhen != undefined && untilWhen != undefined) {
-        console.log('**************')
         data = yield call(fetch, url, {
             method: 'POST',
             body: JSON.stringify({ title: title, sinceWhen: sinceWhen, tilWhen: untilWhen }),
@@ -23,17 +19,18 @@ export function* postTrip(title, sinceWhen, untilWhen) {
                 'Content-Type': 'application/json;'
             }
         })
-        console.log('---------------------------')
+        console.log('addtripsaga---------------------------')
     }
     if (!data.ok){
         yield put(actions.addtripFail("Check the date"))
     }
     else{
-        console.log('@@@@@@@@@@@@@@@@@@')
         let body = yield call([data, data.json])
         console.log(body)
-        ownTrip.push({id: body.id, title: title});
-        yield put({ type : 'STORE_TRIP', ownTrip });
+        tripIDs = tripIDs + body.id + ","
+        titles = titles + body.title + ","
+        console.log('addtripsaga@@@@@@@@@@@@@@@@@@',tripIDs,titles)
+        yield put({ type : 'STORE_TRIP', tripIDs, titles });
     }
 }
 

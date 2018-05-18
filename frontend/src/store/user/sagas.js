@@ -2,20 +2,15 @@ import { take, put, call, fork, select } from 'redux-saga/effects'
 import api from 'services/api'
 import * as actions from './actions'
 import { USER_INFO_RECEIVED } from '../intro/actions'
-
+import { ADDTRIP_SUCCESS } from '../addtrip/actions'
+import {push} from 'redux-saga'
 const url = 'http://127.0.0.1:8000/api/trips/'
-// const userID = 1
-// const token = '703064ee14987e8bf3b6023620042bf8b644d52a'
 
-export function* loadTrips() {
-    console.log('loadTrips')
-    //let userID;
-    const state = yield select()
-    var userID = state.intro.userId
-    console.log(userID)
+export function* loadTrips(userId) {
     
     var trips;
-    var ownTrip = []
+    var tripIDs = ""
+    var titles = ""
     var t, u
     var users
 
@@ -29,26 +24,29 @@ export function* loadTrips() {
                 users = t.users
                   for (var j=0; j<users.length; j++) {
                     u = users[j]
-                    if (u.id === userID)
-                        ownTrip.push({id: t.id, title: t.title})
+                    if (u.id === userId){
+                        tripIDs = tripIDs + t.id + ","
+                        titles  = titles + t.title + ","
+                    }
                 }
             }
         })
     } catch (e) {
         console.log('load trip faild')
     }
-    console.log(ownTrip)
+    console.log("#########usersaga@@@",tripIDs,titles)
 
-    yield put({ type : 'STORE_TRIP', ownTrip });
+    yield put({ type : 'STORE_TRIP', tripIDs, titles });
+}
 
-    /*
-    const state = yield select()
-    console.log(state)
-    console.log('************')
-    */
+export function* watchLogin () {
+    while (true) {
+        const {userId} = yield take(USER_INFO_RECEIVED)
+        console.log("######loadtrip get userid@@@@@",userId)
+        yield call(loadTrips,userId)
+    }
 }
 
 export default function* () {
-    const userID = yield take(USER_INFO_RECEIVED)
-    yield call(loadTrips)
+    yield fork(watchLogin)
 }
