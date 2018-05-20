@@ -1,14 +1,14 @@
 import { initialState } from './selectors'
 
 const rules_reducer = (state = initialState, action) => {
-    console.log('reducer')
+    console.log('rules_reducer')
     console.log(state)
     console.log(action)
     console.log(action.type)
     console.log(action.rules)
-    console.log(Array.isArray(action.tripRules))
     switch (action.type) {
         case 'STORE_RULE': 
+            sessionStorage.setItem('rules', JSON.stringify(action.rules))
             return Object.assign({}, state, {
                 rules: action.rules
             })

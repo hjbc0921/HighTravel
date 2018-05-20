@@ -3,7 +3,6 @@ import {Button} from 'antd'
 
 export const AddUser = ({addUser, onAddUser}) => {
   let username
-  var adduser_msg, adduser_err
 
   const onAddUserBtn = () => {
     onAddUser(username.value);

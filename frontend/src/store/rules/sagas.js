@@ -4,30 +4,24 @@ import * as actions from './actions'
 import { STORE_TRIP_ID } from '../user/actions'
 
 const url = 'http://127.0.0.1:8000/api/rules/'
-// const token = '703064ee14987e8bf3b6023620042bf8b644d52a'
 
 export function* loadRules() {
     console.log('loadRules')
-    const state = yield select()
-    console.log(state)
-    var tripID = state.user.tripID
+    var tripID = sessionStorage.getItem('tripID')
     var tripRuleUrl = url + 'trip/' + tripID + '/'
     console.log(tripRuleUrl)
     
-    var tripRules;
+    var rules
     yield fetch(tripRuleUrl)
         .then((resp) => resp.json())
         .then(function(data) {
             console.log('rules for trip')
-            tripRules = data
-            console.log(tripRules)
+            rules = data
+            console.log(rules)
         })
-    console.log('tripRules')
-    console.log(tripRules)
-    console.log(typeof tripRules)
-    console.log(Array.isArray(tripRules))
 
-    var rules = tripRules
+    console.log('tripRules',rules)
+
     yield put({ type : 'STORE_RULE', rules });
 
 }
@@ -35,11 +29,8 @@ export function* loadRules() {
 export function* postRule(contents) {
     console.log('post in postRule')
 
-    const state = yield select()
-    var token = token = state.intro.token
-    var tripID = state.user.tripID
-
-    console.log('**************')
+    var token = sessionStorage.getItem('token')
+    var tripID = sessionStorage.getItem('tripID')
 
     let data
     try {
@@ -50,17 +41,16 @@ export function* postRule(contents) {
                 body: JSON.stringify({ contents: contents, tripID: tripID }),
                 headers: {
                     'Authorization': `token ${token}`,
-                    'Content-Type': 'application/json;'
+                    'Content-Type': 'application/json'
                 }
             })
-            console.log('---------------------------')
         }
     } catch (e) {
         console.log('post rule failed')
     }
     
     console.log('before loadRules')
-    yield call(loadRules);
+    yield call(loadRules)
 }
 
 export function* watchPostRuleRequest() {
@@ -76,18 +66,15 @@ export function* watchPostRuleRequest() {
 export function* deleteRule(ruleId) {
     console.log('post in deleteRule')
 
-    const state = yield select()
-    var token = token = state.intro.token
-    var tripID = state.user.tripID
+    var token = sessionStorage.getItem('token')
+    var tripID = sessionStorage.getItem('tripID')
 
-    console.log('**************')
     console.log(ruleId)
 
     let ruleUrl = url + ruleId + '/'
     console.log(ruleUrl)
     let data
     if (ruleId != undefined) {
-        console.log('**************')
         data = yield call(fetch, ruleUrl, {
             method: 'DELETE',
             headers: {
@@ -95,7 +82,6 @@ export function* deleteRule(ruleId) {
                 'Content-Type': 'application/json;'
             }
         })
-        console.log('---------------------------')
     }
     
     console.log('before loadRules')
@@ -112,11 +98,15 @@ export function* watchDeleteRuleRequest() {
     }
 }
 
+export function* watchStoreTripId() {
+    while (true) {
+        const action = yield take(STORE_TRIP_ID)
+        yield call(loadRules)
+    }
+}
+
 export default function* () {
-    const tripID = yield take(STORE_TRIP_ID)
-    yield call(loadRules)
-    console.log('watchPostRuleRequest')
+    yield fork(watchStoreTripId)
     yield fork(watchPostRuleRequest)
     yield fork(watchDeleteRuleRequest)
-    console.log('watchloadRules')
 }

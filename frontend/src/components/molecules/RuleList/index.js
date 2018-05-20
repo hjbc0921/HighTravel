@@ -42,6 +42,12 @@ const Container = styled.div`
 export const RuleList = ({ rules = [], onDeleteRule }) => {
     console.log('RuleList component')
     console.log(rules)
+    if (sessionStorage.getItem('rules') !== null) {
+        rules = JSON.parse(sessionStorage.getItem('rules'))
+        console.log('from session storage')
+    }
+
+    console.log(rules)
     rules.map(rule => {
         console.log(rule.contents)
         console.log(rule.tripID)})
@@ -52,12 +58,6 @@ export const RuleList = ({ rules = [], onDeleteRule }) => {
         console.log(typeof ruleId)
         onDeleteRule(ruleId)
     }
-
-/*
-  function changeRule(ruleId) {
-    console.log(ruleId)
-  }
-  */
 
   return (
   <div>
