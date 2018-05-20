@@ -2,7 +2,9 @@ import React, { PropTypes } from 'react'
 import {Button} from 'antd'
 
 export const AddUser = ({addUser, onAddUser}) => {
-  let username;
+  let username
+  var adduser_msg, adduser_err
+
   const onAddUserBtn = () => {
     onAddUser(username.value);
     username.value = ''
@@ -10,7 +12,7 @@ export const AddUser = ({addUser, onAddUser}) => {
   return (
     <div>
       <div> username : <input required ref = {node=>{username = node;}} /></div>
-      <p style= {{ color: addUser.err ? 'red' : 'black' }}>{ addUser.msg }</p>
+      <p style= {{ color: (sessionStorage.getItem('adduser_err')=="true") ? 'red' : 'black' }}>{ sessionStorage.getItem('adduser_msg') }</p>
       <Button type = "default" icon = "user-add" onClick={onAddUserBtn}>AddUser</Button>
     </div>
   )

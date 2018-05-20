@@ -11,9 +11,8 @@ const userUrl = 'http://127.0.0.1:8000/api/users/'
 export function* loadUsers(tripID) {
     console.log('loadUsers')
     console.log(tripID)
-    const state = yield select()
-    var myname = state.intro.username
-    var tripTitle = state.user.tripTitle
+    var myname = sessionStorage.getItem('username')
+    var tripTitle = sessionStorage.getItem('triptitle') 
     
     var ourTrip
 
@@ -22,23 +21,23 @@ export function* loadUsers(tripID) {
             .then((resp) => resp.json())
             .then(function(data) {
                 console.log('trip list')
-                ourTrip = data.find(t => t.id === tripID)
+                ourTrip = data.find(t => t.id == tripID)
             })
-     } catch (e) {
+    } catch (e) {
         console.log('Get Trip list failed')
     }
 
     console.log(ourTrip)
     var userlist = ourTrip.users
     console.log(userlist)
-    var users = []
+    var userObjects = []
     for (var i=0; i<userlist.length; i++) {
         var u = userlist[i]
-        users.push({ id : u.id, name: u.username })
+        userObjects.push({ id : u.id, name: u.username })
     }
     
-    console.log(users)
-    var members = users.map(u => u.name)
+    console.log(userObjects)
+    var members = userObjects.map(u => u.name)
     var friends = []
     var msg
     var membernames
@@ -62,33 +61,35 @@ export function* loadUsers(tripID) {
 
     var err = false
 
+    var users = JSON.stringify(userObjects)
     yield put({ type : 'STORE_USERS', users, msg, err });
 }
 
 export function* addUser(username) {
     console.log('post in addUser')
     console.log(username)
-    const state = yield select()
-    console.log(state)
-    var token = state.intro.token
-    var users = state.adduser.users
-    var tripID = state.user.tripID
-    var myname = state.intro.username
+    var token = sessionStorage.getItem('token') 
+    var userObjects = JSON.parse(sessionStorage.getItem('users'))
+    console.log(userObjects)
+    var tripID = sessionStorage.getItem('tripID')
+    var myname = sessionStorage.getItem('username')
+    var tripTitle = sessionStorage.getItem('triptitle') 
     console.log(myname)
-    console.log(users)
+    console.log(userObjects)
     console.log(tripID)
     var userID, invitee
     var ids = []
     var names = []
     var friends = []
-    if (users != undefined) {
-        ids = users.map(u => u.id)
-        names = users.map(u => u.username)
+    var members
+    if (userObjects != undefined) {
+        ids = userObjects.map(u => u.id)
+        names = userObjects.map(u => u.name)
     }
 
-    var member = users.find(u => u.name === username)
+    var member = userObjects.find(u => u.name === username)
+    var users = JSON.stringify(userObjects)
     var msg, err
-    console.log(member)
     if (member != undefined) { // user is already in trip
         console.log('already exists')
         msg = username + ' already exists'
@@ -111,6 +112,8 @@ export function* addUser(username) {
         if (userID != undefined) { // if username is valid (userID exists)
             console.log(ids)
             ids.push(userID)
+            names.push(username)
+            console.log(names)
             console.log(ids)
             console.log(userID)
             var tripUrl = url + tripID + '/'
@@ -122,42 +125,39 @@ export function* addUser(username) {
                         body: JSON.stringify({ users: ids }),
                         headers: {
                             'Authorization': `token ${token}`,
-                            'Content-Type': 'application/json;'
+                            'Content-Type': 'application/json'
                         }
                     })
                 }
-                console.log('before loadRules')
-                yield call(loadUsers, tripID)
-                names.push(username)
-
-                // make list of trip members except me
-                for (var i=0; i<names.length; i++)
-                    if (myname !== names[i])
-                        friends.push(names[i])
-
-                console.log(friends)
-                console.log('friends')
-
-                if (friends.length === 0)
-                    msg = 'Invite other users'
-                else {
-                    members = friends.join()
-                    msg = tripTitle + ' with ' + members
-                }
-                console.log('you are here')
-                console.log(msg)
-
-                err = false
-                yield put({ type : 'STORE_USERS', users, msg, err });
-
             } catch(e) {
                 console.log('add user failed')
             }
+
+            // make list of trip members except me
+            for (var i=0; i<names.length; i++)
+                if (myname !== names[i])
+                    friends.push(names[i])
+
+            console.log(friends)
+            console.log('friends')
+
+            if (friends.length == 0)
+                msg = 'Invite other users'
+            else {
+                members = friends.join()
+                msg = tripTitle + ' with ' + members
+            }
+            console.log('you are here')
+            console.log(msg)
+
+            err = false
+            yield put({ type : 'STORE_USERS', users, msg, err });
+
         }
         else { // invalid username input
             msg = 'Invalid username'
             err = true
-            yield put({ type : 'STORE_USERS',users,  msg, err });
+            yield put({ type : 'STORE_USERS', users,  msg, err });
         }
     }
 }
@@ -172,11 +172,15 @@ export function* watchAddUserRequest() {
     }
 }
 
+export function* watchStoreTripId() {
+    while (true) {
+        const action = yield take(STORE_TRIP_ID)
+        console.log('tripID', action.tripID)
+        yield call(loadUsers, action.tripID)
+    }
+}
+
 export default function* () {
-    // wait until trip ID is given from User page (TripTitle button is clicked)
-    const { tripID } = yield take(STORE_TRIP_ID) 
-    yield call(loadUsers, tripID)
-    console.log(tripID)
-    console.log('watchAddUserRequest')
+    yield fork(watchStoreTripId)
     yield fork(watchAddUserRequest)
 }
