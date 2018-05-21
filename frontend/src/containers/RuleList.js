@@ -6,9 +6,10 @@ const mapStateToProps = (state) => {
     console.log('container')
     console.log(state.rules.rules)
     console.log(state.rules)
+    var rules = sessionStorage.getItem('rules')
 
     return {
-        rules: state.rules.rules
+        rules: JSON.parse(rules)
     }
 }
 
