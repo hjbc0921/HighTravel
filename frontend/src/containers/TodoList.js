@@ -5,9 +5,12 @@ import { TodoList } from '../components/molecules/TodoList'
 const mapStateToProps = (state) => {
     console.log('Todolist container')
     console.log(state)
-  return {
-    todoliststate: state.todos.todos
-  }
+    var todos = sessionStorage.getItem('todos')
+    console.log(todos)
+
+    return {
+        todoliststate: JSON.parse(todos)
+    }
 }
 
 const mapDispatchToProps = (dispatch) => {

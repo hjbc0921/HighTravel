@@ -4,11 +4,10 @@ import * as actions from './actions'
 import { STORE_TRIP_ID } from '../user/actions'
 
 const url = 'http://127.0.0.1:8000/api/todos/'
-// const tripID = 1
-// const token = '703064ee14987e8bf3b6023620042bf8b644d52a'
 
 export function* loadTodos(tripID) {
     console.log('loadTodos')
+    var tripID = sessionStorage.getItem('tripID')
     console.log(tripID)
     var tripTodoUrl = url + 'trip/' + tripID + '/'
     var tripTodos
@@ -33,16 +32,12 @@ export function* loadTodos(tripID) {
 export function* postTodo(contents) {
     console.log('post in postRule')
 
-    const state = yield select()
-    var token = state.intro.token
-    var tripID = state.user.tripID
+    var token = sessionStorage.getItem('token')
+    var tripID = sessionStorage.getItem('tripID')
     let data
-
-    console.log('**************')
 
     try {
         if (contents != undefined) {
-            console.log('**************')
             data = yield call(fetch, url, {
                 method: 'POST',
                 body: JSON.stringify({ contents: contents, tripID: tripID }),
@@ -51,14 +46,12 @@ export function* postTodo(contents) {
                     'Content-Type': 'application/json'
                 }
             })
-            console.log('---------------------------')
         }
     } catch(e) {
         console.log('post todo failed')
     }
     
-    console.log('before loadTodos')
-    yield call(loadTodos, tripID)
+    yield call(loadTodos)
 }
 
 export function* watchPostTodoRequest() {
@@ -74,13 +67,10 @@ export function* watchPostTodoRequest() {
 export function* toggleTodo(todoID, done) {
     console.log('patch in toggleRule')
 
-    const state = yield select()
-    var token = state.intro.token
-    var tripID = state.user.tripID
+    var token = sessionStorage.getItem('token')
+    var tripID = sessionStorage.getItem('tripID')
     var todoUrl = url + todoID + '/'
     let data
-
-    console.log('**************')
 
     try {
         if (todoID != undefined && done != undefined) {
@@ -93,14 +83,12 @@ export function* toggleTodo(todoID, done) {
                     'Content-Type': 'application/json'
                 }
             })
-            console.log('---------------------------')
         }
     } catch(e) {
         console.log('toggle todo failed')
     }
     
-    console.log('before loadTodos')
-    yield call(loadTodos, tripID)
+    yield call(loadTodos)
 }
 
 export function* watchToggleTodoRequest() {
@@ -114,10 +102,15 @@ export function* watchToggleTodoRequest() {
     }
 }
 
+export function* watchStoreTripId() {
+    while (true) {
+        const action = yield take(STORE_TRIP_ID)
+        yield call(loadTodos)
+    }
+}
+
 export default function* () {
-    const { tripID } = yield take(STORE_TRIP_ID) 
-    yield call(loadTodos, tripID)
-    console.log('watchPostTodoRequest')
+    yield fork(watchStoreTripId)
     yield fork(watchPostTodoRequest)
     yield fork(watchToggleTodoRequest)
 }
