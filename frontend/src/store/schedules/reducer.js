@@ -7,6 +7,7 @@ const schedules_reducer = (state = initialState, action) => {
     console.log(action.type)
     switch (action.type) {
         case 'STORE_SCHEDULE': 
+            sessionStorage.setItem('schedules', JSON.stringify(action.schedules))
             return Object.assign({}, state, {
                 schedules: action.schedules
             })
