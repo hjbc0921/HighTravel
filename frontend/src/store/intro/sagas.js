@@ -7,24 +7,21 @@ const userUrl = 'http://127.0.0.1:8000/api/users/'
 
 const errMsg = 'Wrong username or wrong password'
 
-export function* login(uname, pwd) {
-    console.log('post in login')
+export function* login(username, pwd) {
     let token, response, user, userId
-    if (uname != undefined && pwd != undefined) {
-        console.log('**************')
+    if (username != undefined && pwd != undefined) {
         try{
-        let result = yield call(api.post, loginUrl, { username: uname, password: pwd })
+        let result = yield call(api.post, loginUrl, { username: username, password: pwd })
         token = result.token
-        console.log(token)
         yield fetch(userUrl)
             .then((resp) => resp.json())
             .then(function(data) {
-                console.log('user list')
-                user = data.find(u => u.username === uname)
+                user = data.find(u => u.username === username)
                 userId = user.id
-                console.log(userId)
         })
-        yield put(actions.IntroReceived({uname,token,userId}))
+        sessionStorage.setItem('username',username)
+        sessionStorage.setItem('token',token)
+        yield put(actions.IntroReceived({username,token,userId}))
         yield put(push('/user'))
         } catch(err){
             console.log("#########loginFail")
@@ -37,16 +34,11 @@ export function* login(uname, pwd) {
 
 export function* watchLoginRequest() {
     while (true) {
-        console.log('post in watch')
         const { username, password } = yield take(actions.LOGIN_REQUEST)
-        console.log(username)
-        console.log(password)
         yield call(login, username, password)
-        console.log('post in watch end')
     }
 }
 
 export default function* () {
-    console.log('watchLoginRequest')
     yield fork(watchLoginRequest)
 }

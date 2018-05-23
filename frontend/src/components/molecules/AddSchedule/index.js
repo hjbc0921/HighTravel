@@ -37,7 +37,7 @@ export const AddSchedule = ({ onAddSchedule }) => {
 AddSchedule.propTypes = {
   contents:PropTypes.string.isRequired,
   since:PropTypes.string.isRequired,
-  untilWhen: PropTypes.string.isRequired
+  until: PropTypes.string.isRequired
 }
 
 AddSchedule.defaultProps = {

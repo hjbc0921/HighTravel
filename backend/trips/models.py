@@ -40,6 +40,7 @@ class Photo(models.Model):
 class Todo(models.Model):
     contents    = models.CharField(max_length=200)
     tripID      = models.ForeignKey(Trip,related_name="trip_todo",on_delete=models.CASCADE)
+    done        = models.BooleanField(default=False)
 
 class Rule(models.Model):
     contents    = models.CharField(max_length=200)

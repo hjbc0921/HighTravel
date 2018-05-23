@@ -1,4 +1,4 @@
-import requests
+import requests,json
 from time import sleep
 from random import randint
 import os
@@ -33,10 +33,44 @@ def check_key(prom_json, key):
 def post_or_error(link, data, token):
     sleep(0.05)
     try:
-        os.system("http POST {0} \"Authorization: Token {1}\" {2} > result".format(link,token,data))
+        cmd = "http POST {0} \"Authorization: Token {1}\" {2} > result".format(link,token,data)
+        print(cmd)
+        os.system(cmd)
         tokenfile = open("result","r")
         line = tokenfile.readline()
         print(line)
+        tokenfile.close()
+        os.system("rm result")
+    except Exception:
+        print("ERROR: Cannot post {0}".format(link))
+        exit(1)
+
+def patch_or_error(link, data, token):
+    sleep(0.05)
+    try:
+        cmd = "http PATCH {0} \"Authorization: Token {1}\" {2} > result".format(link,token,data)
+        print(cmd)
+        os.system(cmd)
+        tokenfile = open("result","r")
+        line = tokenfile.readline()
+        print(line)
+        tokenfile.close()
+        os.system("rm result")
+    except Exception:
+        print("ERROR: Cannot post {0}".format(link))
+        exit(1)
+
+def delete_or_error(link, token):
+    sleep(0.05)
+    try:
+        cmd = "http DELETE {0} \"Authorization: Token {1}\" > result".format(link,token)
+        print(cmd)
+        os.system(cmd)
+        tokenfile = open("result","r")
+        line = tokenfile.readline()
+        print(line)
+        tokenfile.close()
+        os.system("rm result")
     except Exception:
         print("ERROR: Cannot post {0}".format(link))
         exit(1)
@@ -99,13 +133,69 @@ trips_json = get_json_or_error("http://localhost:8000/api/trips/")
 
 for trip in trips:
     print(trip)
+print("id","title","sinceWhen","tilWhen","users",sep="\t")
 for prom_json in trips_json:
     check_key(prom_json, "users")
     check_key(prom_json, "title")
     check_key(prom_json, "id")
     check_key(prom_json, "sinceWhen")
     check_key(prom_json, "tilWhen")
-    print(str(prom_json["id"])+" "+prom_json["title"]+" "+prom_json["sinceWhen"]+" "+prom_json["tilWhen"])
+    print(prom_json["id"],prom_json["title"],prom_json["sinceWhen"],prom_json["tilWhen"],prom_json["users"],sep="\t")
 print("\n--------------------------------------------------------")  
 
-#    
+# delete trips
+print("5. Delete trip1 from /api/trips/1/")
+link = "http://localhost:8000/api/trips/1/"
+token = user_tokens[3] #user:swpp4
+'''
+delete_or_error(link,token)
+trips_json = get_json_or_error("http://localhost:8000/api/trips/")
+for prom_json in trips_json:
+    print(prom_json["id"],prom_json["title"],prom_json["sinceWhen"],prom_json["tilWhen"],prom_json["users"],sep="\t")
+'''
+print("\n--------------------------------------------------------") 
+# patch trips
+print("6. Get trip2 and Change trip2's trip title in /api/trips/2/")
+link = "http://localhost:8000/api/trips/2/"
+data = "\"title\"=\"changed to new title!\""
+token = user_tokens[5] #user:swpp6
+'''
+trips_json = get_json_or_error(link)
+print("id","title","sinceWhen","tilWhen","users",sep="\t")
+print(trips_json["id"],trips_json["title"],trips_json["sinceWhen"],trips_json["tilWhen"],trips_json["users"],sep="\t")
+patch_or_error(link,data,token)
+'''
+print("\n--------------------------------------------------------") 
+# add user to trips
+print("7. Add another user to trip3 in /api/trips/3/")
+
+link = "http://localhost:8000/api/trips/3/"
+data = "users:=\'[7,8]\'"
+token = user_tokens[6] #user:swpp7
+patch_or_error(link,data,token)
+print(get_json_or_error(link))
+
+print("\n--------------------------------------------------------") 
+# add rules to trips
+print("8. Add rules to trip2,3 in /api/rules/")
+rules = ["wake up at 8","take a shower","swpp assignment","eat lunch","take a test"]
+link = "http://localhost:8000/api/rules/"
+data1 = "\"contents\"=\"{0}\" \"tripID\"=\"2\"".format(rules[0])
+data2 = "\"contents\"=\"{0}\" \"tripID\"=\"2\"".format(rules[1])
+data3 = "\"contents\"=\"{0}\" \"tripID\"=\"3\"".format(rules[2])
+data4 = "\"contents\"=\"{0}\" \"tripID\"=\"3\"".format(rules[3])
+data5 = "\"contents\"=\"{0}\" \"tripID\"=\"3\"".format(rules[4])
+'''
+post_or_error(link,data1,user_tokens[5])
+post_or_error(link,data2,user_tokens[5])
+post_or_error(link,data3,user_tokens[6])
+post_or_error(link,data4,user_tokens[6])
+post_or_error(link,data5,user_tokens[6])
+'''
+print("\n--------------------------------------------------------") 
+# get all rules of certain trip
+print("9. Get rules for trip2 from /api/rules/trip/2/")
+link = "http://localhost:8000/api/rules/trip/2/"
+trips_json = get_json_or_error(link)
+print(trips_json)
+print("\n--------------------------------------------------------") 

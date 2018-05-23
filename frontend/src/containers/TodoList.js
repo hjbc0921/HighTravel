@@ -1,19 +1,19 @@
 import { connect} from 'react-redux'
-// import { toggleTodo } from '../store/tods/actions'
+import { toggleTodo } from '../store/todos/actions'
 import { TodoList } from '../components/molecules/TodoList'
 
 const mapStateToProps = (state) => {
-    console.log('Todolist container')
-    console.log(state)
-  return {
-    todoliststate: state.todos.todos
-  }
+    var todos = sessionStorage.getItem('todos')
+
+    return {
+        todoliststate: JSON.parse(todos)
+    }
 }
 
 const mapDispatchToProps = (dispatch) => {
-  return {
-   onTodoClick: (id) => {
-     // dispatch(toggleTodo(id))
+    return {
+        onTodoClick: (todoID, done) => {
+            dispatch(toggleTodo(todoID, done))
      }
    }
 }

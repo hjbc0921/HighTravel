@@ -15,7 +15,7 @@ export const TodoList = ({todoliststate =[],onTodoClick }) => {
   return (
     <Styledul>
       {todoliststate.map(todo =>
-        <Todo key={todo.id} onClick={ event => onTodoClick(todo.id) }>{todo.contents}</Todo>
+        <Todo key={todo.id} style={{textDecoration: todo.done? 'line-through': 'none'}} onClick={ event => onTodoClick(todo.id, !todo.done) }>{todo.contents}</Todo>
           /*
            <Todo key={todo.id}
           {...todo}

@@ -1,5 +1,5 @@
-.header {
-    background : #27b9cc;
+.head {
+    background : #4bb462;
     display : table;
     table-layout : fixed;
     width: 100%;
@@ -43,3 +43,124 @@
     background : #0b363b;
     color : white;
 }
+
+.hiuser {
+    width: 120px;
+    height: 31px;
+    background: rgba(255, 255, 255, 0.781);  
+    margin: 16px 28px 16px 0;
+    float: left;
+}
+
+.trigger {
+    font-size: 18px;
+    line-height: 64px;
+    padding: 0 24px;
+    cursor: pointer;
+    transition: color .3s;
+  }
+  
+.trigger:hover {
+    color: #1890ff;
+  }
+
+.mytitle { 
+    color: #ffffff; 
+    font-size: 32px; 
+    font-weight: 600; 
+    line-height: 64px; 
+    text-align: center; 
+}
+
+.mymargin {
+    width: 100px;
+    margin: 0 8px 8px 0;
+}
+
+.hightravel { 
+    color:#002766; 
+    font-size: 54px; 
+    font-family:"Tahoma";
+    font-weight: 600; 
+    line-height: 64px; 
+    text-align: center; 
+    margin : 0 8px 48px 0;
+}
+
+.yourtrip { 
+    color:#030508; 
+    font-size: 44px; 
+    font-weight: 600; 
+    line-height: 54px; 
+    text-align: center; 
+    margin : 0 8px 48px 0;
+}
+
+.hellouser { 
+    color: #ffffff; 
+    font-size: 24px; 
+    font-weight: 500; 
+    line-height: 30px; 
+    text-align: center; 
+    margin : 0 38px 38px 0; 
+}
+
+.mywarning { 
+    color:#f5222d; 
+    font-size: 15px; 
+    font-weight: 400; 
+    text-align: center; 
+    margin : 0 8px 8px 0;
+}
+
+.myuser { 
+    color: #ffffff; 
+    font-size: 18px; 
+    font-weight: 500; 
+    line-height: 64px; 
+    text-align: center; 
+    margin-left:12px;
+}
+
+.myuser:hover{
+    background:#00474f;
+}
+  
+.introback{
+    background:#00474f;
+}
+
+.rulelistwrapper {
+  display: flex;
+  font-family: "primary";
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.ruleelement {
+  display: flex;
+  font-family: "primary";
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+
+.rule {
+  display: flex;
+  font-family: "primary";
+  width: 250px;
+  text-align: center;
+  verical-align: middle;
+  line-height: 20px;
+  padding: 5px;
+  margin-top: 2.5px;
+  margin-bottom: 2.5px;
+  top: 50%;
+  trasnform: translateY(-50%);
+  background: #ccccff;
+  border-radius: 20px;
+  word-wrap: break-word;
+  display: inline-block;
+}
+

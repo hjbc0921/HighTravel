@@ -1,41 +1,83 @@
-import React, { PropTypes } from 'react'
-import styled from 'styled-components'
-import { font, palette } from 'styled-theme'
-import Button from '../../../components/atoms/Button'
+import React from 'react'
+import { Button, Modal, Form, Input } from 'antd';
+const FormItem = Form.Item;
 
-const Wrapper = styled.div`
-  font-family: ${font('primary')};
-  color: ${palette('grayscale', 0)};
-`
-
-export const AddTrip = ({addTrip,onAddTrip}) => {
-
- let title,sinceWhen,untilWhen;
-
-  const onAddTripBtn = () => {
-    onAddTrip(title.value,sinceWhen.value,untilWhen.value)
+const TripCreateForm = Form.create()(
+  class extends React.Component {
+    render() {
+      const { visible, onCancel, onCreate, form } = this.props;
+      const { getFieldDecorator } = form;
+      return (
+        <Modal
+          visible={visible}
+          title="Create a new trip"
+          okText="Create"
+          onCancel={onCancel}
+          onOk={onCreate}
+        >
+          <Form layout="vertical">
+            <FormItem label="Title">
+              {getFieldDecorator('title', {
+                rules: [{ required: true, message: 'Please input the title of trip!' }],
+              })(
+                <Input />
+              )}
+            </FormItem>
+            <FormItem label="sinceWhen">
+              {getFieldDecorator('since', {
+                rules: [{ required: true, message: 'Please input the start date of trip!' }],
+              })(<Input type="date" />)}
+            </FormItem>
+            <FormItem label="untilWhen">
+              {getFieldDecorator('until', {
+                rules: [{ required: true, message: 'Please input the end date of trip!' }],
+              })(<Input type="date" />)}
+            </FormItem>
+          </Form>
+        </Modal>
+      );
+    }
   }
- 
-  return (
-    <Wrapper>
-      <div> {addTrip.message} </div>
-      <div> title : <input required ref={node=>{title = node;}} /></div>
-      <div> sinceWhen : <input required type ="date" ref={node=>{sinceWhen = node;}}/></div>
-      <div> untilWhen : <input required type ="date" ref={node=>{untilWhen = node;}}/></div>
-      <Button type ="submit" onClick={onAddTripBtn}>AddTrip</Button>
-    </Wrapper>
-  )
+);
+
+export class AddTrip extends React.Component {
+  state = {
+    visible: false,
+  };
+  showModal = () => {
+    this.setState({ visible: true });
+  }
+  handleCancel = () => {
+    this.setState({ visible: false });
+  }
+  handleCreate = () => {
+    const form = this.formRef.props.form;
+    form.validateFields((err, values) => {
+      if (err) {
+        return;
+      }
+      this.props.onAddTrip(values.title,values.since,values.until)
+      form.resetFields();
+      this.setState({ visible: false });
+    });
+    
+  }
+  saveFormRef = (formRef) => {
+    this.formRef = formRef;
+  }
+  render() {
+    return (
+      <div>
+        <Button type="primary" icon="plus" onClick={this.showModal}>Add Trip</Button>
+        <TripCreateForm
+          wrappedComponentRef={this.saveFormRef}
+          visible={this.state.visible}
+          onCancel={this.handleCancel}
+          onCreate={this.handleCreate}
+        />
+      </div>
+    );
+  }
 }
 
-AddTrip.propTypes = {
-  title : PropTypes.string.isRequired,
-  sinceWhen : PropTypes.string.isRequired,
-  untilWhen : PropTypes.string.isRequired
-}
 
-AddTrip.defaultProps = {
-  title: '',
-  sinceWhen:'',
-  untilWhen:''
-}
-//export default AddTrip

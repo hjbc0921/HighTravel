@@ -1,6 +1,6 @@
 import React from 'react'
-import { shallow } from 'enzyme'
 import Todo from './index'
+import { shallow } from 'enzyme'
 
 const onClick = jest.fn() 
 const wrap = (props = {}) => shallow(<Todo onClick = {onClick} {...props} />) 
@@ -12,3 +12,4 @@ expect(onClick).not.toBeCalled()
 wrapper.simulate('click') 
 expect(onClick).toBeCalled() 
  }) 
+

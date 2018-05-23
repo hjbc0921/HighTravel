@@ -1,22 +1,17 @@
 export const LOGIN_REQUEST = 'LOGIN_REQUEST';
-export const LOGOUT_REQUEST = 'LOGOUT_REQUEST';
 export const USER_INFO_RECEIVED = 'INTRO_RECEIVED';
 export const LOGIN_FAILED = 'LOGIN_FAILED';
-export const SIGNUPPAGE_REQUEST = 'SIGNUPPAGE_REQUEST';
 
-
-export const IntroReceived = ({uname, token, userId}) => {
+export const IntroReceived = ({username, token, userId}) => {
   return {
     type: USER_INFO_RECEIVED,
-    username: uname,
+    username: username,
     token: token,
     userId: userId
   }
 };
 
 export const loginFailed = (err) => {
-    console.log('action')
-    console.log(err)
   return {
     type: LOGIN_FAILED,
     errorMessage: err
@@ -31,9 +26,3 @@ return {
     password
   }
 };
-
-//export const signuppageRequest = () => {
-//  return {
-//  type: SIGNUPPAGE_REQUEST
-//}
-//}

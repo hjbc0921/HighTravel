@@ -4,12 +4,9 @@ import * as actions from './actions'
 import { STORE_TRIP_ID } from '../user/actions'
 
 const url = 'http://127.0.0.1:8000/api/schedules/'
-// const tripID = 1
-// const token = '703064ee14987e8bf3b6023620042bf8b644d52a'
 
-export function* loadSchedules(tripID) {
-    console.log('loadSchedules')
-    console.log(tripID)
+export function* loadSchedules() {
+    var tripID = sessionStorage.getItem('tripID')
     var tripScheduleUrl = url + 'trip/' + tripID + '/'
     console.log(tripScheduleUrl)
     
@@ -24,37 +21,40 @@ export function* loadSchedules(tripID) {
     console.log('tripSchedules')
     console.log(tripSchedules)
 
-    //var rules = tripRules.contents
-    yield put({ type : 'STORE_SCHEDULE', tripSchedules })
+    var schedules = tripSchedules
+    yield put({ type : 'STORE_SCHEDULE', schedules })
 }
 
 export function* postSchedule(contents, since, until) {
     console.log('post in postSchedule')
 
-    const state = yield select()
-    var token = state.intro.token
-    var tripID = state.user.tripID
+    var token = sessionStorage.getItem('token')
+    var tripID = sessionStorage.getItem('tripID')
 
     console.log(token)
     console.log(tripID)
     console.log(contents)
 
     let data
-    if (contents != undefined && since != undefined && until != undefined) {
-        console.log('**************')
-        data = yield call(fetch, url, {
-            method: 'POST',
-            body: JSON.stringify({ contents: contents, sinceWhen: since, tilWhen: until, tripID: tripID }),
-            headers: {
-                'Authorization': `token ${token}`,
-                'Content-Type': 'application/json'
-            }
-        })
-        console.log('---------------------------')
+    try {
+        if (contents != undefined && since != undefined && until != undefined) {
+            console.log('**************')
+            data = yield call(fetch, url, {
+                method: 'POST',
+                body: JSON.stringify({ contents: contents, sinceWhen: since, tilWhen: until, tripID: tripID }),
+                headers: {
+                    'Authorization': `token ${token}`,
+                    'Content-Type': 'application/json'
+                }
+            })
+            console.log('---------------------------')
+        }
+    } catch(e) {
+        console.log('postSchedule failed')
     }
     
     console.log('before loadSchedules')
-    yield call(loadSchedules, tripID)
+    yield call(loadSchedules)
 }
 
 export function* watchPostScheduleRequest() {
@@ -69,9 +69,15 @@ export function* watchPostScheduleRequest() {
     }
 }
 
+export function* watchStoreTripId() {
+    while (true) {
+        const action = yield take(STORE_TRIP_ID)
+        yield call(loadSchedules)
+    }
+}
+
 export default function* () {
-    const { tripID } = yield take(STORE_TRIP_ID) 
-    yield call(loadSchedules, tripID)
+    yield fork(watchStoreTripId)
     console.log('watchPostScheduleRequest')
     yield fork(watchPostScheduleRequest)
 }

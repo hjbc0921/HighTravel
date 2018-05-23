@@ -1,9 +1,10 @@
 import React from 'react'
 import Intro from '../../../containers/Intro'
+
 const intro = () => {
   return (
-    <div><Intro/></div>
+    <Intro/>
   )
 }
 
-export default Intro
+export default intro

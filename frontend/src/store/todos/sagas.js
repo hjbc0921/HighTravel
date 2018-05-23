@@ -4,23 +4,26 @@ import * as actions from './actions'
 import { STORE_TRIP_ID } from '../user/actions'
 
 const url = 'http://127.0.0.1:8000/api/todos/'
-// const tripID = 1
-// const token = '703064ee14987e8bf3b6023620042bf8b644d52a'
 
 export function* loadTodos(tripID) {
     console.log('loadTodos')
+    var tripID = sessionStorage.getItem('tripID')
     console.log(tripID)
     var tripTodoUrl = url + 'trip/' + tripID + '/'
+    var tripTodos
     console.log(tripTodoUrl)
     
-    var tripTodos
-    yield fetch(tripTodoUrl)
-        .then((resp) => resp.json())
-        .then(function(data) {
-            console.log('todos for trip')
-            tripTodos = data
-            console.log(tripTodos)
-        })
+    try {
+        yield fetch(tripTodoUrl)
+            .then((resp) => resp.json())
+            .then(function(data) {
+                console.log('todos for trip')
+                tripTodos = data
+                console.log(tripTodos)
+            })
+    } catch(e) {
+        console.log('load todo failed')
+    }
 
     yield put({ type : 'STORE_TODO', tripTodos })
 
@@ -29,28 +32,26 @@ export function* loadTodos(tripID) {
 export function* postTodo(contents) {
     console.log('post in postRule')
 
-    const state = yield select()
-    var token = state.intro.token
-    var tripID = state.user.tripID
-
-    console.log('**************')
-
+    var token = sessionStorage.getItem('token')
+    var tripID = sessionStorage.getItem('tripID')
     let data
-    if (contents != undefined) {
-        console.log('**************')
-        data = yield call(fetch, url, {
-            method: 'POST',
-            body: JSON.stringify({ contents: contents, tripID: tripID }),
-            headers: {
-                'Authorization': `token ${token}`,
-                'Content-Type': 'application/json'
-            }
-        })
-        console.log('---------------------------')
+
+    try {
+        if (contents != undefined) {
+            data = yield call(fetch, url, {
+                method: 'POST',
+                body: JSON.stringify({ contents: contents, tripID: tripID }),
+                headers: {
+                    'Authorization': `token ${token}`,
+                    'Content-Type': 'application/json'
+                }
+            })
+        }
+    } catch(e) {
+        console.log('post todo failed')
     }
     
-    console.log('before loadTodos')
-    yield call(loadTodos, tripID)
+    yield call(loadTodos)
 }
 
 export function* watchPostTodoRequest() {
@@ -63,9 +64,53 @@ export function* watchPostTodoRequest() {
     }
 }
 
+export function* toggleTodo(todoID, done) {
+    console.log('patch in toggleRule')
+
+    var token = sessionStorage.getItem('token')
+    var tripID = sessionStorage.getItem('tripID')
+    var todoUrl = url + todoID + '/'
+    let data
+
+    try {
+        if (todoID != undefined && done != undefined) {
+            console.log('**************')
+            data = yield call(fetch, todoUrl, {
+                method: 'PATCH',
+                body: JSON.stringify({ done: done }),
+                headers: {
+                    'Authorization': `token ${token}`,
+                    'Content-Type': 'application/json'
+                }
+            })
+        }
+    } catch(e) {
+        console.log('toggle todo failed')
+    }
+    
+    yield call(loadTodos)
+}
+
+export function* watchToggleTodoRequest() {
+    while (true) {
+        console.log('toggle todo in watch')
+        const { todoID, done } = yield take(actions.TOGGLE_TODO_REQUEST)
+        console.log(todoID)
+        console.log(done)
+        yield call(toggleTodo, todoID, done)
+        console.log('toggle todo in watch end')
+    }
+}
+
+export function* watchStoreTripId() {
+    while (true) {
+        const action = yield take(STORE_TRIP_ID)
+        yield call(loadTodos)
+    }
+}
+
 export default function* () {
-    const { tripID } = yield take(STORE_TRIP_ID) 
-    yield call(loadTodos, tripID)
-    console.log('watchPostTodoRequest')
+    yield fork(watchStoreTripId)
     yield fork(watchPostTodoRequest)
+    yield fork(watchToggleTodoRequest)
 }

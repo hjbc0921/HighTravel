@@ -2,8 +2,6 @@ import { initialState } from "./selectors"
 import {LOGIN_FAILED, USER_INFO_RECEIVED} from "./actions";
 
 const intro_reducer = (state = initialState, action) => {
-    console.log('intro_reducer')
-    console.log(action)
   switch(action.type) {
     case USER_INFO_RECEIVED:
       return Object.assign({},state,{

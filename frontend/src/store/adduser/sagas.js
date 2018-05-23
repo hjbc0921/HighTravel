@@ -11,55 +11,85 @@ const userUrl = 'http://127.0.0.1:8000/api/users/'
 export function* loadUsers(tripID) {
     console.log('loadUsers')
     console.log(tripID)
+    var myname = sessionStorage.getItem('username')
+    var tripTitle = sessionStorage.getItem('triptitle') 
     
-    var ourTrip;
-    yield fetch(url)
-        .then((resp) => resp.json())
-        .then(function(data) {
-            console.log('trip list')
-            ourTrip = data.find(t => t.id === tripID)
-        })
+    var ourTrip
+
+    try {
+        yield fetch(url)
+            .then((resp) => resp.json())
+            .then(function(data) {
+                console.log('trip list')
+                ourTrip = data.find(t => t.id == tripID)
+            })
+    } catch (e) {
+        console.log('Get Trip list failed')
+    }
 
     console.log(ourTrip)
-    var users = ourTrip.users
-    console.log(users)
-    var names = []
-    for (var i=0; i<users.length; i++) {
-        var u = users[i]
-        names.push({ id : u.id, name: u.username })
+    var userlist = ourTrip.users
+    console.log(userlist)
+    var userObjects = []
+    for (var i=0; i<userlist.length; i++) {
+        var u = userlist[i]
+        userObjects.push({ id : u.id, name: u.username })
     }
     
-    console.log(names)
-    var members = names.map(u => u.name)
-    var memberlist = members.join()
-    console.log(memberlist)
-    var msg = 'Trip with ' + memberlist
+    console.log(userObjects)
+    var members = userObjects.map(u => u.name)
+    var friends = []
+    var msg
+    var membernames
+
+    // make list of trip members except me
+    for (var i=0; i<members.length; i++)
+        if (myname !== members[i])
+            friends.push(members[i])
+
+        console.log(friends)
+        console.log('friends')
+
+    if (friends.length === 0)
+        msg = 'Invite other users'
+    else {
+        membernames = friends.join()
+        msg = tripTitle + ' with ' + membernames
+    }
+    console.log('you are here')
+    console.log(msg)
+
     var err = false
 
-    yield put({ type : 'STORE_USERS', names, msg, err });
+    var users = JSON.stringify(userObjects)
+    yield put({ type : 'STORE_USERS', users, msg, err });
 }
 
 export function* addUser(username) {
     console.log('post in addUser')
     console.log(username)
-    const state = yield select()
-    console.log(state)
-    var token = state.intro.token
-    var users = state.adduser.adduser
-    var tripID = state.user.tripID
-    console.log(users)
+    var token = sessionStorage.getItem('token') 
+    var userObjects = JSON.parse(sessionStorage.getItem('users'))
+    console.log(userObjects)
+    var tripID = sessionStorage.getItem('tripID')
+    var myname = sessionStorage.getItem('username')
+    var tripTitle = sessionStorage.getItem('triptitle') 
+    console.log(myname)
+    console.log(userObjects)
     console.log(tripID)
     var userID, invitee
     var ids = []
     var names = []
-    if (users != undefined) {
-        ids = users.map(u => u.id)
-        names = users.map(u => u.username)
+    var friends = []
+    var members
+    if (userObjects != undefined) {
+        ids = userObjects.map(u => u.id)
+        names = userObjects.map(u => u.name)
     }
 
-    var member = users.find(u => u.name === username)
+    var member = userObjects.find(u => u.name === username)
+    var users = JSON.stringify(userObjects)
     var msg, err
-    console.log(member)
     if (member != undefined) { // user is already in trip
         console.log('already exists')
         msg = username + ' already exists'
@@ -82,32 +112,52 @@ export function* addUser(username) {
         if (userID != undefined) { // if username is valid (userID exists)
             console.log(ids)
             ids.push(userID)
+            names.push(username)
+            console.log(names)
             console.log(ids)
             console.log(userID)
             var tripUrl = url + tripID + '/'
             var data
-            if (userID != undefined) {
-                data = yield call(fetch, tripUrl, {
-                    method: 'PATCH',
-                    body: JSON.stringify({ users: ids }),
-                    headers: {
-                        'Authorization': `token ${token}`,
-                        'Content-Type': 'application/json;'
-                    }
-                })
+            try {
+                if (userID != undefined) {
+                    data = yield call(fetch, tripUrl, {
+                        method: 'PATCH',
+                        body: JSON.stringify({ users: ids }),
+                        headers: {
+                            'Authorization': `token ${token}`,
+                            'Content-Type': 'application/json'
+                        }
+                    })
+                }
+            } catch(e) {
+                console.log('add user failed')
             }
-            console.log('before loadRules')
-            yield call(loadUsers, tripID)
-            names.push(username)
-            members = names.join()
-            msg = 'Trip with ' + members
+
+            // make list of trip members except me
+            for (var i=0; i<names.length; i++)
+                if (myname !== names[i])
+                    friends.push(names[i])
+
+            console.log(friends)
+            console.log('friends')
+
+            if (friends.length == 0)
+                msg = 'Invite other users'
+            else {
+                members = friends.join()
+                msg = tripTitle + ' with ' + members
+            }
+            console.log('you are here')
+            console.log(msg)
+
             err = false
             yield put({ type : 'STORE_USERS', users, msg, err });
+
         }
         else { // invalid username input
             msg = 'Invalid username'
             err = true
-            yield put({ type : 'STORE_USERS',users,  msg, err });
+            yield put({ type : 'STORE_USERS', users,  msg, err });
         }
     }
 }
@@ -122,11 +172,15 @@ export function* watchAddUserRequest() {
     }
 }
 
+export function* watchStoreTripId() {
+    while (true) {
+        const action = yield take(STORE_TRIP_ID)
+        console.log('tripID', action.tripID)
+        yield call(loadUsers, action.tripID)
+    }
+}
+
 export default function* () {
-    // wait until trip ID is given from User page (TripTitle button is clicked)
-    const { tripID } = yield take(STORE_TRIP_ID) 
-    yield call(loadUsers, tripID)
-    console.log(tripID)
-    console.log('watchAddUserRequest')
+    yield fork(watchStoreTripId)
     yield fork(watchAddUserRequest)
 }
