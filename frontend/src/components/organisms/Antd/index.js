@@ -26,11 +26,14 @@ const Antd = ({antd,changeContent,toggleCol}) => {
     const toggleCollapsed = () => {
         toggleCol(antd.collapsed)
     }
+    const gotoUser = () => {
+        sessionStorage.setItem('menu','home')
+    }
     return (
     <Layout>
         <Header style={{ background: '#002329' }}>
             <Row type="flex">
-            <Col span={4}><Link to="/user"><Button icon="user" ghost> {sessionStorage.getItem('username')}</Button></Link></Col>
+            <Col span={4}><Link to="/user"><Button icon="user" ghost onClick={gotoUser}> {sessionStorage.getItem('username')}</Button></Link></Col>
             <Col span={18}><div className="mytitle">{sessionStorage.getItem("triptitle")}</div></Col>
             <Col span={2}><Logout/></Col>
             </Row>
@@ -45,7 +48,7 @@ const Antd = ({antd,changeContent,toggleCol}) => {
                 mode="inline"
                 theme="light"
                 onClick={handleClick}
-                selectedKeys={[antd.current]}
+                selectedKeys={[sessionStorage.getItem('menu')]}
                 defaultSelectedKeys={['1']}
                 defaultOpenKeys={[]}
                 style={{ height: '100%', borderRight: 0 }}
@@ -64,12 +67,12 @@ const Antd = ({antd,changeContent,toggleCol}) => {
             <Layout style={{ padding: '10px 10px 10px',minHeight: '100vh' }}>
                 <Content style={{ margin: '0 16px', }}>
                     <div style={{ padding: 24, background: '#fff', minHeight: '100vh' }}>
-                    {(antd.current==="home") && <div> <HomePage/> </div>}
-                    {(antd.current==="rules") && <div> <Rules/> </div>}
-                    {(antd.current==="money") && <div> <Money/> </div>}
-                    {(antd.current==="photo") && <div> <Photo/> </div>}
-                    {(antd.current==="diary") && <div> <Diary/> </div>}
-                    {(antd.current==="setting") && <div> <AddUser/> </div>}
+                    {(sessionStorage.getItem('menu')==="home") && <div> <HomePage/> </div>}
+                    {(sessionStorage.getItem('menu')==="rules") && <div> <Rules/> </div>}
+                    {(sessionStorage.getItem('menu')==="money") && <div> <Money/> </div>}
+                    {(sessionStorage.getItem('menu')==="photo") && <div> <Photo/> </div>}
+                    {(sessionStorage.getItem('menu')==="diary") && <div> <Diary/> </div>}
+                    {(sessionStorage.getItem('menu')==="setting") && <div> <AddUser/> </div>}
                     </div>
                 </Content>
             </Layout>
