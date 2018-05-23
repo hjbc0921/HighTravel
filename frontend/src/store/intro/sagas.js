@@ -24,6 +24,8 @@ export function* login(username, pwd) {
                 userId = user.id
                 console.log(userId)
         })
+        sessionStorage.setItem('username',username)
+        sessionStorage.setItem('token',token)
         yield put(actions.IntroReceived({username,token,userId}))
         yield put(push('/user'))
         } catch(err){

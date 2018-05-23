@@ -9,8 +9,7 @@ const url = 'http://127.0.0.1:8000/api/trips/'
 export function* loadTrips(userId) {
     
     var trips;
-    var tripIDs = ""
-    var titles = ""
+    var mytrips = [];
     var t, u
     var users
 
@@ -25,8 +24,7 @@ export function* loadTrips(userId) {
                   for (var j=0; j<users.length; j++) {
                     u = users[j]
                     if (u.id === userId){
-                        tripIDs = tripIDs + t.id + ","
-                        titles  = titles + t.title + ","
+                        mytrips.push({id:t.id,title:t.title})
                     }
                 }
             }
@@ -34,9 +32,9 @@ export function* loadTrips(userId) {
     } catch (e) {
         console.log('load trip faild')
     }
-    console.log("#########usersaga@@@",tripIDs,titles)
+    console.log("#########usersaga@@@",mytrips)
 
-    yield put({ type : 'STORE_TRIP', tripIDs, titles });
+    yield put({ type : 'STORE_TRIP', mytrips});
 }
 
 export function* watchLogin () {

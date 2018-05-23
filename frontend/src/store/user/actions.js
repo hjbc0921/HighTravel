@@ -1,12 +1,11 @@
 export const STORE_TRIP = 'STORE_TRIP';
 
 // action for store trip list of specific user
-export const storeTrip = (tripIDs,titles) => {
+export const storeTrip = (mytrips) => {
   console.log('action storeTrip')
   return {
     type: STORE_TRIP,
-    tripIDs: tripIDs,
-    titles: titles
+    mytrips : mytrips,
   }
 }
 

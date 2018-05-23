@@ -8,8 +8,9 @@ const logout_reducer = (state = initialState, action) => {
     sessionStorage.setItem('token',null)
     sessionStorage.setItem('tripID',null)
     sessionStorage.setItem('triptitle',null)
-    sessionStorage.setItem('tripIDs',null)
-    sessionStorage.setItem('titles',null)
+    sessionStorage.setItem('mytrips',null)
+    sessionStorage.setItem('rules',null)
+    sessionStorage.setItem('users',null)
       return Object.assign({},state,{
         trying : true,
         success : true,
