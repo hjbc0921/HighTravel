@@ -2,6 +2,7 @@ import React, { PropTypes } from 'react'
 import styled from 'styled-components'
 import { font, palette } from 'styled-theme'
 const ReactDataGrid = require('react-data-grid');
+import AddExpense from '../../../containers/Addexpense'
 
 const Wrapper = styled.div`
   font-family: ${font('primary')};
@@ -14,18 +15,18 @@ export class Expense extends React.Component {
     this.createRows();
     this._columns = [
       { key: 'id', name: 'ID' },
-      { key: 'date', name: 'Date'},
+      { key: 'date', name: 'Date', editable:true},
       { key : 'spender', name: 'Spender'},
-      { key: 'contents', name: 'Contents' },
-      { key: 'money', name: 'Money' } ];
+      { key: 'contents', name: 'Contents', editable:true },
+      { key: 'money', name: 'Money',editable:true } ];
 
-    this.state = null;
+    this.state =  { rows: this.createRows(5) };
   }
 
-  createRows = () => {
+  createRows = (numberOfRows) => {
     let rows = [];
     var total = 0;
-    for (let i = 1; i < 5; i++) {
+    for (let i = 1; i < numberOfRows; i++) {
       rows.push({
         id: i,
         contents: 'ticket'+i,
@@ -38,20 +39,41 @@ export class Expense extends React.Component {
     rows.push({id:""});
     rows.push({id:"total",spender: 'swpp1', money: total});
 
-    this._rows = rows;
+    return rows;
+  };
+
+  handleGridRowsUpdated = ({ fromRow, toRow, updated }) => {
+    let rows = this.state.rows.slice();
+    console.log("EXPENSE PARAM!!!!!!!!",fromRow,toRow,updated)
+    for (let i = fromRow; i <= toRow; i++) {
+      let rowToUpdate = rows[i];
+      console.log("EXPENSE ROW########",rowToUpdate)
+      console.log("EXPENSE COL@@@@@@@",rowToUpdate.id)
+      let updatedRow = update(rowToUpdate, {$merge: updated});
+      rows[i] = updatedRow;
+    }
+
+    this.setState({ rows });
   };
 
   rowGetter = (i) => {
-    return this._rows[i];
+    return this.state.rows[i];
   };
 
   render() {
-    return  (
-      <ReactDataGrid
-        columns={this._columns}
-        rowGetter={this.rowGetter}
-        rowsCount={this._rows.length}
-        minHeight={500} />);
+  return  (
+    <div>
+    <ReactDataGrid
+      enableCellSelect={true}
+      columns={this._columns}
+      rowGetter={this.rowGetter}
+      rowsCount={this.state.rows.length}
+      minHeight={500}
+      onGridRowsUpdated={this.handleGridRowsUpdated} />
+    <br></br>
+    <AddExpense/>
+    </div>
+  )
   }
 }
 
