@@ -12,8 +12,6 @@ export const IntroReceived = ({username, token, userId}) => {
 };
 
 export const loginFailed = (err) => {
-    console.log('action')
-    console.log(err)
   return {
     type: LOGIN_FAILED,
     errorMessage: err

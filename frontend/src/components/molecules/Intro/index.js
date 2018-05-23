@@ -29,9 +29,6 @@ export const Intro = ({intro, onLogin}) => {
 
   let username, password;
   const onLoginBtn = () => {
-    //console.log("########index.js of Intro page#########");
-    //console.log(username.value);
-    //console.log(password.value);
     if (username.value!=undefined && password.value!=undefined){
     onLogin(username.value, password.value);
     username.value = ''

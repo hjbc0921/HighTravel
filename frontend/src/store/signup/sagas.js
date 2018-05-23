@@ -10,7 +10,7 @@ function getCSRFToken() {
     var cookieValue = null;
     if (document.cookie && document.cookie != ''){
         var cookies = document.cookie.split(';');
-        console.log(cookies)
+        //console.log(cookies)
         for (var i=0;i<cookies.length;i++){
             var cookie = cookies[i];
             if (cookie.substring(0,10) == ('csrftoken'+'=')) {
@@ -23,14 +23,12 @@ function getCSRFToken() {
 }
 
 export function* signUp(username, password,pwd_check) {
-    console.log('post in postRule')
     if (password != pwd_check) yield put(actions.signupFail("pwd_check is different from your password"))
     else{
     //let csrftoken = getCSRFToken()
     //console.log(csrftoken)
         let data;
         if (username != undefined && password != undefined) {
-            console.log('**************')
             try {data = yield call(api.post, url, {username: username, password: password})
             yield put(actions.signupSuc())
             yield put(push('/intro'))
@@ -38,7 +36,6 @@ export function* signUp(username, password,pwd_check) {
             console.log(err.toString());
             yield put(actions.signupFail("username already exists"))
             }
-        console.log('---------------------------')
         }
     }
 }

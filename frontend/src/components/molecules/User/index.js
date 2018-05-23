@@ -35,7 +35,6 @@ const TripTitle = styled.button`
 
 const User = ({tripIdSave }) => {
   var triplist = JSON.parse(sessionStorage.getItem('mytrips'))
-  console.log("#######usertriplist@@@@",triplist)
 
   return (
     <Wrapper>

@@ -32,7 +32,6 @@ export function* loadTrips(userId) {
     } catch (e) {
         console.log('load trip faild')
     }
-    console.log("#########usersaga@@@",mytrips)
 
     yield put({ type : 'STORE_TRIP', mytrips});
 }
@@ -40,7 +39,6 @@ export function* loadTrips(userId) {
 export function* watchLogin () {
     while (true) {
         const {userId} = yield take(USER_INFO_RECEIVED)
-        console.log("######loadtrip get userid@@@@@",userId)
         yield call(loadTrips,userId)
     }
 }

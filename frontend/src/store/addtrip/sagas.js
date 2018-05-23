@@ -8,7 +8,6 @@ export function* postTrip(title, sinceWhen, untilWhen) {
     
     var token = sessionStorage.getItem('token')
     var mytrips = JSON.parse(sessionStorage.getItem('mytrips'))
-    console.log("sagaADDTRIP@@@@@@@",token,mytrips)
     let data;
     if (title != undefined && sinceWhen != undefined && untilWhen != undefined) {
         data = yield call(fetch, url, {
@@ -19,37 +18,25 @@ export function* postTrip(title, sinceWhen, untilWhen) {
                 'Content-Type': 'application/json;'
             }
         })
-        console.log('addtripsaga---------------------------')
     }
     if (!data.ok){
         yield put(actions.addtripFail("Check the date"))
     }
     else{
         let body = yield call([data, data.json])
-        console.log(body)
         var tripJson = {id:body.id, title:body.title}
-        console.log('addtripsaga@@@@@@@@@@@@@@@@@@',mytrips)
-        console.log('addtripsaga@@@@@@@@@@@@@@@@@@',tripJson)
         mytrips.push(tripJson)
-        
-        console.log('addtripsaga@@@@@@@@@@@@@@@@@@',mytrips)
         yield put({ type : 'STORE_TRIP', mytrips });
     }
 }
 
 export function* watchPostTripRequest() {
     while (true) {
-        console.log('post in watch')
         const { title, sinceWhen, untilWhen } = yield take(actions.ADDTRIP_REQUEST)
-        console.log(title)
-        console.log(sinceWhen)
-        console.log(untilWhen)
         yield call(postTrip, title, sinceWhen, untilWhen)
-        console.log('post in watch end')
     }
 }
 
 export default function* () {
-    console.log('watchPostTripRequest')
     yield fork(watchPostTripRequest)
 }
