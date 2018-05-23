@@ -42,7 +42,7 @@ const User = ({tripIdSave }) => {
     <InnerWrapper>
     <br></br>
       <h1 className="yourtrip">Your Trips</h1>
-      {triplist!==null && triplist!=="null" && triplist.map(trip =>
+      {triplist!==null && triplist.map(trip =>
       <div key={trip.id}><Link to ="/"> <TripTitle onClick={ event => tripIdSave(trip.id, trip.title) }>{trip.title}</TripTitle>
       </Link></div>
       )}

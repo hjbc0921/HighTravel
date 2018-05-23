@@ -64,13 +64,11 @@ return (
 Intro.propTypes = {
   username: PropTypes.string.isRequired,
   password: PropTypes.string.isRequired,
-  errorMessage: PropTypes.string
 }
 
 Intro.defaultProps = {
   username: '',
   password: '',
-  errorMessage: ''
 };
 
 export default Intro
