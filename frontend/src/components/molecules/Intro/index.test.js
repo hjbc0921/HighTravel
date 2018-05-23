@@ -1,15 +1,15 @@
 import React from 'react'
 import { shallow } from 'enzyme'
-import Intro from '.'
+import Intro from './index'
 
-const wrap = (props = {}) => shallow(<Intro {...props} />)
+const onLogin = jest.fn()
+const wrap = (props = {}) => shallow(<Intro onLogin = {onLogin} {...props} />)
 
-it('renders children when passed in', () => {
-  const wrapper = wrap({ children: 'test' })
-  expect(wrapper.contains('test')).toBe(true)
+it ('calls onLoginBtn when Clicked', () => {
+    onLoginBtn.mockClear()
+    const wrapper = wrap()
+    expect(onLoginBtn).not.toBeCalled()
+    wrapper.simulate('click')
+    expect(onLoginBtn).toBeCalled()
 })
 
-it('renders props when passed in', () => {
-  const wrapper = wrap({ id: 'foo' })
-  expect(wrapper.find({ id: 'foo' })).toHaveLength(1)
-})

@@ -3,6 +3,7 @@ export const STORE_TRIP = 'STORE_TRIP';
 // action for store trip list of specific user
 export const storeTrip = (ownTrip) => {
   console.log('action storeTrip')
+  console.log("user action executed")
   return {
     type: STORE_TRIP,
     ownTrip: ownTrip
