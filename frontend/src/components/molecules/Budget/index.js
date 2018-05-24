@@ -2,6 +2,7 @@ import React, { PropTypes } from 'react'
 import styled from 'styled-components'
 import { font, palette } from 'styled-theme'
 const ReactDataGrid = require('react-data-grid');
+import AddBudget from '../../../containers/Addbudget'
 
 const Wrapper = styled.div`
   font-family: ${font('primary')};
@@ -14,8 +15,8 @@ export class Budget extends React.Component {
     this.createRows();
     this._columns = [
       { key: 'id', name: 'ID' },
-      { key: 'contents', name: 'Contents' },
-      { key: 'money', name: 'Money' } ];
+      { key: 'contents', name: 'Contents', editable:true },
+      { key: 'money', name: 'Money', editable:true } ];
 
     this.state = null;
   }
@@ -43,11 +44,16 @@ export class Budget extends React.Component {
 
   render() {
     return  (
+      <div>
       <ReactDataGrid
         columns={this._columns}
         rowGetter={this.rowGetter}
         rowsCount={this._rows.length}
-        minHeight={500} />);
+        minHeight={200} />
+      <br></br>
+      <AddBudget/>
+      </div>
+    );    
   }
 }
 
