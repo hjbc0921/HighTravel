@@ -34,24 +34,14 @@ const TripTitle = styled.button`
 `
 
 const User = ({tripIdSave }) => {
-  var triplist = []
-  if (sessionStorage.getItem('titles')!==null || sessionStorage.getItem('titles')!=="null" ){
-    var tripIDs = sessionStorage.getItem('tripIDs').split(",")
-    var titles = sessionStorage.getItem('titles').split(",")
-    console.log("#######usertriplist@@@@",tripIDs,titles)
-    var i
-    for (i=0; i<titles.length-1; i++){
-      triplist.push({id:tripIDs[i],title:titles[i]})
-    }
-  }
-  console.log("#######usertriplist@@@@",triplist)
+  var triplist = JSON.parse(sessionStorage.getItem('mytrips'))
 
   return (
     <Wrapper>
     <InnerWrapper>
     <br></br>
       <h1 className="yourtrip">Your Trips</h1>
-      {triplist.map(trip =>
+      {triplist!==null && triplist.map(trip =>
       <div key={trip.id}><Link to ="/"> <TripTitle onClick={ event => tripIdSave(trip.id, trip.title) }>{trip.title}</TripTitle>
       </Link></div>
       )}

@@ -1,5 +1,5 @@
 import React, { PropTypes } from 'react'
-import {Button} from 'antd'
+import {Button} from 'antd';
 
 export const AddUser = ({addUser, onAddUser}) => {
   let username

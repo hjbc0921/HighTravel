@@ -3,10 +3,9 @@ import { initialState } from "./selectors"
 const user_reducer = (state = initialState, action) => {
    switch (action.type) {
         case 'STORE_TRIP':
-            sessionStorage.setItem('tripIDs',action.tripIDs)
-            sessionStorage.setItem('titles',action.titles)
+            sessionStorage.setItem('mytrips',JSON.stringify(action.mytrips))
 			return Object.assign({}, state, {
-                trips : action.tripIDs,
+                trips : action.mytrips,
             })
         case 'STORE_TRIP_ID':
             sessionStorage.setItem('tripID',action.tripID)

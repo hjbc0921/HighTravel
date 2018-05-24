@@ -2,12 +2,8 @@ import { initialState } from "./selectors"
 import {LOGIN_FAILED, USER_INFO_RECEIVED} from "./actions";
 
 const intro_reducer = (state = initialState, action) => {
-    console.log('intro_reducer')
-    console.log(action)
   switch(action.type) {
     case USER_INFO_RECEIVED:
-    sessionStorage.setItem('username',action.username)
-    sessionStorage.setItem('token',action.token)
       return Object.assign({},state,{
         trying : true,
         success : true,

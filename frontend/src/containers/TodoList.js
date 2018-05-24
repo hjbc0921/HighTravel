@@ -3,10 +3,7 @@ import { toggleTodo } from '../store/todos/actions'
 import { TodoList } from '../components/molecules/TodoList'
 
 const mapStateToProps = (state) => {
-    console.log('Todolist container')
-    console.log(state)
     var todos = sessionStorage.getItem('todos')
-    console.log(todos)
 
     return {
         todoliststate: JSON.parse(todos)

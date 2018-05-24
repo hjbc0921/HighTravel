@@ -8,6 +8,7 @@ const intro_reducer = (state = initialState, action) => {
         collapsed : !action.col
       })
     case CHANGE:
+      sessionStorage.setItem('menu',action.e)
       return Object.assign({},state,{
         current : action.e
       })

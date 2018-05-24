@@ -1,10 +1,10 @@
 import { connect } from 'react-redux'
-import Budget from "../components/molecules/Budget";
+import {Budget} from "../components/molecules/Budget";
 import {changeContents,toggleCollapsed} from "../store/antd/actions";//modify code!
 
 const mapStateToProps = (state) => {
   return {
-    antd: state.antd,
+    budget: state.budget,
   }
 };
 

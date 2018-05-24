@@ -12,7 +12,6 @@ const mapDispatchToProps = (dispatch) => {
     return {
         onPostRule: (input) => {
             dispatch(postRuleRequest(input))
-            console.log('in onPostRule')
         }
     }
 }

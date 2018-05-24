@@ -4,12 +4,7 @@ import {LOGOUT_REQUEST} from "./actions";
 const logout_reducer = (state = initialState, action) => {
   switch(action.type) {
     case LOGOUT_REQUEST:
-    sessionStorage.setItem('username',null)
-    sessionStorage.setItem('token',null)
-    sessionStorage.setItem('tripID',null)
-    sessionStorage.setItem('triptitle',null)
-    sessionStorage.setItem('tripIDs',null)
-    sessionStorage.setItem('titles',null)
+    sessionStorage.clear()
       return Object.assign({},state,{
         trying : true,
         success : true,

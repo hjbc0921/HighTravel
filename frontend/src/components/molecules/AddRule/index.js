@@ -16,18 +16,10 @@ const Wrapper = styled.div`
 export const AddRule = ({ statefunction, onPostRule }) => {
   let input
   var empty
-  console.log(onPostRule)
-  console.log('asdf')
 
   const onSubmit = () => {
-    console.log('outer scope of it')
-    console.log(input)
-    console.log(input.value)
-    console.log(input.value == '')
     if (input != undefined) {
-        console.log('inner scope of it')
         onPostRule(input.value)
-        console.log('post is done')
         input.value = ''
     }
   };
