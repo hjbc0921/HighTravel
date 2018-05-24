@@ -2,8 +2,8 @@ import { take, put, call, fork } from 'redux-saga/effects'
 import api from 'services/api'
 import * as actions from './actions'
 import { push } from 'react-router-redux'
-const loginUrl = 'http://127.0.0.1:8000/api-token-auth/'
-const userUrl = 'http://127.0.0.1:8000/api/users/'
+const loginUrl = 'http://'+location.host+'/api-token-auth/'
+const userUrl = 'http://'+location.host+'/api/users/'
 
 const errMsg = 'Wrong username or wrong password'
 

@@ -4,7 +4,7 @@ import { Home, User, Intro, Signup, None} from './components/pages'
 
 function requireAuth(nextState, replace) {
   if (sessionStorage.getItem('token')==="null" || sessionStorage.getItem('token')===null) {
-    replace({
+   replace({
       pathname: '/intro',
       state: { nextPathname: nextState.location.pathname }
     })

@@ -9,7 +9,7 @@ const HomePage = () => {
     <div>
      <AddSchedule/>
      <br/><br/>
-     <ShowSchedule/>
+     <ShowSchedule/> 
      <br/><br/>
      <AddTodo/>
      <br/><br/>

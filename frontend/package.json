@@ -41,6 +41,7 @@
     "@kadira/storybook": "^2.35.2",
     "@webpack-blocks/dev-server2": "^0.4.0",
     "@webpack-blocks/webpack2": "^0.4.0",
+    "antd": "^3.5.3",
     "babel-core": "^6.21.0",
     "babel-eslint": "^7.1.1",
     "babel-jest": "^19.0.0",
@@ -79,10 +80,12 @@
     "webpack-md5-hash": "^0.0.5"
   },
   "dependencies": {
-    "antd": "^3.5.3",
     "babel-polyfill": "^6.20.0",
+    "fullcalendar": "^3.9.0",
+    "fullcalendar-reactwrapper": "^1.0.7",
     "history": "3.0.0",
-    "jest": "^22.4.3",
+    "jest": "^22.4.4",
+    "jquery": "^3.3.1",
     "lodash": "^4.17.4",
     "normalizr": "^3.0.1",
     "query-string": "^4.3.2",

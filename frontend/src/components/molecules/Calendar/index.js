@@ -1,10 +1,9 @@
 import React, { PropTypes } from 'react';
-import Calendar from 'react-calendar';
- 
- 
+import ReactDOM from 'react-dom';
+import FullCalendar from 'fullcalendar-reactwrapper';
+
 export const ShowSchedule = ({onDay}) =>{
   let state = { date : new Date()}
- 
     const onchange = date =>{
      state.date = date
     }
@@ -13,11 +12,21 @@ export const ShowSchedule = ({onDay}) =>{
    }
     return (
       <div>
-        <Calendar
-          onChange={onchange}
-          onClickDay={onDayClick}
-          value={state.date}
-        />
+        <FullCalendar
+         header = {{
+            left: 'prev,next today myCustomButton',
+            center: 'title',
+            right: 'month,basicWeek,basicDay'
+        }}
+         defaultDate={'2017-09-12'}
+        navLinks= {true} // can click day/week names to navigate views
+        editable= {true}
+        eventLimit= {true} // allow "more" link when too many events
+        events = {state.events}
+		onChange={onchange}
+        onClickDay={onDayClick}
+        value={state.date}
+    />
       </div>
     );
 }
@@ -30,3 +39,4 @@ ShowSchedule.propTypes = {
 }
 
 export default ShowSchedule
+

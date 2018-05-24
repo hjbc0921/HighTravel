@@ -3,13 +3,13 @@ import { shallow } from 'enzyme'
 import Intro from './index'
 
 const onLogin = jest.fn()
-const wrap = (props = {}) => shallow(<Intro onLogin = {onLogin} {...props} />)
+const wrap = (props = {}) => shallow(<Intro onLogin = {onLoginBtn} {...props} />)
 
-it ('calls onLoginBtn when Clicked', () => {
-    onLoginBtn.mockClear()
+it ('calls onLogin when Clicked', () => {
+    onLogin.mockClear()
     const wrapper = wrap()
-    expect(onLoginBtn).not.toBeCalled()
+    expect(onLogin).not.toBeCalled()
     wrapper.simulate('click')
-    expect(onLoginBtn).toBeCalled()
+    expect(onLogin).toBeCalled()
 })
 
