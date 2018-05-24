@@ -19,6 +19,7 @@ export function* login(username, pwd) {
                 user = data.find(u => u.username === username)
                 userId = user.id
         })
+        sessionStorage.setItem('userID', userId)
         sessionStorage.setItem('username',username)
         sessionStorage.setItem('token',token)
         yield put(actions.IntroReceived({username,token,userId}))

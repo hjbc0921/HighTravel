@@ -4,7 +4,7 @@ import {changeContents,toggleCollapsed} from "../store/antd/actions";//modify co
 
 const mapStateToProps = (state) => {
   return {
-    antd: state.antd,
+    expense: state.expense,
   }
 };
 
