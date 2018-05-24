@@ -4,7 +4,7 @@ import * as actions from './actions'
 const url = 'http://127.0.0.1:8000/api/trips/'
 
 export function* postTrip(title, sinceWhen, untilWhen) {
-    
+   
     var token = sessionStorage.getItem('token')
     var tripIDs = sessionStorage.getItem('tripIDs')
     var titles = sessionStorage.getItem('titles')
