@@ -80,9 +80,9 @@
     "webpack-md5-hash": "^0.0.5"
   },
   "dependencies": {
-    "antd": "^3.5.3",
     "babel-polyfill": "^6.20.0",
     "fullcalendar": "^3.9.0",
+    "fullcalendar-reactwrapper": "^1.0.7",
     "history": "3.0.0",
     "jest": "^22.4.4",
     "jquery": "^3.3.1",

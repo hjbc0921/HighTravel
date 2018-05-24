@@ -4,7 +4,7 @@ import * as actions from './actions'
 import { push } from 'react-router-redux'
 
 //const url = 'http://127.0.0.1:8000/api/accounts/signup/'
-const url = 'http://127.0.0.1:8000/api/addusers/'
+const url = 'http://'+ location.host+'/api/addusers/'
 
 function getCSRFToken() {
     var cookieValue = null;

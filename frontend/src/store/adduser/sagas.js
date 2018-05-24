@@ -4,8 +4,8 @@ import api from 'services/api'
 import * as actions from './actions'
 import { STORE_TRIP_ID } from '../user/actions'
 
-const url = 'http://127.0.0.1:8000/api/trips/'
-const userUrl = 'http://127.0.0.1:8000/api/users/'
+const url = 'http://'+location.host+'/api/trips/'
+const userUrl = 'http://'+location.host+'/api/users/'
 
 
 export function* loadUsers(tripID) {

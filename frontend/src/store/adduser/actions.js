@@ -10,7 +10,8 @@ export const ADDUSER_REQUEST = 'ADDUSER_REQUEST';
 
 export const adduserRequest = (username) => {
     console.log('=====Adduser Request action==')
-    console.log(username)
+    console.log("add user request executed")
+console.log(username)
   return {
     type: ADDUSER_REQUEST,
     username

@@ -1,7 +1,7 @@
 import { take, call, fork, select, put} from 'redux-saga/effects'
 import api from 'services/api'
 import * as actions from './actions'
-const url = 'http://127.0.0.1:8000/api/trips/'
+const url = 'http://'+location.host+'/api/trips/'
 import STORE_TRIP from './../user/actions'
 
 export function* postTrip(title, sinceWhen, untilWhen) {
