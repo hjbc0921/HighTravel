@@ -1,6 +1,7 @@
 import React, { PropTypes } from 'react';
 import ReactDOM from 'react-dom';
 import FullCalendar from 'fullcalendar-reactwrapper';
+import 'fullcalendar-reactwrapper/dist/css/fullcalendar.min.css'
 
 export const ShowSchedule = ({onDay}) =>{
   let state = { date : new Date()}
