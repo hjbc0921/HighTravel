@@ -19,12 +19,11 @@ export const ShowSchedule = ({onDay}) =>{
             center: 'title',
             right: 'month,basicWeek,basicDay'
         }}
-         defaultDate={'2017-09-12'}
         navLinks= {true} // can click day/week names to navigate views
         editable= {true}
         eventLimit= {true} // allow "more" link when too many events
         events = {state.events}
-		onChange={onchange}
+                onChange={onchange}
         onClickDay={onDayClick}
         value={state.date}
     />
