@@ -19,10 +19,11 @@ export const AddPhoto = ({onAddPhoto}) => {
  //  document.write("<img src='" + image + "'>"); 
    }
   const onAddPhotoBtn = () => {
-    if(state.selectedFile = null)
+    if(state.selectedFile == null)
      throw "select image file";
     else
-    onAddPhoto(state.selectedFile,text);
+    onAddPhoto(state.selectedFile, text.value);
+    text.value = ''
   } 
   return (
   <div className="photo">
@@ -37,7 +38,7 @@ AddPhoto.propTypes = {
   state : PropTypes.arrayOf(PropTypes.shape({
   SelectedFile:PropTypes.string.isRequired
   })),
-  text : PropTypes.string.isRequired
+  text : PropTypes.string
 }
 
 export default AddPhoto
