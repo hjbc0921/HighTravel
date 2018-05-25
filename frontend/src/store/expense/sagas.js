@@ -2,7 +2,8 @@ import { take, call, fork, select, put} from 'redux-saga/effects'
 import api from 'services/api'
 import * as actions from './actions'
 const url = 'http://127.0.0.1:8000/api/expenses/'
-import { STORE_TRIP_ID } from '../user/actions'
+// import { STORE_TRIP_ID } from '../user/actions'
+import { STORE_USERS } from '../adduser/actions'
 
 export function* loadExpense() {
     var tripID = sessionStorage.getItem('tripID')
@@ -20,7 +21,42 @@ export function* loadExpense() {
         console.log("load expense failed")
     }
 
+    var users = JSON.parse(sessionStorage.getItem('users'))
+    console.log(users)
+
+    // total expense for each user
+    var totalExpenses = {}
+    // mapping userID and username
+    var userIdName = {}
+    var personId, personName
+    for (var i=0; i<users.length; i++) {
+        console.log('@@@@@@1@@@@@@@@')
+        personId = users[i].id
+        console.log('@@@@@@2@@@@@@@@', personId, users[i].name)
+        personName = users[i].name
+        userIdName[personId] = personName
+        totalExpenses[personName] = 0
+        console.log('@@@@@@3@@@@@@@@')
+    }
+    console.log(userIdName)
+    console.log(totalExpenses)
+    console.log(tripExpenses)
+
+    var spenderId
+    var spenderName
+    for (var i=0; i<tripExpenses.length; i++) {
+        spenderId = tripExpenses[i].spender
+        console.log(spenderId)
+        spenderName = userIdName[spenderId]
+        tripExpenses[i].spender = spenderName // change spender from id to name
+        totalExpenses[spenderName] += tripExpenses[i].money
+    }
+
+    console.log('totalExpenses', totalExpenses)
+    console.log('tripExpenses', tripExpenses)
+
     sessionStorage.setItem('tripExpenses',JSON.stringify(tripExpenses))
+    sessionStorage.setItem('totalExpenses',JSON.stringify(totalExpenses))
 }
 
 export function* postExpense(contents,date,money){
@@ -55,7 +91,7 @@ export function* watchPostRequest () {
 
 export function* watchStoreTripId () {
     while (true) {
-        const action = yield take(STORE_TRIP_ID)
+        const action = yield take(STORE_USERS)
         yield call(loadExpense)
     }
 }

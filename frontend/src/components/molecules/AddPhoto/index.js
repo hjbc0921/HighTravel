@@ -10,7 +10,7 @@ const Wrapper = styled.div`
 `
 
 export const AddPhoto = ({onAddPhoto}) => {
-  let text='';
+  let text;
   let state = {selectedFile: null};
 
   const fileChangedHandler = (event) => {
