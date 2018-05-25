@@ -9,7 +9,7 @@ import Photo from '../../organisms/Photo'
 import AddUser from "../../../containers/AddUser";
 import Logout from "../../../containers/Logout"
 import {Link} from 'react-router'
-
+import img from './../../image2.jpg';
 //ANTD
 import { Layout, Menu, Button, Affix, Row, Col} from 'antd';
 const SubMenu = Menu.SubMenu;
@@ -18,6 +18,15 @@ const MenuItemGroup = Menu.ItemGroup;
 import Icon from 'antd/lib/icon';
 import 'antd/dist/antd.css';
 import '../../item.css'
+import styled from 'styled-components'
+import { font, palette } from 'styled-theme'
+
+const Wrapper = styled.div`
+  background-image: url(${img});
+  background-size: cover;
+  width: 100vw;
+  height: 20vh;
+`;
 
 const Antd = ({antd,changeContent,toggleCol}) => {
     const handleClick = (e) => {
@@ -31,13 +40,15 @@ const Antd = ({antd,changeContent,toggleCol}) => {
     }
     return (
     <Layout>
-        <Header style={{ background: '#002329' }}>
-            <Row type="flex">
-            <Col span={4}><Link to="/user"><Button icon="user" ghost onClick={gotoUser}> {sessionStorage.getItem('username')}</Button></Link></Col>
-            <Col span={18}><div className="mytitle">{sessionStorage.getItem("triptitle")}</div></Col>
+        <Wrapper>
+        <Header style={{ height: '20vh', width: '100vw', background:'transparent' }}>
+            <div className="verCenter">
+            <Col span={2}><Link to="/user"><Button icon="user" ghost onClick={gotoUser}> {sessionStorage.getItem('username')}</Button></Link></Col>
+            <Col span={20}><div className="mytitle">{sessionStorage.getItem("triptitle")}</div></Col>
             <Col span={2}><Logout/></Col>
-            </Row>
+            </div>
         </Header>
+        </Wrapper>
         <Layout style={{ minHeight: '100vh' }}>
             <Sider width={200} style={{ background: '#fff' }}
             collapsible

@@ -5,11 +5,22 @@ const SubMenu = Menu.SubMenu;
 const { Header, Content, Sider, Footer } = Layout;
 import AddTrip from '../../../containers/Addtrip'
 import Logout from "../../../containers/Logout"
+import styled from 'styled-components'
+import { font, palette } from 'styled-theme'
+import img from './../../image3.jpg';
+
+const Wrapper = styled.div`
+  background-image: url(${img});
+  background-size: cover;
+  width: 30vw;
+  height: 100vh;
+`;
 
 const user = () => {
   return (
     <Layout>
-      <Sider style={{ background: '#002329',minHeight: '100vh' }}>
+      <Wrapper>
+      <Sider style={{ background: 'transparent',minHeight: '100vh' }}>
       <br></br>
       <br></br>
       <br></br>
@@ -20,6 +31,7 @@ const user = () => {
       <Logout/>
       </div>
       </Sider>
+      </Wrapper>
       <Content>
       <div>
         <User/>
