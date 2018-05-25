@@ -3,8 +3,9 @@ import {Budget} from "../components/molecules/Budget";
 import {changeContents,toggleCollapsed} from "../store/antd/actions";//modify code!
 
 const mapStateToProps = (state) => {
+  var budgets = sessionStorage.getItem('tripBudgets')
   return {
-    budget: state.budget,
+    budget: JSON.parse(budgets)
   }
 };
 

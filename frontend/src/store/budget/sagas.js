@@ -20,7 +20,6 @@ export function* loadBudget() {
         console.log("load budget failed")
     }
 
-
     sessionStorage.setItem('tripBudgets',JSON.stringify(tripBudgets))
 }
 
