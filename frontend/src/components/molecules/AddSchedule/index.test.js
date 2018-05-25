@@ -1,15 +1,16 @@
 import React from 'react'
 import { shallow } from 'enzyme'
-import AddSchedule from '.'
+import AddSchedule from './index'
 
-const wrap = (props = {}) => shallow(<AddSchedule {...props} />)
+const onAddSchedule = jest.fn()
+const wrap = (props = {}) => shallow(<AddSchedule onAddSchedule-={onAddSchedule}{...props} />)
 
-it('renders children when passed in', () => {
-  const wrapper = wrap({ children: 'test' })
-  expect(wrapper.contains('test')).toBe(true)
+it ('calls onAddSchedule when clicked', () => {
+   onAddSchedule.mockClear()
+   const wrapper = wrap()
+   expect(onAddSchedule).not.toBeCalled()
+   wrapper.simulate('click')
+   expect(onAddSchedule).toBeCalled()
 })
 
-it('renders props when passed in', () => {
-  const wrapper = wrap({ id: 'foo' })
-  expect(wrapper.find({ id: 'foo' })).toHaveLength(1)
-})
+

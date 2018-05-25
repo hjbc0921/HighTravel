@@ -4,7 +4,7 @@ import * as actions from './actions'
 import { USER_INFO_RECEIVED } from '../intro/actions'
 import { ADDTRIP_SUCCESS } from '../addtrip/actions'
 import {push} from 'redux-saga'
-const url = 'http://127.0.0.1:8000/api/trips/'
+const url = 'http://'+location.host+'/api/trips/'
 
 export function* loadTrips(userId) {
     

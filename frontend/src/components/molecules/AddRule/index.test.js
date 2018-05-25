@@ -1,15 +1,14 @@
 import React from 'react'
 import { shallow } from 'enzyme'
-import AddRule from '.'
+import AddRule from './index'
 
-const wrap = (props = {}) => shallow(<AddRule {...props} />)
+const onAddRule = jest.fn()
+const wrap = (props = {}) => shallow(<AddRule onAddRule = {onSubmit} {...props} />)
 
-it('renders children when passed in', () => {
-  const wrapper = wrap({ children: 'test' })
-  expect(wrapper.contains('test')).toBe(true)
-})
-
-it('renders props when passed in', () => {
-  const wrapper = wrap({ id: 'foo' })
-  expect(wrapper.find({ id: 'foo' })).toHaveLength(1)
+it('calls onAddRule when Clicked', () => {
+    onAddRule.mockClear()
+    const wrapper = wrap()
+    expect(onAddRule).not.toBeCalled()
+    wrapper.simulate('click')
+    expect(onAddRule).toBeCalled()
 })
