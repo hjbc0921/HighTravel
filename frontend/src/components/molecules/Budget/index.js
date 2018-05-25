@@ -24,13 +24,14 @@ export class Budget extends React.Component {
   createRows = () => {
     let rows = [];
     var total = 0;
-    for (let i = 1; i < 5; i++) {
+
+    for (let i=1; i<=this.props.budget.length; i++) {
       rows.push({
         id: i,
-        contents: 'ticket'+i,
-        money: i * 100000
-      });
-      total += i*100000;
+        contents: this.props.budget[i-1].contents,
+        money: this.props.budget[i-1].money
+      })
+      total += this.props.budget[i-1].money
     }
     rows.push({id:""});
     rows.push({id: 'Total', money: total});

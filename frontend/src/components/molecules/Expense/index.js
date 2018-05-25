@@ -20,24 +20,24 @@ export class Expense extends React.Component {
       { key: 'contents', name: 'Contents', editable:true },
       { key: 'money', name: 'Money',editable:true } ];
 
-    this.state =  { rows: this.createRows(5) };
+    this.state =  { rows: this.createRows() };
   }
 
-  createRows = (numberOfRows) => {
+  createRows = () => {
     let rows = [];
     var total = 0;
-    for (let i = 1; i < numberOfRows; i++) {
+    for (let i=1; i<=this.props.expense.length; i++) {
       rows.push({
         id: i,
-        contents: 'ticket'+i,
-        date : "05/04",
-        spender : sessionStorage.getItem('username'),
-        money: i * 100000
-      });
-      total += i*100000;
+        date: this.props.expense[i-1].date,
+        spender: this.props.expense[i-1].spender,
+        contents: this.props.expense[i-1].contents,
+        money: this.props.expense[i-1].money
+      })
     }
     rows.push({id:""});
-    rows.push({id:"total",spender: 'swpp1', money: total});
+    for (var user in this.props.totalExpense)
+      rows.push({id:"Total", spender: user, money: this.props.totalExpense[user]});
 
     return rows;
   };

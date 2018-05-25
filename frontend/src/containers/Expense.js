@@ -3,8 +3,11 @@ import {Expense} from "../components/molecules/Expense";
 import {changeContents,toggleCollapsed} from "../store/antd/actions";//modify code!
 
 const mapStateToProps = (state) => {
+  var expenses = sessionStorage.getItem('tripExpenses')
+  var totalExpense = sessionStorage.getItem('totalExpenses')
   return {
-    expense: state.expense,
+    expense: JSON.parse(expenses),
+    totalExpense: JSON.parse(totalExpense)
   }
 };
 
