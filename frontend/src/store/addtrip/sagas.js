@@ -5,7 +5,7 @@ const url = 'http://'+location.host+'/api/trips/'
 import STORE_TRIP from './../user/actions'
 
 export function* postTrip(title, sinceWhen, untilWhen) {
-    
+   
     var token = sessionStorage.getItem('token')
     var mytrips = JSON.parse(sessionStorage.getItem('mytrips'))
     let data;

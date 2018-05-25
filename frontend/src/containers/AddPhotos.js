@@ -10,12 +10,11 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
    return{
-      onAddPhoto: (selectedFile,text) =>{
-           dispatch(addphotoRequest(selectedFile,text))
+      onAddPhoto: (SelectedFile) =>{
+           dispatch(addphotoRequest(SelectedFile))
       }
    }
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(AddPhoto)
 
-                                                                      

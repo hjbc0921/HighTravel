@@ -151,13 +151,13 @@
   font-family: "primary";
   width: 250px;
   text-align: center;
-  verical-align: middle;
+  vertical-align: middle;
   line-height: 20px;
   padding: 5px;
   margin-top: 2.5px;
   margin-bottom: 2.5px;
   top: 50%;
-  trasnform: translateY(-50%);
+  transform: translateY(-50%);
   background: #ccccff;
   border-radius: 20px;
   word-wrap: break-word;
