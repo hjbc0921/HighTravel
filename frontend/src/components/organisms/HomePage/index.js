@@ -7,13 +7,9 @@ import ShowSchedule from "../../../components/molecules/Calendar";
 const HomePage = () => {
   return (
     <div>
-     <AddSchedule/>
-     <br/><br/>
-     <ShowSchedule/> 
-     <br/><br/>
-     <AddTodo/>
-     <br/><br/>
-     <TodoList/>
+    <ShowSchedule/> 
+    <br/><br/>
+    <AddSchedule/>
     </div>
   )
 }
