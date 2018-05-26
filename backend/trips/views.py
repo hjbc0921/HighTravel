@@ -21,9 +21,9 @@ class TripList(generics.ListCreateAPIView):
             if serializer.validated_data['sinceWhen'] >= serializer.validated_data['tilWhen']:
                 return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
         return self.create(request,*args,**kwargs)
-
-    def perform_create(self, serializer):
+    def perform_create(self,serializer):
         serializer.save(users=[self.request.user])
+        serializer.save(creator=self.request.user)
 
 # api/trips/id/ url view
 class TripDetail(generics.RetrieveUpdateDestroyAPIView):
