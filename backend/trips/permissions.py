@@ -22,6 +22,13 @@ class IsSpenderOrReadOnly(permissions.BasePermission):
         else:
             return request.user == obj.spender
 
+class IsCreatorOrReadOnly(permissions.BasePermission):
+    def has_object_permission(self,request,view,obj):
+        if request.method in permissions.SAFE_METHODS:
+            return True
+        else:
+            return request.user == obj.creator
+
 class IsWriterOrReadOnly(permissions.BasePermission):
     """
         Custom permission to only allow writer of diary to put or delete

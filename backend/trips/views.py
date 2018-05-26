@@ -6,7 +6,7 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
 from rest_framework import permissions
-from trips.permissions import IsParticipantOrReadOnly, IsSpenderOrReadOnly, IsWriterOrReadOnly
+from trips.permissions import IsParticipantOrReadOnly, IsCreatorOrReadOnly, IsSpenderOrReadOnly, IsWriterOrReadOnly
 
 # api/trips/ url view
 class TripList(generics.ListCreateAPIView):
@@ -29,8 +29,7 @@ class TripList(generics.ListCreateAPIView):
 class TripDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = Trip.objects.all()
     serializer_class = TripDetailSerializer
-    permission_classes = (permissions.IsAuthenticatedOrReadOnly, IsParticipantOrReadOnly,)
-    #permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
+    permission_classes = (permissions.IsAuthenticatedOrReadOnly, IsCreatorOrReadOnly,)
 
     # override put method to check condition of sinceWhen and tilWhen
     def put(self, request, *args, **kwargs):
