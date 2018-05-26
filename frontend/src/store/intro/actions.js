@@ -1,7 +1,13 @@
 export const LOGIN_REQUEST = 'LOGIN_REQUEST';
 export const USER_INFO_RECEIVED = 'INTRO_RECEIVED';
 export const LOGIN_FAILED = 'LOGIN_FAILED';
+export const SIGNUP_REQUEST = "SIGNUP_REQUEST";
 
+export const signupRequest = () => {
+  return{
+    type:SIGNUP_REQUEST
+  }
+}
 export const IntroReceived = ({username, token, userId}) => {
   return {
     type: USER_INFO_RECEIVED,

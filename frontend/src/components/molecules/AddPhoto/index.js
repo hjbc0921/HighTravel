@@ -12,6 +12,7 @@ const Wrapper = styled.div`
 `
 
 
+
 export const AddPhoto = ({onAddPhoto}) =>{
   let state = {
              previewVisible: false,
@@ -45,6 +46,7 @@ export const AddPhoto = ({onAddPhoto}) =>{
            <div className = "ant-upload-text">Upload</div>
           </div> 
      );
+
   return (
   <div className="photo">
      <Upload
@@ -67,6 +69,7 @@ export const AddPhoto = ({onAddPhoto}) =>{
 }
 
 AddPhoto.propTypes = {
+<<<<<<< HEAD
    state:PropTypes.arrayOf(PropTypes.shape({
    previewVisible:PropTypes.bool.isRequired,
    previewImage: PropTypes.string.isRequired,
@@ -77,6 +80,7 @@ AddPhoto.propTypes = {
    url:PropTypes.string.isRequired
    }))
    }))
+
 }
 
 export default AddPhoto

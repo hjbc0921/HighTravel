@@ -13,7 +13,7 @@ class UserSerializer(serializers.ModelSerializer):
     my_trips    = serializers.PrimaryKeyRelatedField(many=True,queryset=Trip.objects.all())
     class Meta:
         model = User
-        fields = ('id','username','password','spent','my_diary','my_trips')
+        fields = ('id','username','password','spent','my_diary','my_trips','ownTrips')
     
 class UserRegSerializer(serializers.ModelSerializer):
     class Meta:
@@ -74,10 +74,10 @@ class TripSerializer(serializers.ModelSerializer):
     trip_marker     = MarkerSerializer(read_only=True, many=True)
     class Meta:
         model = Trip
-        fields = ('id','title','sinceWhen','tilWhen','users','trip_budget','trip_expense','trip_photo','trip_diary','trip_todo','trip_rule','trip_schedule','trip_marker')
+        fields = ('id','title','sinceWhen','tilWhen','creator','users','trip_budget','trip_expense','trip_photo','trip_diary','trip_todo','trip_rule','trip_schedule','trip_marker')
 
 class TripDetailSerializer(WritableNestedModelSerializer):
     class Meta:
         model = Trip
-        fields = ('id','title','sinceWhen','tilWhen','users','trip_budget','trip_expense','trip_photo','trip_diary','trip_todo','trip_rule','trip_schedule','trip_marker')
+        fields = ('id','title','sinceWhen','tilWhen','creator','users','trip_budget','trip_expense','trip_photo','trip_diary','trip_todo','trip_rule','trip_schedule','trip_marker')
 

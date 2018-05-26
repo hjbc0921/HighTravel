@@ -1,6 +1,7 @@
 import React, { PropTypes } from 'react';
 import ReactDOM from 'react-dom';
 import FullCalendar from 'fullcalendar-reactwrapper';
+import 'fullcalendar-reactwrapper/dist/css/fullcalendar.min.css'
 
 export const ShowSchedule = ({onDay}) =>{
   let state = { date : new Date()}
@@ -18,12 +19,11 @@ export const ShowSchedule = ({onDay}) =>{
             center: 'title',
             right: 'month,basicWeek,basicDay'
         }}
-         defaultDate={'2017-09-12'}
         navLinks= {true} // can click day/week names to navigate views
         editable= {true}
         eventLimit= {true} // allow "more" link when too many events
         events = {state.events}
-		onChange={onchange}
+                onChange={onchange}
         onClickDay={onDayClick}
         value={state.date}
     />

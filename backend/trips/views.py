@@ -6,7 +6,7 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
 from rest_framework import permissions
-from trips.permissions import IsParticipantOrReadOnly, IsSpenderOrReadOnly, IsWriterOrReadOnly
+from trips.permissions import IsParticipantOrReadOnly, IsCreatorOrReadOnly, IsSpenderOrReadOnly, IsWriterOrReadOnly
 
 # api/trips/ url view
 class TripList(generics.ListCreateAPIView):
@@ -21,16 +21,15 @@ class TripList(generics.ListCreateAPIView):
             if serializer.validated_data['sinceWhen'] >= serializer.validated_data['tilWhen']:
                 return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
         return self.create(request,*args,**kwargs)
-
-    def perform_create(self, serializer):
+    def perform_create(self,serializer):
         serializer.save(users=[self.request.user])
+        serializer.save(creator=self.request.user)
 
 # api/trips/id/ url view
 class TripDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = Trip.objects.all()
     serializer_class = TripDetailSerializer
-    permission_classes = (permissions.IsAuthenticatedOrReadOnly, IsParticipantOrReadOnly,)
-    #permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
+    permission_classes = (permissions.IsAuthenticatedOrReadOnly, IsCreatorOrReadOnly,)
 
     # override put method to check condition of sinceWhen and tilWhen
     def put(self, request, *args, **kwargs):

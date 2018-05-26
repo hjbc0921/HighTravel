@@ -25,7 +25,7 @@ const InnerWrapper = styled.div`
   text-align: center;
 `;
 
-export const Intro = ({intro, onLogin}) => {
+export const Intro = ({intro, onLogin, onSignup}) => {
 
   let username, password;
   const onLoginBtn = () => {
@@ -35,6 +35,9 @@ export const Intro = ({intro, onLogin}) => {
     password.value = ''
     }
   } 
+  const onSignBtn = () => {
+    onSignup()
+  }
 
 return (
   <Wrapper>
@@ -51,7 +54,7 @@ return (
     <Button type="submit" style={{ width:'200px', margin: '4px 0' }} onClick={onLoginBtn} icon="login">login</Button> 
     </div>
     <div>
-    <Link to="/signup" > <Button icon="user-add" style={{ width:'200px',margin: '8px 0' }} > signup </Button> </Link> 
+    <Link to="/signup" > <Button onClick={onSignBtn} icon="user-add" style={{ width:'200px',margin: '8px 0' }} > signup </Button> </Link> 
     </div>
   </InnerWrapper>
   </Wrapper>

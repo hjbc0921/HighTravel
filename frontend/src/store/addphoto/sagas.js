@@ -1,4 +1,4 @@
-import { tale, call, fork, select, put} from 'redux-saga/effects'
+import { take, call, fork, select, put} from 'redux-saga/effects'
 import api from 'services/api'
 import * as actions from './actions'
 const url = 'http://'+location.host+'/api/trips/'
@@ -32,7 +32,9 @@ export function* postPhoto(selectedFile,text){
 
 export function* watchPostPhotoRequest(){
     while(true){
+        console.log('in watch PostPhotoReqeust')
         const { selectedFile, text } = yield take(actions.ADDPHOTO_REQUEST)
+        console.log('in watch PostPhotoReqeust', selectedFile, text)
         yield call(postPhoto, selectedFile, text)
     }
 }

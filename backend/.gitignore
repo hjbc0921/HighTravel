@@ -1,1 +1,3 @@
 *.pyc
+./db.sqlite3
+./trips/migrations/0001_initial.py
