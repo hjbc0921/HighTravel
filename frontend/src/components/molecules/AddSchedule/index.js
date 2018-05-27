@@ -9,24 +9,9 @@ const RangePicker = DatePicker.RangePicker;
 
 const ScheduleCreateForm = Form.create()(
   class extends React.Component {
-  handleSubmit = (e) => {
-    e.preventDefault();
-    this.props.form.validateFields((err, fieldsValue) => {
-      if (err) {
-        return;
-      }
-      // Should format date value before submit.
-      const rangeValue = fieldsValue['range-picker'];
-      const values = {
-        ...fieldsValue,
-        'range-picker': [rangeValue[0].format('YYYY-MM-DD'), rangeValue[1].format('YYYY-MM-DD')],
-      };
-      console.log('Received values of form: ', values);
-    });
-  }
   render() {
 	const { visible, onCancel, onCreate, form } = this.props;
-    const { getFieldDecorator } = this.props.form;
+    const { getFieldDecorator } = form;
     const formItemLayout = {
       labelCol: {
         xs: { span: 24 },
@@ -36,12 +21,6 @@ const ScheduleCreateForm = Form.create()(
         xs: { span: 24 },
         sm: { span: 16 },
       },
-    };
-    const config = {
-      rules: [{ type: 'object', required: true, message: 'Please select time!' }],
-    };
-    const rangeConfig = {
-      rules: [{ type: 'array', required: true, message: 'Please select time!' }],
     };
       return (
         <Modal
@@ -54,15 +33,15 @@ const ScheduleCreateForm = Form.create()(
           <Form layout="vertical">
             <FormItem label="Contents">
               {getFieldDecorator('contents', {
-                rules: [{ required: true, message: 'Please input the contents of this budget!' }],
+                rules: [{ required: true, message: 'Please input the contents of this schedule' }],
               })(
                 <Input />
               )}
             </FormItem>
-            <FormItem
-          {...formItemLayout}
-          label="Since and until">
-          {getFieldDecorator('range-picker', rangeConfig)(
+            <FormItem label="Since and until">
+          {getFieldDecorator('dates', {
+                rules: [{ required: true, message: 'Please input the dates!' }],
+              })(
             <RangePicker />
           )}
         </FormItem>
@@ -80,15 +59,24 @@ export class AddSchedule extends React.Component {
   showModal = () => {
     this.setState({ visible: true });
   }
+
   handleCancel = () => {
     this.setState({ visible: false });
   }
+
   handleCreate = () => {
     const form = this.formRef.props.form;
     form.validateFields((err, fieldsValue) => {
          if (err) {
               return;
          }
+         const rangeValue = fieldsValue['dates'];
+         var values = {
+          ...fieldsValue,
+          'since':rangeValue[0].format('YYYY-MM-DD'), 
+          'until':rangeValue[1].format('YYYY-MM-DD'),
+        };
+         console.log(values);
       this.props.onAddSchedule(values.contents,values.since,values.until)
       form.resetFields();
       this.setState({ visible: false });
