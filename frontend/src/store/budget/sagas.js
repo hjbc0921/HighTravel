@@ -46,6 +46,21 @@ export function* postBudget(contents,money){
     yield put(actions.loadBudget(tripBudgets))
 }
 
+export function* patchBudget(idUpdatedRow) {
+    //idUpdatedRow : {id:2,"contents":"test"} or {id:2,"money":3300}
+    //patch and return success or fail to state(state.budget.updated is true when success)
+}
+
+export function* deleteBudget(budIDs) {
+    console.log(budIDs,"deleteBudget@@@@@@saga")
+    //budget IDs are stored in list
+    //call loadBudget(tripID) after delete
+    //fake saga
+    var tripBudgets=[{id:1,contents:"after_delete",money:"2000"}]
+    yield put(actions.loadBudget(tripBudgets))
+    //end of fake saga
+}
+
 export function* watchPostRequest () {
     while (true) {
         const {contents,money} = yield take(actions.ADDBUDGET_REQUEST)
@@ -61,9 +76,23 @@ export function* watchStoreTripId() {
     }
 }
 
+export function* watchPatchRequest() {
+    while (true) {
+        const {idUpdatedRow} = yield take(actions.CHANGE_CONTENT)
+        yield call(patchBudget,idUpdatedRow)
+    }
+}
+
+export function* watchDeleteRequest() {
+    while (true) {
+        const {budIDs} = yield take(actions.DELETE_ROWS)
+        yield call(deleteBudget,budIDs)
+    }
+}
+
 export default function* () {
     yield fork(watchStoreTripId)
     yield fork(watchPostRequest)
-    //yield fork(watchPatchRequest)
-    //yield fork(watchDeleteRequest)
+    yield fork(watchPatchRequest)
+    yield fork(watchDeleteRequest)
 }

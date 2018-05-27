@@ -1,3 +1,4 @@
 export const initialState = {
-    message : ""
+    message : "",
+    updated : false
 }

@@ -1,22 +1,22 @@
 import { connect } from 'react-redux'
 import {Budget} from "../components/molecules/Budget";
-import {changeContents,toggleCollapsed} from "../store/antd/actions";//modify code!
+import {changeContent,deleteRows} from "../store/budget/actions";//modify code!
 
 const mapStateToProps = (state) => {
-  console.log("##############",state.budget,state.budget.tripBudgets)
   return {
-    budget: state.budget.tripBudgets
+    budget: JSON.parse(sessionStorage.getItem('tripBudgets')),
+    updated : state.budget.updated
   }
 };
 
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    changeContent: (e) => {
-      dispatch(changeContents(e))
+    changeContent: (idUpdatedRow) => {
+      dispatch(changeContent(idUpdatedRow))
     },
-    toggleCol : (col) => {
-        dispatch(toggleCollapsed(col))
+    onDelete : (budIDs) => {
+      dispatch(deleteRows(budIDs))
     }
   }
 };

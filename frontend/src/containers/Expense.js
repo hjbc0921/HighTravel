@@ -1,24 +1,23 @@
 import { connect } from 'react-redux'
 import {Expense} from "../components/molecules/Expense";
-import {changeContents,toggleCollapsed} from "../store/antd/actions";//modify code!
+import {changeContent,deleteRows} from "../store/expense/actions";//modify code!
 
 const mapStateToProps = (state) => {
-  var expenses = sessionStorage.getItem('tripExpenses')
-  var totalExpense = sessionStorage.getItem('totalExpenses')
   return {
-    expense: JSON.parse(expenses),
-    totalExpense: JSON.parse(totalExpense)
+    expense: JSON.parse(sessionStorage.getItem('tripExpenses')),
+    totalExpense: JSON.parse(sessionStorage.getItem('totalExpenses')),
+    updated : state.expense.updated
   }
 };
 
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    changeContent: (e) => {
-      dispatch(changeContents(e))
+    changeContent: (idUpdatedRow) => {
+      dispatch(changeContent(idUpdatedRow))
     },
-    toggleCol : (col) => {
-        dispatch(toggleCollapsed(col))
+    onDelete : (budIDs) => {
+      dispatch(deleteRows(budIDs))
     }
   }
 };
