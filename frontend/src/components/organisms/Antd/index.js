@@ -28,7 +28,7 @@ const Wrapper = styled.div`
   height: 20vh;
 `;
 
-const Antd = ({antd,changeContent,toggleCol}) => {
+const Antd = ({antd,menu,changeContent,toggleCol}) => {
     const handleClick = (e) => {
         changeContent(e.key)
     }
@@ -60,8 +60,7 @@ const Antd = ({antd,changeContent,toggleCol}) => {
                 theme="light"
                 onClick={handleClick}
                 selectedKeys={[sessionStorage.getItem('menu')]}
-                defaultSelectedKeys={['1']}
-                defaultOpenKeys={[]}
+                defaultSelectedKeys={['home']}
                 style={{ height: '100%', borderRight: 0 }}
                 >
                     <Menu.Item key="home"><Icon type="home" /><span>Home</span></Menu.Item>
@@ -78,12 +77,12 @@ const Antd = ({antd,changeContent,toggleCol}) => {
             <Layout style={{ padding: '10px 10px 10px',minHeight: '100vh' }}>
                 <Content style={{ margin: '0 16px', }}>
                     <div style={{ padding: 24, background: '#fff', minHeight: '100vh' }}>
-                    {(sessionStorage.getItem('menu')==="home") && <div> <HomePage/> </div>}
-                    {(sessionStorage.getItem('menu')==="rules") && <div> <Rules/> </div>}
-                    {(sessionStorage.getItem('menu')==="money") && <div> <Money/> </div>}
-                    {(sessionStorage.getItem('menu')==="photo") && <div> <Photo/> </div>}
-                    {(sessionStorage.getItem('menu')==="diary") && <div> <Diary/> </div>}
-                    {(sessionStorage.getItem('menu')==="setting") && <div> <AddUser/> </div>}
+                    {(menu==="home" || menu===null) && <div> <HomePage/> </div>}
+                    {(menu==="rules") && <div> <Rules/> </div>}
+                    {(menu==="money") && <div> <Money/> </div>}
+                    {(menu==="photo") && <div> <Photo/> </div>}
+                    {(menu==="diary") && <div> <Diary/> </div>}
+                    {(menu==="setting") && <div> <AddUser/> </div>}
                     </div>
                 </Content>
             </Layout>
