@@ -1,9 +1,9 @@
 import React from 'react'
-import AddTrip from '../../../components/molecules/AddTrip'
+import TripList from '../../../containers/TripList'
 
 const None = () => {
     return (
-      <AddTrip/>
+      <TripList/>
     )
   }
   

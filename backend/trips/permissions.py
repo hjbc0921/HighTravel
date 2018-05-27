@@ -27,7 +27,7 @@ class IsCreatorOrReadOnly(permissions.BasePermission):
         if request.method in permissions.SAFE_METHODS:
             return True
         else:
-            return request.user == obj.creator
+            return request.user.username == obj.creator
 
 class IsWriterOrReadOnly(permissions.BasePermission):
     """

@@ -4,8 +4,7 @@ import * as actions from './actions'
 const url = 'http://127.0.0.1:8000/api/budgets/'
 import { STORE_TRIP_ID } from '../user/actions'
 
-export function* loadBudget() {
-    var tripID = sessionStorage.getItem('tripID')
+export function* loadBudget(tripID) {
     var tripBudgetUrl = url + 'trip/' + tripID + '/'
     var tripBudgets = []
     
@@ -20,12 +19,13 @@ export function* loadBudget() {
         console.log("load budget failed")
     }
 
-    sessionStorage.setItem('tripBudgets',JSON.stringify(tripBudgets))
+    yield put(actions.loadBudget(tripBudgets))
 }
 
 export function* postBudget(contents,money){
     var token = sessionStorage.getItem('token')
     var tripID = sessionStorage.getItem('tripID')
+    var tripBudgets = JSON.parse(sessionStorage.getItem('tripBudgets'))
     var data
     try {
         if (contents != undefined) {
@@ -41,8 +41,9 @@ export function* postBudget(contents,money){
     } catch (e) {
         console.log('post budget failed')
     }
-
-    yield call(loadBudget)
+    let body = yield call([data,data.json])
+    tripBudgets.push({id:body.id,contents:body.contents,money:body.money})
+    yield put(actions.loadBudget(tripBudgets))
 }
 
 export function* watchPostRequest () {
@@ -55,8 +56,8 @@ export function* watchPostRequest () {
 
 export function* watchStoreTripId() {
     while (true) {
-        const action = yield take(STORE_TRIP_ID)
-        yield call(loadBudget)
+        const {tripID} = yield take(STORE_TRIP_ID)
+        yield call(loadBudget,tripID)
     }
 }
 

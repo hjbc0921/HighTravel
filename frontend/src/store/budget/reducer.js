@@ -1,5 +1,5 @@
 import { initialState} from "./selectors"
-import { ADDBUDGET_REQUEST, ADDBUDGET_FAIL, ADDBUDGET_SUCCESS} from "./actions";
+import { LOAD_BUDGET, ADDBUDGET_REQUEST, ADDBUDGET_FAIL, ADDBUDGET_SUCCESS} from "./actions";
 
 const budget_reducer = (state = initialState, action) => {
    switch (action.type) {
@@ -7,6 +7,11 @@ const budget_reducer = (state = initialState, action) => {
        return {
 
        };
+      case LOAD_BUDGET:
+       sessionStorage.setItem('tripBudgets',JSON.stringify(action.tripBudgets))
+       return Object.assign({},state,{
+         tripBudgets : action.tripBudgets
+       })
       case ADDBUDGET_FAIL:
        return Object.assign({},state,{
         message : action.err

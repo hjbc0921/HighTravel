@@ -13,7 +13,7 @@ class UserSerializer(serializers.ModelSerializer):
     my_trips    = serializers.PrimaryKeyRelatedField(many=True,queryset=Trip.objects.all())
     class Meta:
         model = User
-        fields = ('id','username','password','spent','my_diary','my_trips','ownTrips')
+        fields = ('id','username','password','spent','my_diary','my_trips')
     
 class UserRegSerializer(serializers.ModelSerializer):
     class Meta:

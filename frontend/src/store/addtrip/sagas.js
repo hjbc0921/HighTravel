@@ -7,13 +7,14 @@ import STORE_TRIP from './../user/actions'
 export function* postTrip(title, sinceWhen, untilWhen) {
    
     var token = sessionStorage.getItem('token')
+    var username = sessionStorage.getItem('username')
     var mytrips = JSON.parse(sessionStorage.getItem('mytrips'))
     var userID = sessionStorage.getItem('userID')
     let data;
     if (title != undefined && sinceWhen != undefined && untilWhen != undefined) {
         data = yield call(fetch, url, {
             method: 'POST',
-            body: JSON.stringify({ creator: userID, title: title, sinceWhen: sinceWhen, tilWhen: untilWhen }),
+            body: JSON.stringify({ title: title, sinceWhen: sinceWhen, tilWhen: untilWhen, creator: username }),
             headers: {
                 'Authorization': `token ${token}`,
                 'Content-Type': 'application/json;'
