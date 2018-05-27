@@ -4,9 +4,9 @@ from trips.models import create_auth_token
 from trips.models import Trip, Budget, Expense, Diary, Photo, Todo, Rule, Schedule, Marker
 from django.conf import settings
 from django.contrib.auth.models import User
-from django.db.models.signals import post_save
 from rest_framework.authtoken.models import Token
 
+# add user model method test
 """
 class UserModelTest(TestCase):
 
@@ -15,7 +15,6 @@ class UserModelTest(TestCase):
         print("setUpUserTestData: Run once to set up non-modified data for all class methods.")
         user = User.objects.create(username="swpp", password="HighTravel")
         print("you are here")
-        user.save()
 
     def test_create_auth_token(self):
         user2 = User.objects.get(id=1)
@@ -33,13 +32,16 @@ class TripModelTest(TestCase):
     def setUpTestData(cls):
         #Set up non-nodified objects used by all test methods
         admin = User.objects.create(username="swpp1", password="High_Travel")
-        admin.save()
-        trip = admin.my_trips.create(title="Europe", sinceWhen="2018-05-27", tilWhen="2018-06-27", creator=admin) 
-        trip.save()
+        trip = admin.my_trips.create(title="Europe", sinceWhen="2018-05-27", tilWhen="2018-06-27", creator='swpp1')
 
     def test_title_max_length(self):
         trip = Trip.objects.get(id=1)
         max_length = trip._meta.get_field('title').max_length
+        self.assertEquals(max_length, 50)
+
+    def test_creator_max_length(self):
+        trip = Trip.objects.get(id=1)
+        max_length = trip._meta.get_field('creator').max_length
         self.assertEquals(max_length, 50)
 
 
@@ -49,9 +51,7 @@ class BudgetModelTest(TestCase):
     def setUpTestData(cls):
         #Set up non-nodified objects used by all test methods
         admin = User.objects.create(username="swpp1", password="High_Travel")
-        admin.save()
-        trip = admin.my_trips.create(title="Europe", sinceWhen="2018-05-27", tilWhen="2018-06-27", creator=admin) 
-        trip.save()
+        trip = admin.my_trips.create(title="Europe", sinceWhen="2018-05-27", tilWhen="2018-06-27", creator='swpp1') 
         budget = Budget.objects.create(contents="flight", money=100, tripID=trip)
 
     def test_contents_max_length(self):
@@ -66,9 +66,7 @@ class ExpensetModelTest(TestCase):
     def setUpTestData(cls):
         #Set up non-nodified objects used by all test methods
         admin = User.objects.create(username="swpp1", password="High_Travel")
-        admin.save()
-        trip = admin.my_trips.create(title="Europe", sinceWhen="2018-05-27", tilWhen="2018-06-27", creator=admin) 
-        trip.save()
+        trip = admin.my_trips.create(title="Europe", sinceWhen="2018-05-27", tilWhen="2018-06-27", creator='swpp1') 
         expense = Expense.objects.create(date="2018-05-27", contents="flight", money=100, tripID=trip, spender=admin)
 
     def test_contents_max_length(self):
@@ -83,11 +81,8 @@ class PhotoModelTest(TestCase):
     def setUpTestData(cls):
         #Set up non-nodified objects used by all test methods
         admin = User.objects.create(username="swpp1", password="High_Travel")
-        admin.save()
-        trip = admin.my_trips.create(title="Europe", sinceWhen="2018-05-27", tilWhen="2018-06-27", creator=admin) 
-        trip.save()
+        trip = admin.my_trips.create(title="Europe", sinceWhen="2018-05-27", tilWhen="2018-06-27", creator='swpp1') 
         photo = Photo.objects.create(date="2018-05-27", contents="flight", tripID=trip, folder="cafe")
-        #photo = Photo.objects.create(date="2018-05-27", contents="flight", image=SimpleUploadFile(name="test_image.jpg", content=open(image_path, "rb").read(), content_type="image/jpeg"), tripID=trip)
 
     def test_contents_max_length(self):
         photo = Photo.objects.get(id=1)
@@ -101,9 +96,7 @@ class TodoModelTest(TestCase):
     def setUpTestData(cls):
         #Set up non-nodified objects used by all test methods
         admin = User.objects.create(username="swpp1", password="High_Travel")
-        admin.save()
-        trip = admin.my_trips.create(title="Europe", sinceWhen="2018-05-27", tilWhen="2018-06-27", creator=admin) 
-        trip.save()
+        trip = admin.my_trips.create(title="Europe", sinceWhen="2018-05-27", tilWhen="2018-06-27", creator='swpp1') 
         todo = Todo.objects.create(contents="Go to Eiffel Tower", tripID=trip, done=False)
 
     def test_contents_max_length(self):
@@ -118,9 +111,7 @@ class RuleModelTest(TestCase):
     def setUpTestData(cls):
         #Set up non-nodified objects used by all test methods
         admin = User.objects.create(username="swpp1", password="High_Travel")
-        admin.save()
-        trip = admin.my_trips.create(title="Europe", sinceWhen="2018-05-27", tilWhen="2018-06-27", creator=admin) 
-        trip.save()
+        trip = admin.my_trips.create(title="Europe", sinceWhen="2018-05-27", tilWhen="2018-06-27", creator='swpp1') 
         rule = Rule.objects.create(contents="Wake up at 7AM", tripID=trip)
 
     def test_contents_max_length(self):
@@ -135,9 +126,7 @@ class ScheduleModelTest(TestCase):
     def setUpTestData(cls):
         #Set up non-nodified objects used by all test methods
         admin = User.objects.create(username="swpp1", password="High_Travel")
-        admin.save()
-        trip = admin.my_trips.create(title="Europe", sinceWhen="2018-05-27", tilWhen="2018-06-27", creator=admin) 
-        trip.save()
+        trip = admin.my_trips.create(title="Europe", sinceWhen="2018-05-27", tilWhen="2018-06-27", creator='swpp1') 
         schedule = Schedule.objects.create(sinceWhen="2018-05-27", tilWhen="2018-05-27", contents="In Paris", tripID=trip)
 
     def test_contents_max_length(self):
@@ -152,9 +141,7 @@ class MarkerModelTest(TestCase):
     def setUpTestData(cls):
         #Set up non-nodified objects used by all test methods
         admin = User.objects.create(username="swpp1", password="High_Travel")
-        admin.save()
-        trip = admin.my_trips.create(title="Europe", sinceWhen="2018-05-27", tilWhen="2018-06-27", creator=admin) 
-        trip.save()
+        trip = admin.my_trips.create(title="Europe", sinceWhen="2018-05-27", tilWhen="2018-06-27", creator='swpp1') 
         marker = Marker.objects.create(place="EiffelTower", tripID=trip)
 
     def test_contents_max_length(self):
