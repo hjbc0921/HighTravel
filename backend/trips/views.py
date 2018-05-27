@@ -23,7 +23,7 @@ class TripList(generics.ListCreateAPIView):
         return self.create(request,*args,**kwargs)
     def perform_create(self,serializer):
         serializer.save(users=[self.request.user])
-        serializer.save(creator=self.request.user)
+        serializer.save(creator=self.request.user.username)
 
 # api/trips/id/ url view
 class TripDetail(generics.RetrieveUpdateDestroyAPIView):

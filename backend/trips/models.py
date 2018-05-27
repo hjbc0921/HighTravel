@@ -10,7 +10,7 @@ class Trip(models.Model):
     sinceWhen   = models.DateField()
     tilWhen     = models.DateField()
     users       = models.ManyToManyField(User,related_name="my_trips")
-    creator     = models.ForeignKey(User,related_name="ownTrips",on_delete=models.CASCADE)
+    creator     = models.CharField(max_length=50)
 
 class Budget(models.Model):
     contents    = models.CharField(max_length=50)
