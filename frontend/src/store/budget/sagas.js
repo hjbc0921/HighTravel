@@ -79,7 +79,6 @@ export function* watchStoreTripId() {
 export function* watchPatchRequest() {
     while (true) {
         const {idUpdatedRow} = yield take(actions.CHANGE_CONTENT)
-        console.log(idUpdatedRow,"BUDSAGA")
         yield call(patchBudget,idUpdatedRow)
     }
 }

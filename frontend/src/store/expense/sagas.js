@@ -82,6 +82,33 @@ export function* postExpense(contents,date,money){
     yield call(loadExpense)
 }
 
+export function* patchExpense(idUpdatedRow) {
+    //idUpdatedRow : {id:2,"contents":"test"} or {id:2,"money":3300}
+    //patch and return success or fail to state(state.expense.updated is true when success)
+}
+
+export function* deleteExpense(budIDs) {
+    //expense IDs are stored in list
+    //fake saga
+    var tripBudgets=[{id:1,contents:"after_delete",money:"2000"}]
+    yield put(actions.loadBudget(tripBudgets))
+    //end of fake saga
+}
+
+export function* watchPatchRequest() {
+    while (true) {
+        const {idUpdatedRow} = yield take(actions.CHANGE_CONTENT)
+        yield call(patchExpense,idUpdatedRow)
+    }
+}
+
+export function* watchDeleteRequest() {
+    while (true) {
+        const {budIDs} = yield take(actions.DELETE_ROWS)
+        yield call(deleteExpense,budIDs)
+    }
+}
+
 export function* watchPostRequest () {
     while (true) {
         const {contents,date,money} = yield take(actions.ADDEXPENSE_REQUEST)
@@ -99,6 +126,6 @@ export function* watchStoreTripId () {
 export default function* () {
     yield fork(watchStoreTripId)
     yield fork(watchPostRequest)
-    //yield fork(watchPatchRequest)
-    //yield fork(watchDeleteRequest)
+    yield fork(watchPatchRequest)
+    yield fork(watchDeleteRequest)
 }
