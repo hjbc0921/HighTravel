@@ -14,7 +14,7 @@ const mapDispatchToProps = (dispatch) => {
       dispatch(loginRequest(username, password))
     },
     onSignup: () => {
-      dispath(signupRequest())
+      dispatch(signupRequest())
     }
   }
 };
