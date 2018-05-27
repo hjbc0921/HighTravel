@@ -29,6 +29,8 @@ export function* loadUsers(tripID) {
 
     console.log(ourTrip)
     var userlist = ourTrip.users
+    var creator = ourTrip.creator
+    if (creator===myname) sessionStorage.setItem("owns","true")
     console.log(userlist)
     var userObjects = []
     for (var i=0; i<userlist.length; i++) {

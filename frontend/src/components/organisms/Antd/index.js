@@ -82,7 +82,7 @@ const Antd = ({antd,menu,changeContent,toggleCol}) => {
                     {(menu==="money") && <div> <Money/> </div>}
                     {(menu==="photo") && <div> <Photo/> </div>}
                     {(menu==="diary") && <div> <Diary/> </div>}
-                    {(menu==="setting") && <div> <AddUser/> </div>}
+                    {(menu==="setting") && sessionStorage.getItem('owns')==="true" && <div> <AddUser/> </div>}
                     </div>
                 </Content>
             </Layout>
