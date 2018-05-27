@@ -4,6 +4,7 @@ import {postScheduleRequest} from "../store/schedules/actions";
 
 const mapStateToProps = (state) => {
   return {
+    schedule:state.schedule,
   }
 };
 

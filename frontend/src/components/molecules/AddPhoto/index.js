@@ -69,7 +69,6 @@ export const AddPhoto = ({onAddPhoto}) =>{
 }
 
 AddPhoto.propTypes = {
-<<<<<<< HEAD
    state:PropTypes.arrayOf(PropTypes.shape({
    previewVisible:PropTypes.bool.isRequired,
    previewImage: PropTypes.string.isRequired,
