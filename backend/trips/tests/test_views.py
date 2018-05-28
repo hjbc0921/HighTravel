@@ -53,11 +53,20 @@ class TripDetailViewTest(TestCase):
 
     def test_patch_trip(self):
         user = create_user(username='swpp1', password='High_Travel')
+        user2 = create_user(username='swpp2', password='HighTravel')
         token = Token.objects.get(user__username='swpp1')
         client = APIClient()
         client.credentials(HTTP_AUTHORIZATION='Token ' + token.key)
         resp = client.post(reverse('trips'), {'title': 'Europe', 'sinceWhen': '2018-05-27', 'tilWhen': '2018-06-27', 'creator': 'swpp1'})
         self.assertEqual(resp.status_code, 201)
+
+        # patch for change trip users (add) // it would be done by admin user
+        resp = client.patch(reverse('trip-detail', args=(1,)), {'users': [user.id, user2.id]})
+        self.assertEqual(resp.status_code, 200)
+
+        # patch for change trip users (delete) // it would be done by admin user
+        resp = client.patch(reverse('trip-detail', args=(1,)), {'users': [1]})
+        self.assertEqual(resp.status_code, 200)
 
         # patch for change trip title
         resp = client.patch(reverse('trip-detail', args=(1,)), {'title': 'Osaka'})
@@ -75,13 +84,14 @@ class TripDetailViewTest(TestCase):
 
     def test_put_trip(self):
         user = create_user(username='swpp1', password='High_Travel')
+        user2 = create_user(username='swpp2', password='HighTravel')
         token = Token.objects.get(user__username='swpp1')
         client = APIClient()
         client.credentials(HTTP_AUTHORIZATION='Token ' + token.key)
         resp = client.post(reverse('trips'), {'title': 'Europe', 'sinceWhen': '2018-05-27', 'tilWhen': '2018-06-27', 'creator': 'swpp1'})
         self.assertEqual(resp.status_code, 201)
         data = resp.data
-        data['users'] = 1 
+        data['users'] = [user.id] 
 
         # 200 Response after title changed
         title_changed = data.copy()
@@ -108,6 +118,16 @@ class TripDetailViewTest(TestCase):
         resp = client.put(reverse('trip-detail', args=(1,)), valid_date)
         self.assertEqual(resp.status_code, 200)
 
+        # 200 Response after user is added / deleted in trip
+        user_added = data.copy()
+        user_added['users'] = [user.id, user2.id]
+        resp = client.put(reverse('trip-detail', args=(1,)), user_added)
+        self.assertEqual(resp.status_code, 200)
+        user_deleted = data.copy()
+        user_deleted['users'] = [user.id]
+        resp = client.put(reverse('trip-detail', args=(1,)), user_deleted)
+        self.assertEqual(resp.status_code, 200)
+
     def test_delete_trip(self):
         user = create_user(username='swpp1', password='High_Travel')
         token = Token.objects.get(user__username='swpp1')
@@ -118,6 +138,78 @@ class TripDetailViewTest(TestCase):
         resp = client.delete(reverse('trip-detail', args=(1,)))
         self.assertEqual(resp.status_code, 204)
 
+
+class AddUserViewTest(TestCase):
+
+    def test_post_user(self):
+        resp = self.client.post(reverse('adduser'), {'username': 'swpp', 'password': 'High_Travel'})
+        self.assertEqual(resp.status_code, 201)
+
+
+class UserListViewTest(TestCase):
+
+    def test_view_url_exists_at_desired_location(self):
+        resp = self.client.get('/api/users/')
+        self.assertEqual(resp.status_code, 200)
+
+    def test_view_url_accessible_by_name(self):
+        resp = self.client.get(reverse('users'))
+        self.assertEqual(resp.status_code, 200)
+
+
+class UserDetailViewTest(TestCase):
+
+    def test_no_user(self):
+        resp = self.client.get(reverse('user-detail', args=(1,)))
+        self.assertEqual(resp.status_code, 404)
+
+    def test_get_user_detail(self):
+        user = create_user(username="swpp1", password="High_Travel")
+        url = reverse('user-detail', args=(user.id,))
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, 200)
+
+    def test_patch_user(self):
+        user = create_user(username='swpp1', password='High_Travel')
+        token = Token.objects.get(user__username='swpp1')
+        client = APIClient()
+        client.credentials(HTTP_AUTHORIZATION='Token ' + token.key)
+        
+        # patch for change user username
+        resp = client.patch(reverse('user-detail', args=(1,)), {'username': 'SWPP'})
+        self.assertEqual(resp.status_code, 200)
+
+        # patch for change user password
+        resp = client.patch(reverse('user-detail', args=(1,)), {'password': 'hightravel'})
+        self.assertEqual(resp.status_code, 200)
+
+    def test_put_user(self):
+        resp = self.client.post(reverse('adduser'), {'username': 'swpp', 'password': 'High_Travel'})
+        self.assertEqual(resp.status_code, 201)
+        token = Token.objects.get(user__username='swpp')
+        client = APIClient()
+        client.credentials(HTTP_AUTHORIZATION='Token ' + token.key)
+        data = resp.data
+
+        # 200 Response after username changed
+        username_changed = data.copy()
+        username_changed['username'] = 'SWPP'
+        resp = client.put(reverse('user-detail', args=(1,)), username_changed)
+        self.assertEqual(resp.status_code, 200)
+
+        # 200 Response after password changed 
+        password_changed = data.copy()
+        password_changed['password'] = 'hightravel'
+        resp = client.put(reverse('user-detail', args=(1,)), password_changed)
+        self.assertEqual(resp.status_code, 200)
+
+    def test_delete_user(self):
+        user = create_user(username='swpp1', password='High_Travel')
+        token = Token.objects.get(user__username='swpp1')
+        client = APIClient()
+        client.credentials(HTTP_AUTHORIZATION='Token ' + token.key)
+        resp = client.delete(reverse('user-detail', args=(1,)))
+        self.assertEqual(resp.status_code, 204)
 
 class BudgetListViewTest(TestCase):
 
@@ -459,11 +551,12 @@ class PhotoDetailViewTest(TestCase):
         user = create_user(username='swpp1', password='High_Travel')
         new_trip = create_trip(title="Europe", sinceWhen="2018-05-27", tilWhen="2018-06-27", creator='swpp1')
         new_diary = Diary.objects.create(date="2018-05-27", contents="First Day in Paris", writer=user, tripID=new_trip)
+        new_diary2 = Diary.objects.create(date="2018-05-29", contents="Third Day in Paris", writer=user, tripID=new_trip)
         token = Token.objects.get(user__username='swpp1')
         client = APIClient()
         client.credentials(HTTP_AUTHORIZATION='Token ' + token.key)
         image = SimpleUploadedFile(name='test_image_new.jpg', content=open('./test_image.jpg', 'rb').read(), content_type='image/jpeg')
-        resp = client.post(reverse('photos'), {'date': '2018-05-27', 'contents': 'background', 'image': image, 'tripID': new_trip.id, 'folder': 'test', 'diaries': new_diary.id})
+        resp = client.post(reverse('photos'), {'date': '2018-05-27', 'contents': 'background', 'image': image, 'tripID': new_trip.id, 'folder': 'test', 'diaries': [new_diary.id]})
         self.assertEqual(resp.status_code, 201)
         os.remove('test_image_new.jpg')
         
@@ -479,10 +572,17 @@ class PhotoDetailViewTest(TestCase):
         resp = client.patch(reverse('photo-detail', args=(1,)), {'folder': 'in cafe'})
         self.assertEqual(resp.status_code, 200)
 
+        # patch for change photo diaries (add / delete)
+        resp = client.patch(reverse('photo-detail', args=(1,)), {'diaries': [new_diary.id, new_diary2.id]})
+        self.assertEqual(resp.status_code, 200)
+        resp = client.patch(reverse('photo-detail', args=(1,)), {'diaries': [new_diary2.id]})
+        self.assertEqual(resp.status_code, 200)
+
     def test_put_photo(self):
         user = create_user(username='swpp1', password='High_Travel')
         new_trip = create_trip(title="Europe", sinceWhen="2018-05-27", tilWhen="2018-06-27", creator='swpp1')
         new_diary = Diary.objects.create(date="2018-05-27", contents="First Day in Paris", writer=user, tripID=new_trip)
+        new_diary2 = Diary.objects.create(date="2018-05-29", contents="Third Day in Paris", writer=user, tripID=new_trip)
         token = Token.objects.get(user__username='swpp1')
         client = APIClient()
         client.credentials(HTTP_AUTHORIZATION='Token ' + token.key)
@@ -509,6 +609,16 @@ class PhotoDetailViewTest(TestCase):
         folder_changed = data.copy()
         folder_changed['folder'] = 'in cafe'
         resp = client.put(reverse('photo-detail', args=(1,)), folder_changed)
+        #self.assertEqual(resp.status_code, 200)
+
+        # 200 Response after diaries changed 
+        diaries_added = data.copy()
+        diaries_added['diaries'] = [new_diary.id, new_diary2.id]
+        resp = client.put(reverse('photo-detail', args=(1,)), diaries_added)
+        #self.assertEqual(resp.status_code, 200)
+        diaries_deleted = data.copy()
+        diaries_deleted['diaries'] = [new_diary2.id]
+        resp = client.put(reverse('photo-detail', args=(1,)), diaries_deleted)
         #self.assertEqual(resp.status_code, 200)
 
     def test_delete_photo(self):
@@ -923,4 +1033,3 @@ class MarkerOfTripViewTest(TestCase):
     def test_view_url_accessible_by_name(self):
         resp = self.client.get(reverse('markers-of-trip', args=(1,)))
         self.assertEqual(resp.status_code, 200)
-
