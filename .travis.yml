@@ -3,15 +3,17 @@ matrix:
     - language: python
       python: 3.6
       before_script:
-        - cd ../backend
+        - cd backend
       script:
-        - python mange.py test
+        - python manage.py test
 
     - language: node_js
       node_js:
         - v6
+      before_script:
+        - cd ../frontend
       script:
-        - npm run lint && npm test -- --coverage
+        - npm test -- --coverage
       cache:
         - yarn
       after_success:
