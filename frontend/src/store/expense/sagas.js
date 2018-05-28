@@ -85,27 +85,84 @@ export function* postExpense(contents,date,money){
 export function* patchExpense(idUpdatedRow) {
     //idUpdatedRow : {id:2,"contents":"test"} or {id:2,"money":3300}
     //patch and return success or fail to state(state.expense.updated is true when success)
+    var token = sessionStorage.getItem('token')
+    var tripID = sessionStorage.getItem('tripID')
+    var expenseUrl = url + idUpdatedRow.id + '/'
+    var tripExpenses = JSON.parse(sessionStorage.getItem('tripExpenses'))
+    var data
+    console.log(idUpdatedRow)
+    delete idUpdatedRow.id
+    console.log(idUpdatedRow)
+    try {
+        if (idUpdatedRow != undefined) {
+            data = yield call(fetch, expenseUrl, {
+                method: 'PATCH',
+                body: JSON.stringify(idUpdatedRow),
+                headers: {
+                    'Authorization': `token ${token}`,
+                    'Content-Type': 'application/json'
+                }
+            })
+        }
+        yield put(actions.patchexpenseSuc())
+    } catch (e) {
+        console.log('patch expense failed')
+        yield put(actions.patchexpenseFail())
+    }
+    yield call(loadExpense,tripID)
 }
 
-export function* deleteExpense(budIDs) {
-    //expense IDs are stored in list
-    //fake saga
-    var tripBudgets=[{id:1,contents:"after_delete",money:"2000"}]
-    yield put(actions.loadBudget(tripBudgets))
-    //end of fake saga
+export function* deleteEach(expenseID) {
+    console.log('in delete each')
+    var token = sessionStorage.getItem('token')
+    var expenseUrl
+    var expenseID
+    var data
+    console.log(expenseID)
+    expenseUrl = url + expenseID + '/'
+    console.log(expenseUrl)
+    try {
+        if (expenseID != undefined) {
+        data = yield call(fetch, expenseUrl, {
+            method: 'DELETE',
+            headers: {
+                'Authorization': `token ${token}`,
+                'Content-Type': 'application/json'
+               }
+            })
+        console.log('data', data)
+        }
+    } catch (e) {
+        console.log(e)
+        console.log('delete expense failed')
+    }
+    console.log('delete is done')
+}
+
+export function* deleteExpense(expIDs) {
+    console.log('deleteExpense', expIDs)
+    var tripID = sessionStorage.getItem('tripID')
+    console.log('in delete Expense')
+    try {
+        yield expIDs.map((expenseID) => call(deleteEach, expenseID))
+    } catch(e) {
+        console.log('delete expense failed')
+    }
+    yield call(loadExpense, tripID)
 }
 
 export function* watchPatchRequest() {
     while (true) {
-        const {idUpdatedRow} = yield take(actions.CHANGE_CONTENT)
+        const {idUpdatedRow} = yield take(actions.CHANGE_EXPENSE_CONTENT)
         yield call(patchExpense,idUpdatedRow)
     }
 }
 
 export function* watchDeleteRequest() {
     while (true) {
-        const {budIDs} = yield take(actions.DELETE_ROWS)
-        yield call(deleteExpense,budIDs)
+        const {expIDs} = yield take(actions.DELETE_EXPENSE_ROWS)
+        console.log('watch Delete Request', expIDs)
+        yield call(deleteExpense,expIDs)
     }
 }
 

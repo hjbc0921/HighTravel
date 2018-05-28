@@ -32,6 +32,7 @@ export class Budget extends React.Component {
       { key: 'money', name: 'Money', editable:true, width: 200, formatter: MoneyFormatter} ];
     var row = this.createRows(this.props.budget.length,this.props.budget)
     this.state = { rows: row[0], selectedIndexes : [], total: row[1]};
+    this.updated = this.props.updated
   }
 
   createRows = (numRows,budgets) => {
@@ -67,6 +68,8 @@ export class Budget extends React.Component {
     let budID = this.props.budget[fromRow].id
     let idUpdatedRow = update(updated,{id:{$set:budID}})
     this.props.changeContent(idUpdatedRow)
+    console.log(this.props.updated)
+    console.log(this.updated)
     if (this.props.updated){
       let updatedRow = update(this.state.rows, {[fromRow]:{$merge: updated}});
       this.setState({ rows:updatedRow });

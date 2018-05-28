@@ -1,20 +1,22 @@
 export const ADDBUDGET_REQUEST = 'ADDBUDGET_REQUEST';
 export const ADDBUDGET_FAIL = "ADDBUDGET_FAIL"
 export const ADDBUDGET_SUCCESS = "ADDBUDGET_SUCCESS"
+export const PATCHBUDGET_FAIL = "PATCHBUDGET_FAIL"
+export const PATCHBUDGET_SUCCESS = "PATCHBUDGET_SUCCESS"
 export const LOAD_BUDGET = "LOAD_BUDGET"
-export const CHANGE_CONTENT = "CHANGE_CONTENT"
-export const DELETE_ROWS = "DELETE_ROWS"
+export const CHANGE_BUDGET_CONTENT = "CHANGE_BUDGET_CONTENT"
+export const DELETE_BUDGET_ROWS = "DELETE_BUDGET_ROWS"
 
-export const changeContent = (idUpdatedRow) => {
+export const changeBudgetContent = (idUpdatedRow) => {
   return {
-  type : CHANGE_CONTENT,
+  type : CHANGE_BUDGET_CONTENT,
   idUpdatedRow
   }
 }
 
-export const deleteRows = (budIDs) => {
+export const deleteBudgetRows = (budIDs) => {
   return{
-  type : DELETE_ROWS,
+  type : DELETE_BUDGET_ROWS,
   budIDs
   }
 }
@@ -39,11 +41,23 @@ export const addbudgetRequest = (contents,money) => {
    contents,
    money
   }
-};
+}
 
 export const addbudgetSuc = (tripBudgets) => {
   return {
     type : ADDBUDGET_SUCCESS,
     tripBudgets
+  }
+}
+
+export const patchbudgetSuc = () => {
+  return {
+    type : PATCHBUDGET_SUCCESS,
+  }
+}
+
+export const patchBudgetFail = () => {
+  return{
+    type : PATCHBUDGET_FAIL,
   }
 }

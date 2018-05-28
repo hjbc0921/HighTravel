@@ -1,20 +1,22 @@
 export const ADDEXPENSE_REQUEST = 'ADDEXPENSE_REQUEST';
 export const ADDEXPENSE_FAIL = "ADDEXPENSE_FAIL"
 export const ADDEXPENSE_SUCCESS = "ADDEXPENSE_SUCCESS"
-export const CHANGE_CONTENT = "CHANGE_CONTENT"
-export const DELETE_ROWS = "DELETE_ROWS"
+export const PATCHEXPENSE_FAIL = "PATCHEXPENSE_FAIL"
+export const PATCHEXPENSE_SUCCESS = "PATCHEXPENSE_SUCCESS"
+export const CHANGE_EXPENSE_CONTENT = "CHANGE_EXPENSE_CONTENT"
+export const DELETE_EXPENSE_ROWS = "DELETE_EXPENSE_ROWS"
 
-export const changeContent = (idUpdatedRow) => {
+export const changeExpenseContent = (idUpdatedRow) => {
   return {
-  type : CHANGE_CONTENT,
+  type : CHANGE_EXPENSE_CONTENT,
   idUpdatedRow
   }
 }
 
-export const deleteRows = (budIDs) => {
+export const deleteExpenseRows = (expIDs) => {
   return{
-  type : DELETE_ROWS,
-  budIDs
+  type : DELETE_EXPENSE_ROWS,
+  expIDs
   }
 }
 
@@ -38,5 +40,17 @@ export const addexpenseSuc = (tripExpenses) => {
   return {
     type : ADDEXPENSE_SUCCESS,
     tripExpenses
+  }
+}
+
+export const patchexpenseFail = () => {
+  return{
+    type : PATCHEXPENSE_FAIL,
+  }
+}
+
+export const patchexpenseSuc = () => {
+  return {
+    type : PATCHEXPENSE_SUCCESS,
   }
 }

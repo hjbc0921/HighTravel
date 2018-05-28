@@ -1,5 +1,5 @@
 import { initialState} from "./selectors"
-import { LOAD_BUDGET, ADDBUDGET_REQUEST, ADDBUDGET_FAIL, ADDBUDGET_SUCCESS} from "./actions";
+import { LOAD_BUDGET, ADDBUDGET_REQUEST, ADDBUDGET_FAIL, ADDBUDGET_SUCCESS, PATCHBUDGET_FAIL, PATCHBUDGET_SUCCESS } from "./actions";
 
 const budget_reducer = (state = initialState, action) => {
    switch (action.type) {
@@ -19,6 +19,14 @@ const budget_reducer = (state = initialState, action) => {
       case ADDBUDGET_SUCCESS:
        return Object.assign({},state,{
          
+       })
+      case PATCHBUDGET_FAIL:
+       return Object.assign({},state,{
+        updated : false
+       })
+      case PATCHBUDGET_SUCCESS:
+       return Object.assign({},state,{
+        updated : true
        })
      default:
        return state

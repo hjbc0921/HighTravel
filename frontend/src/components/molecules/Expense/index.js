@@ -41,15 +41,15 @@ export class Expense extends React.Component {
     let rows = [];
     var total = 0;
       for (var i=0;i<numRows;i++){
-        var bud = expenses[i]
+        var exp = expenses[i]
         rows.push({
           id: i+1,
-          contents: bud.contents,
-          money: parseInt(bud.money),
-          spender : bud.spender,
-          date : bud.date
+          contents: exp.contents,
+          money: parseInt(exp.money),
+          spender : exp.spender,
+          date : exp.date
         })
-        total += parseInt(bud.money)
+        total += parseInt(exp.money)
       }
     var user;
     var each = ""
@@ -64,16 +64,16 @@ export class Expense extends React.Component {
 
   handleDelete = () => {
     var expenses = this.props.expense
-    var budIDs = []
+    var expIDs = []
     for (var i=0;i<this.state.selectedIndexes.length;i++){
-      budIDs.push(expenses[this.state.selectedIndexes[i]].id)
+      expIDs.push(expenses[this.state.selectedIndexes[i]].id)
     }
-    this.props.onDelete(budIDs)
+    this.props.onDelete(expIDs)
   }
 
   handleGridRowsUpdated = ({ fromRow, toRow, updated }) => {
-    let budID = this.props.expense[fromRow].id
-    let idUpdatedRow = update(updated,{id:{$set:budID}})
+    let expID = this.props.expense[fromRow].id
+    let idUpdatedRow = update(updated,{id:{$set:expID}})
     this.props.changeContent(idUpdatedRow)
     if (this.props.updated){
       let updatedRow = update(this.state.rows, {[fromRow]:{$merge: updated}});
