@@ -3,15 +3,32 @@ matrix:
     - language: python
       python: 3.6
       before_script:
+        - source ~/virtualenv/python3.6/bin/activate
         - cd backend
+        - python3 -m pip install django
+        - pip3 install djangorestframework
+        - pip3 install django-cors-headers
+        - pip3 install drf-writable-nested
+        - pip3 install Pillow
       script:
-        - python manage.py test
+        - python3 manage.py makemigrations
+        - python3 manage.py migrate
+        - python3 manage.py test
 
     - language: node_js
       node_js:
         - v6
       before_script:
-        - cd ../frontend
+        - cd frontend
+        - sudo apt install npm
+        - npm install
+        - npm install antd --save
+        - npm install --save react-router@3
+        - npm i react-data-grid
+        - npm install fullcalendar
+        - npm install fullcalendar-reactwrapper --save
+        - npm install --save react-addons-update
+        - npm install --save react-photo-gallery
       script:
         - npm test -- --coverage
       cache:
