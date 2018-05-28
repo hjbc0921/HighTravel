@@ -225,12 +225,27 @@ class ScheduleList(generics.ListCreateAPIView):
     queryset = Schedule.objects.all()
     serializer_class = ScheduleSerializer
     permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
+    # override post method to check condition of sinceWhen and tilWhen
+    def post(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+        if serializer.is_valid():
+            if serializer.validated_data['sinceWhen'] >= serializer.validated_data['tilWhen']:
+                return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        return self.create(request,*args,**kwargs)
 
 # api/schedules/id/ url view
 class ScheduleDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = Schedule.objects.all()
     serializer_class = ScheduleSerializer
     permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
+
+    # override put method to check condition of sinceWhen and tilWhen
+    def put(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+        if serializer.is_valid():
+            if serializer.validated_data['sinceWhen'] >= serializer.validated_data['tilWhen']:
+                return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        return self.update(request,*args,**kwargs)
 
 # api/schedules/trip/tripId url view
 class ScheduleOfTrip(generics.ListAPIView):

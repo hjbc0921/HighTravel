@@ -9,6 +9,7 @@ export function* postTrip(title, sinceWhen, untilWhen) {
     var token = sessionStorage.getItem('token')
     var username = sessionStorage.getItem('username')
     var mytrips = JSON.parse(sessionStorage.getItem('mytrips'))
+    var userID = sessionStorage.getItem('userID')
     let data;
     if (title != undefined && sinceWhen != undefined && untilWhen != undefined) {
         data = yield call(fetch, url, {

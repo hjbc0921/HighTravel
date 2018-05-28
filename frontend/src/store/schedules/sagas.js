@@ -8,21 +8,16 @@ const url = 'http://'+location.host+'/api/schedules/'
 export function* loadSchedules() {
     var tripID = sessionStorage.getItem('tripID')
     var tripScheduleUrl = url + 'trip/' + tripID + '/'
-    console.log(tripScheduleUrl)
-    
+   
     var tripSchedules
     yield fetch(tripScheduleUrl)
         .then((resp) => resp.json())
         .then(function(data) {
             console.log('schedules for trip')
             tripSchedules = data
-            console.log(tripSchedules)
         })
-    console.log('tripSchedules')
-    console.log(tripSchedules)
-
-    var schedules = tripSchedules
-    yield put({ type : 'STORE_SCHEDULE', schedules })
+    console.log('loadsche########',tripSchedules)
+    yield put({ type : 'STORE_SCHEDULE', tripSchedules })
 }
 
 export function* postSchedule(contents, since, until) {
@@ -31,8 +26,6 @@ export function* postSchedule(contents, since, until) {
     var token = sessionStorage.getItem('token')
     var tripID = sessionStorage.getItem('tripID')
 
-    console.log(token)
-    console.log(tripID)
     console.log(contents)
 
     let data
@@ -59,13 +52,11 @@ export function* postSchedule(contents, since, until) {
 
 export function* watchPostScheduleRequest() {
     while (true) {
-        console.log('postschedule in watch')
         const { contents, since, until } = yield take(actions.POST_SCHEDULE_REQUEST)
-        console.log(contents)
+        console.log("POSTSCHE@@@@@@@@@@@",contents)
         console.log(since)
         console.log(until)
         yield call(postSchedule, contents, since, until)
-        console.log('post in watch end')
     }
 }
 
@@ -78,6 +69,5 @@ export function* watchStoreTripId() {
 
 export default function* () {
     yield fork(watchStoreTripId)
-    console.log('watchPostScheduleRequest')
     yield fork(watchPostScheduleRequest)
 }
