@@ -90,8 +90,6 @@ print("\n--------------------------------------------------------")
 # check token
 
 print("2. Checking token created for each user in /api-token-auth/")
-user_tokens=['703064ee14987e8bf3b6023620042bf8b644d52a', 'd5e357e74b344bdc81294f21951fb4cd1c6125ed', '93aea797c495cf26d15ae4e6b9e1a4fb24c59b53', '34bd99efb366236ea79a188d341bec9f2db2ec94', '592eb4e5556134f8286ce09495c85a848c4162de', '01892b6ded7e4b3b5fbcb2eff647ea977e1e798f', '1222f5ff328721ad534456a1126a855f6f577466', 'bcad56e6c7c00bfe9202e59c10eaf02e6a856216', 'f0ba879707fb52ddcd66b15b00db82a19e081b49']  
-'''
 user_tokens = []
 for (uname,upwd) in user_pairs:
     os.system("http POST http://localhost:8000/api-token-auth/ username={0} password={1} > token".format(uname,upwd))
@@ -102,8 +100,6 @@ for (uname,upwd) in user_pairs:
     user_tokens.append(token)
     tokenfile.close()
 os.system("rm token")
-'''
-#print(user_tokens)
 print("\n--------------------------------------------------------")
 
 # make new trips
@@ -118,12 +114,12 @@ for i in range(0, tripN):
     sinceWhen = sinceWhens[i]
     tilWhen = tilWhens[i]
     title = titles[i]
-    data = "\"sinceWhen\"={0} \"tilWhen\"={1} \"title\"={2}".format(sinceWhen,tilWhen,title)
+    data = "\"sinceWhen\"={0} \"tilWhen\"={1} \"title\"={2} \"creator\"=\"as\"".format(sinceWhen,tilWhen,title)
     trips.append(data)
     token = user_tokens[i+3]
     print("posting with user: swpp{0}".format(i+3))
     print(data)
-    #post_or_error(link, data, token)
+    post_or_error(link, data, token)
 
 print("\n--------------------------------------------------------")
 
@@ -147,24 +143,20 @@ print("\n--------------------------------------------------------")
 print("5. Delete trip1 from /api/trips/1/")
 link = "http://localhost:8000/api/trips/1/"
 token = user_tokens[3] #user:swpp4
-'''
 delete_or_error(link,token)
 trips_json = get_json_or_error("http://localhost:8000/api/trips/")
 for prom_json in trips_json:
     print(prom_json["id"],prom_json["title"],prom_json["sinceWhen"],prom_json["tilWhen"],prom_json["users"],sep="\t")
-'''
 print("\n--------------------------------------------------------") 
 # patch trips
 print("6. Get trip2 and Change trip2's trip title in /api/trips/2/")
 link = "http://localhost:8000/api/trips/2/"
 data = "\"title\"=\"changed to new title!\""
 token = user_tokens[5] #user:swpp6
-'''
 trips_json = get_json_or_error(link)
 print("id","title","sinceWhen","tilWhen","users",sep="\t")
 print(trips_json["id"],trips_json["title"],trips_json["sinceWhen"],trips_json["tilWhen"],trips_json["users"],sep="\t")
 patch_or_error(link,data,token)
-'''
 print("\n--------------------------------------------------------") 
 # add user to trips
 print("7. Add another user to trip3 in /api/trips/3/")
@@ -185,13 +177,11 @@ data2 = "\"contents\"=\"{0}\" \"tripID\"=\"2\"".format(rules[1])
 data3 = "\"contents\"=\"{0}\" \"tripID\"=\"3\"".format(rules[2])
 data4 = "\"contents\"=\"{0}\" \"tripID\"=\"3\"".format(rules[3])
 data5 = "\"contents\"=\"{0}\" \"tripID\"=\"3\"".format(rules[4])
-'''
 post_or_error(link,data1,user_tokens[5])
 post_or_error(link,data2,user_tokens[5])
 post_or_error(link,data3,user_tokens[6])
 post_or_error(link,data4,user_tokens[6])
 post_or_error(link,data5,user_tokens[6])
-'''
 print("\n--------------------------------------------------------") 
 # get all rules of certain trip
 print("9. Get rules for trip2 from /api/rules/trip/2/")

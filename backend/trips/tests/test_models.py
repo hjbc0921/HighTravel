@@ -5,28 +5,25 @@ from trips.models import Trip, Budget, Expense, Diary, Photo, Todo, Rule, Schedu
 from django.conf import settings
 from django.contrib.auth.models import User
 from rest_framework.authtoken.models import Token
+from django.db.models.signals import pre_save
+from django.db.models.signals import post_save
+from django.dispatch import receiver
 
-# add user model method test
-"""
 class UserModelTest(TestCase):
-
     @classmethod
     def setUpTestData(cls):
-        print("setUpUserTestData: Run once to set up non-modified data for all class methods.")
-        user = User.objects.create(username="swpp", password="HighTravel")
-        print("you are here")
+        user = User.objects.create(username="swpp1",password="High_Travel")
 
-    def test_create_auth_token(self):
-        user2 = User.objects.get(id=1)
-        print("you are here")
-        print(user2)
-        #with self.assertRaises(Exception) as raised:
-        token = create_auth_token(settings.AUTH_USER_MODEL, user2, True)
-        self.assertEqual(token, "186daf7260b03b3ba6903206a08e3631f71791fb")
-        self.assertEqual(IntegrityError, type(raised.exception))
-"""
-
-
+    def testcase(self):
+        error = ""
+        user1 = User.objects.get(id=1)
+        try:
+            self.token = Token.objects.create(user=user1)
+        except IntegrityError as e :
+            if 'UNIQUE constraint' in e.args[0]:
+                error = "token already exists"
+        self.assertEqual(error,"token already exists")
+        
 class TripModelTest(TestCase):
     @classmethod
     def setUpTestData(cls):

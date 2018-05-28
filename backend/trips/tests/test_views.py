@@ -3,6 +3,7 @@ from django.test import TestCase
 from django.contrib.auth.models import User
 from django.core.files.uploadedfile import SimpleUploadedFile
 from rest_framework.authtoken.models import Token
+from rest_framework.test import APITestCase
 from rest_framework.test import APIClient
 from trips.models import Trip, Budget, Expense, Diary, Photo, Todo, Rule, Schedule, Marker
 from django.urls import reverse
@@ -144,7 +145,6 @@ class AddUserViewTest(TestCase):
     def test_post_user(self):
         resp = self.client.post(reverse('adduser'), {'username': 'swpp', 'password': 'High_Travel'})
         self.assertEqual(resp.status_code, 201)
-
 
 class UserListViewTest(TestCase):
 
