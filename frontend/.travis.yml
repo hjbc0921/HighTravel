@@ -1,9 +1,18 @@
-language: node_js
-node_js:
-  - v6
-script:
-  - npm run lint && npm test -- --coverage
-cache:
-  - yarn
-after_success:
-  - bash <(curl -s https://codecov.io/bash)
+matrix:
+  include:
+    - language: python
+      python: 3.6
+      before_script:
+        - cd ../backend
+      script:
+        - python mange.py test
+
+    - language: node_js
+      node_js:
+        - v6
+      script:
+        - npm run lint && npm test -- --coverage
+      cache:
+        - yarn
+      after_success:
+        - bash <(curl -s https://codecov.io/bash)
