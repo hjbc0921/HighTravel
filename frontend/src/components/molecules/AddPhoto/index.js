@@ -6,6 +6,7 @@ import './../../item.css'
 import ReactDOM from 'react-dom';
 import {Upload,message,Button,Icon,Modal} from 'antd';
 
+
 const Wrapper = styled.div`
   font-family: ${font('primary')};
   color: ${palette('grayscale', 0)};
@@ -22,15 +23,19 @@ export const AddPhoto = ({onAddPhoto}) =>{
                      name:'xxx.png',
                      status:'done',
                      url:'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png',
-                   }],                             
-
+                   }
+],
 };
+   
+
  const handleCancel = () =>{ state.previewVisible = false;}
  const handlePreview = (file) => { 
                              state.previewImage=file.url||file.thumbUrl;
                              state.previewVisible = true;
 }
- const fileChangedHandler = ({fileList})=> {
+ const fileChangedHandler = ({fileList})=> 
+ {
+  console.log(fileList);
   state.selectedFile = fileList;
   }
  

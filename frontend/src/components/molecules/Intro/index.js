@@ -28,6 +28,7 @@ const InnerWrapper = styled.div`
 export const Intro = ({intro, onLogin, onSignup}) => {
 
   let username, password;
+  
   const onLoginBtn = () => {
     if (username.value!=undefined && password.value!=undefined){
     onLogin(username.value, password.value);
@@ -40,7 +41,7 @@ export const Intro = ({intro, onLogin, onSignup}) => {
   }
 
 return (
-  <Wrapper>
+ <Wrapper>
   <InnerWrapper>
     <h1 className="hightravel">High, Travel!</h1>
     <div>

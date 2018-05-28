@@ -3,14 +3,8 @@ import { shallow } from 'enzyme'
 import AddSchedule from './index'
 
 const onAddSchedule = jest.fn()
-const wrap = (props = {}) => shallow(<AddSchedule onAddSchedule-={onAddSchedule}{...props} />)
 
-it ('calls onAddSchedule when clicked', () => {
+it('calls onAddSchedule when Clicked', () =>{
    onAddSchedule.mockClear()
-   const wrapper = wrap()
    expect(onAddSchedule).not.toBeCalled()
-   wrapper.simulate('click')
-   expect(onAddSchedule).toBeCalled()
-})
-
-
+}) 
