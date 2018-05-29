@@ -36,10 +36,9 @@ export const addexpenseRequest = (contents,date,money) => {
   }
 };
 
-export const addexpenseSuc = (tripExpenses) => {
+export const addexpenseSuc = () => {
   return {
-    type : ADDEXPENSE_SUCCESS,
-    tripExpenses
+    type : ADDEXPENSE_SUCCESS
   }
 }
 

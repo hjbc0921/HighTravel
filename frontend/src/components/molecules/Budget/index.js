@@ -4,7 +4,7 @@ import { font, palette } from 'styled-theme'
 const ReactDataGrid = require('react-data-grid');
 import AddBudget from '../../../containers/Addbudget'
 import update from 'react-addons-update';
-import {Button} from 'antd'
+import {Button, Col} from 'antd'
 const Wrapper = styled.div`
   font-family: ${font('primary')};
   color: ${palette('grayscale', 0)};
@@ -32,7 +32,18 @@ export class Budget extends React.Component {
       { key: 'money', name: 'Money', editable:true, width: 200, formatter: MoneyFormatter} ];
     var row = this.createRows(this.props.budget.length,this.props.budget)
     this.state = { rows: row[0], selectedIndexes : [], total: row[1]};
-    this.updated = this.props.updated
+  }
+  componentWillReceiveProps(nextProps) {
+    console.log('####################componentWillReceiveProps', this.props,nextProps);
+    if (nextProps.updated){
+      var row = this.createRows(nextProps.budget.length,nextProps.budget)
+      this.setState({selectedIndexes : [], rows:row[0], total: row[1]})
+    }
+  }
+  
+  shouldComponentUpdate(nextProps, nextState) {
+      console.log("#########shouldCOmponent",this.props, nextProps, this.state,nextState)
+      return (nextProps.updated ) || (this.props!==nextProps) || (this.state!==nextState)
   }
 
   createRows = (numRows,budgets) => {
@@ -68,20 +79,21 @@ export class Budget extends React.Component {
     let budID = this.props.budget[fromRow].id
     let idUpdatedRow = update(updated,{id:{$set:budID}})
     this.props.changeContent(idUpdatedRow)
-    console.log(this.props.updated)
-    console.log(this.updated)
-    if (this.props.updated){
-      let updatedRow = update(this.state.rows, {[fromRow]:{$merge: updated}});
-      this.setState({ rows:updatedRow });
-    }
+
+    let updatedRow = update(this.state.rows, {[fromRow]:{$merge: updated}});
+    this.setState({ rows:updatedRow });
+ 
   };
 
   onRowsSelected = (rows) => {
+    let rowIndexes = rows.map(r => r.rowIdx);
+    console.log(rowIndexes)
     this.setState({selectedIndexes: this.state.selectedIndexes.concat(rows.map(r => r.rowIdx))});
   };
 
   onRowsDeselected = (rows) => {
     let rowIndexes = rows.map(r => r.rowIdx);
+    console.log(rowIndexes)
     this.setState({selectedIndexes: this.state.selectedIndexes.filter(i => rowIndexes.indexOf(i) === -1 )});
   };
 
@@ -93,11 +105,11 @@ export class Budget extends React.Component {
     return  (
       <div>
         <h2> Your budget adds up to {this.state.total} 원 </h2>
-        <div>
-      {this.state.selectedIndexes.length>0 && <Button onClick={this.handleDelete} > Delete </Button>}
+      <div>
+      <Col span={12}><AddBudget/></Col>
+      <Col span={12}>{this.state.selectedIndexes.length>0 && <Button onClick={this.handleDelete} > Delete </Button>}</Col>
       </div>
-      <AddBudget/>
-  
+      <br></br>
       <ReactDataGrid
         ref={ node => this.grid = node }
         rowKey = "id"

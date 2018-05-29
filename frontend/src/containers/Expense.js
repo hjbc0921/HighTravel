@@ -6,7 +6,7 @@ const mapStateToProps = (state) => {
   return {
     expense: JSON.parse(sessionStorage.getItem('tripExpenses')),
     totalExpense: JSON.parse(sessionStorage.getItem('totalExpenses')),
-    updated : state.expense.updated
+    updated2 : state.expense.updated2
   }
 }
 
@@ -16,8 +16,8 @@ const mapDispatchToProps = (dispatch) => {
     changeContent: (idUpdatedRow) => {
       dispatch(changeExpenseContent(idUpdatedRow))
     },
-    onDelete : (budIDs) => {
-      dispatch(deleteExpenseRows(budIDs))
+    onDelete : (expIDs) => {
+      dispatch(deleteExpenseRows(expIDs))
     }
   }
 }

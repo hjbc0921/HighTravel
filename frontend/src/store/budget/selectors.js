@@ -1,5 +1,6 @@
 export const initialState = {
     message : "",
     tripBudgets:[],
-    updated:false
+    updated:false,
+    patched:false
 }

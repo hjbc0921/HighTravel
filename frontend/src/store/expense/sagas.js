@@ -57,6 +57,7 @@ export function* loadExpense() {
 
     sessionStorage.setItem('tripExpenses',JSON.stringify(tripExpenses))
     sessionStorage.setItem('totalExpenses',JSON.stringify(totalExpenses))
+    yield put(actions.addexpenseSuc())
 }
 
 export function* postExpense(contents,date,money){
