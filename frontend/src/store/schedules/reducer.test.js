@@ -7,6 +7,6 @@ describe('Store schedules', () => {
         expect(schedules_reducer(
             [],
             storeSchedule({since: '2018-01-10', until: '2018-10-10', contents: 'Europe travel'})
-        )).toEqual({ schedules: {since: '2018-01-10', until: '2018-10-10', contents: 'Europe travel' }})
+        )).toEqual({ schedules: {since: '2018-01-10', until: '2018-10-10', contents: 'Europe travel' }, "updated":true})
     })
 })

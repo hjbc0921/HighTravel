@@ -28,7 +28,7 @@ export const AddRule = ({ statefunction, onPostRule }) => {
     <form>
         <Wrapper>
             <input id="content" required type="text" placeholder="contents for new rule" ref={node => {input = node;}} />
-            <Button type="submit" onClick={onSubmit}>Add Rule</Button>
+            <Button id="button1" type="submit" onClick={onSubmit}>Add Rule</Button>
         </Wrapper>
     </form>
   )
@@ -38,3 +38,5 @@ AddRule.propTypes = {
   reverse: PropTypes.bool,
   children: PropTypes.node,
 }
+
+export default AddRule

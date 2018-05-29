@@ -10,9 +10,11 @@ export class RuleList extends React.Component {
         {this.props.rules.map(rule => 
           <div className="ruleelement" key={rule.id}>
             <Rule rule={rule} />
-            <Button onClick={ event => this.props.onDeleteRule(rule.id) }>Delete</Button>
+            <Button id="button3" onClick={ event => this.props.onDeleteRule(rule.id) }>Delete</Button>
           </div>)}
       </div>
     );
     }
 }
+
+export default RuleList

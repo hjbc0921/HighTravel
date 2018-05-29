@@ -55,7 +55,7 @@ return (
     <Button type="submit" style={{ width:'200px', margin: '4px 0' }} onClick={onLoginBtn} icon="login">login</Button> 
     </div>
     <div>
-    <Link to="/signup" > <Button onClick={onSignBtn} icon="user-add" style={{ width:'200px',margin: '8px 0' }} > signup </Button> </Link> 
+    <Link to="/signup" > <Button id="button5" onClick={onSignBtn} icon="user-add" style={{ width:'200px',margin: '8px 0' }} > signup </Button> </Link> 
     </div>
   </InnerWrapper>
   </Wrapper>

@@ -89,7 +89,7 @@ export class AddSchedule extends React.Component {
   render() {
     return (
       <div>
-        <Button type="primary" icon="plus" onClick={this.showModal}>Add Schedule</Button>
+        <Button id="button4" type="primary" icon="plus" onClick={this.showModal}>Add Schedule</Button>
         <ScheduleCreateForm
           wrappedComponentRef={this.saveFormRef}
           visible={this.state.visible}
@@ -100,3 +100,5 @@ export class AddSchedule extends React.Component {
     );
   }
 }
+
+export default AddSchedule

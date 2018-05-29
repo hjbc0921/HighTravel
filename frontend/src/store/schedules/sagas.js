@@ -9,29 +9,23 @@ export function* loadSchedules() {
     var tripID = sessionStorage.getItem('tripID')
     var tripScheduleUrl = url + 'trip/' + tripID + '/'
    
-    var tripSchedules
+    var schedules = []
     yield fetch(tripScheduleUrl)
         .then((resp) => resp.json())
         .then(function(data) {
             console.log('schedules for trip')
-            tripSchedules = data
+            schedules = data
         })
-    console.log('loadsche########',tripSchedules)
-    yield put({ type : 'STORE_SCHEDULE', tripSchedules })
+    console.log('loadsche########',schedules)
+    yield put({ type : 'STORE_SCHEDULE', schedules })
 }
 
 export function* postSchedule(contents, since, until) {
-    console.log('post in postSchedule')
-
     var token = sessionStorage.getItem('token')
     var tripID = sessionStorage.getItem('tripID')
-
-    console.log(contents)
-
     let data
     try {
         if (contents != undefined && since != undefined && until != undefined) {
-            console.log('**************')
             data = yield call(fetch, url, {
                 method: 'POST',
                 body: JSON.stringify({ contents: contents, sinceWhen: since, tilWhen: until, tripID: tripID }),
@@ -40,10 +34,9 @@ export function* postSchedule(contents, since, until) {
                     'Content-Type': 'application/json'
                 }
             })
-            console.log('---------------------------')
         }
     } catch(e) {
-        console.log('postSchedule failed')
+        yield put(actions.postScheduleFail())
     }
     
     console.log('before loadSchedules')

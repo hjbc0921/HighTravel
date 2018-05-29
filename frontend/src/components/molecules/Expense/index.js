@@ -124,7 +124,7 @@ export class Expense extends React.Component {
       </Col>
       </div>
       <br></br>
-      <ReactDataGrid
+      <ReactDataGrid id="expense"
         ref={ node => this.grid = node }
         rowKey = "id"
         rowSelection={{

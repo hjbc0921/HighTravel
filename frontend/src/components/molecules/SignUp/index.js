@@ -39,7 +39,7 @@ export const SignUp = ({ signUp, onSignUp }) => {
     <div><input placeholder="password" required type="password" ref={node =>{password = node;}} /></div>
     <div><input placeholder="pwd check"required type="password" ref={node =>{pwd_check =node;}} /></div>
     <div className="mywarning">{signUp.message}</div>
-    <Button type="submit" style={{ width:'200px', margin: '4px 0' }} onClick={onSignUpBtn} icon="user-add">signup</Button> 
+    <Button id="button2" type="submit" style={{ width:'200px', margin: '4px 0' }} onClick={onSignUpBtn} icon="user-add">signup</Button> 
     </div>
     </InnerWrapper>
   </Wrapper>
@@ -58,4 +58,4 @@ SignUp.defaultProps = {
   pwd_check: ''
 }
 
-//export default SignUp
+export default SignUp

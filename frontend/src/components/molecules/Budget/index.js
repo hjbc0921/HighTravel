@@ -110,7 +110,7 @@ export class Budget extends React.Component {
       <Col span={12}>{this.state.selectedIndexes.length>0 && <Button onClick={this.handleDelete} > Delete </Button>}</Col>
       </div>
       <br></br>
-      <ReactDataGrid
+      <ReactDataGrid id="budget"
         ref={ node => this.grid = node }
         rowKey = "id"
         rowSelection={{

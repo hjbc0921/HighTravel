@@ -2,12 +2,12 @@ import React from 'react'
 import AddSchedule from "../../../containers/AddSchedule";
 import AddTodo from "../../../containers/AddTodo";
 import TodoList from "../../../containers/TodoList";
-import ShowSchedule from "../../../components/molecules/Calendar";
+import Calendar from "../../../containers/Calendar";
 
 const HomePage = () => {
   return (
     <div>
-    <ShowSchedule/> 
+    <Calendar/> 
     <br/><br/>
     <AddSchedule/>
     </div>
