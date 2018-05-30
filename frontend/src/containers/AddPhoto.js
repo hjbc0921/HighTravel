@@ -1,6 +1,6 @@
 import { connect } from 'react-redux'
 import { AddPhoto } from "../components/molecules/AddPhoto";
-import { addphotoRequest } from "../store/addphoto/actions";
+//import { addphotoRequest } from "../store/addphoto/actions";
 
 const mapStateToProps = (state) => {
    return{
@@ -11,7 +11,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
    return{
       onAddPhoto: (selectedFile,text) =>{
-           dispatch(addphotoRequest(selectedFile,text))
+           // dispatch(addphotoRequest(selectedFile,text))
       }
    }
 };
