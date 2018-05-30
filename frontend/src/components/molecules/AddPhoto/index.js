@@ -1,90 +1,107 @@
-import React,{PropTypes} from 'react'
-import styled from 'styled-components'
-import { font, palette } from 'styled-theme'
-//import Button from "../../../components/atoms/Button"
-import './../../item.css'
-import ReactDOM from 'react-dom';
-import {Upload,message,Button,Icon,Modal} from 'antd';
+import React from 'react'
+import {
+  Form, Select, InputNumber, Switch, Radio,
+  Slider, Button, Upload, Icon, Rate, Input
+} from 'antd';
+const FormItem = Form.Item;
+const Option = Select.Option;
+const RadioButton = Radio.Button;
+const RadioGroup = Radio.Group;
 
-
-const Wrapper = styled.div`
-  font-family: ${font('primary')};
-  color: ${palette('grayscale', 0)};
-`
-
-
-
-export const AddPhoto = ({onAddPhoto}) =>{
-  let state = {
-             previewVisible: false,
-             previewImage: '',
-             selectedFile:[{
-                     uid:-1,
-                     name:'xxx.png',
-                     status:'done',
-                     url:'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png',
-                   }
-],
-};
-   
-
- const handleCancel = () =>{ state.previewVisible = false;}
- const handlePreview = (file) => { 
-                             state.previewImage=file.url||file.thumbUrl;
-                             state.previewVisible = true;
-}
- const fileChangedHandler = ({fileList})=> 
- {
-  console.log(fileList);
-  state.selectedFile = fileList;
+class Demo extends React.Component {
+  handleSubmit = (e) => {
+    e.preventDefault();
+    this.props.form.validateFields((err, values) => {
+      console.log('err in validated fields', err)
+      if (!err) {
+        console.log('Received values of form: ', values)
+	this.props.onAddPhoto(values.contents, values.date, values.photos, values.folder)
+      }
+    });
   }
- 
- const onAddPhotoBtn = () => {
-  if(state.selectedFile == null)
-    throw "select image file";
-  else
-    onAddPhoto(state.selectedFile);
+  normFile = (e) => {
+    console.log('Upload event:', e);
+    if (Array.isArray(e)) {
+      return e;
+    }
+    return e && e.fileList;
   }
-     const uploadButton = (
-          <div>
-           <Icon type = "plus" />
-           <div className = "ant-upload-text">Upload</div>
-          </div> 
-     );
+  render() {
+    const { getFieldDecorator } = this.props.form;
+    const formItemLayout = {
+      labelCol: { span: 6 },
+      wrapperCol: { span: 14 },
+    };
+    const token = sessionStorage.getItem('token')
+    const tripID = sessionStorage.getItem('tripID')
+    return (
+      <Form onSubmit={this.handleSubmit}>
+	<FormItem 
+          {...formItemLayout}
+	  label="Contents"
+	>
+	  {getFieldDecorator('contents', {
+	    rules: [{ required: true, message: 'Please input the contents of trip!' }],
+	  })(
+	    <Input />
+	  )}
+	</FormItem>
 
-  return (
-  <div className="photo">
-     <Upload
-     listType = "picture-card"
-     fileList = {state.selectedFile}
-     onPreview = {handlePreview}
-     onChange={fileChangedHandler}
-     >
-  
-   {state.selectedFile.length >=20 ? null : uploadButton}
-    
-   </Upload>
+        <FormItem
+          {...formItemLayout}
+          label="Folder"
+          hasFeedback
+        >
+          {getFieldDecorator('folder', {
+            rules: [
+              { required: true, message: 'Please select a folder!' },
+            ],
+          })(
+            <Select placeholder="Please select a folder">
+              <Option value="china">China</Option>
+              <Option value="use">U.S.A</Option>
+            </Select>
+          )}
+        </FormItem>
 
-  <Modal visible={state.previewVisible} footer={null} onCancel={handleCancel}>
-   <img alt ="example" style ={{ width: '100%'}} src={state.previewImage}/>
-  </Modal>
-  <Button onClick={onAddPhotoBtn}> 올리기 </Button>
-    </div>
-  );
+	<FormItem 
+          {...formItemLayout}
+	  label="Date"
+	>
+	  {getFieldDecorator('date', {
+	    rules: [{ required: true, message: 'Please input the date of trip!' }],
+	  })(<Input type="date" />)}
+	</FormItem>
+
+        <FormItem
+          {...formItemLayout}
+          label="Photo"
+        >
+          <div className="dropbox">
+            {getFieldDecorator('photos', {
+              valuePropName: 'fileList',
+              getValueFromEvent: this.normFile,
+            })(
+              <Upload.Dragger name="image" headers={{ Authorization: 'Token ' +  token }} data={{folder: this.props.form.getFieldValue('folder'), date:this.props.form.getFieldValue('date'), contents:this.props.form.getFieldValue('contents'), tripID: tripID}} action="//127.0.0.1:8000/api/photos/">
+                <p className="ant-upload-drag-icon">
+                  <Icon type="inbox" />
+                </p>
+                <p className="ant-upload-text">Click or drag file to this area to upload</p>
+                <p className="ant-upload-hint">Support for a single or bulk upload.</p>
+              </Upload.Dragger>
+            )}
+          </div>
+        </FormItem>
+
+        <FormItem
+          wrapperCol={{ span: 12, offset: 6 }}
+        >
+          <Button type="primary" htmlType="submit">Submit</Button>
+        </FormItem>
+      </Form>
+    );
+  }
 }
 
-AddPhoto.propTypes = {
-   state:PropTypes.arrayOf(PropTypes.shape({
-   previewVisible:PropTypes.bool.isRequired,
-   previewImage: PropTypes.string.isRequired,
-   selectedFile: PropTypes.arrayOf(PropTypes.shape({
-   uid:PropTypes.number.isRequired,
-   name:PropTypes.string.isRequired,     
-   status:PropTypes.string.isRequired,
-   url:PropTypes.string.isRequired
-   }))
-   }))
+export const AddPhoto = Form.create()(Demo);
 
-}
-
-export default AddPhoto
