@@ -529,8 +529,6 @@ class PhotoListViewTest(TestCase):
         image = SimpleUploadedFile(name='test_image_new.jpg', content=open('./test_image.jpg', 'rb').read(), content_type='image/jpeg')
         resp = client.post(reverse('photos'), {'date': '2018-05-27', 'contents': 'background', 'image': image, 'tripID': new_trip.id, 'folder': 'test', 'diaries': new_diary.id})
         self.assertEqual(resp.status_code, 201)
-        os.remove('test_image_new.jpg')
-
 
 
 class PhotoDetailViewTest(TestCase):
@@ -558,7 +556,6 @@ class PhotoDetailViewTest(TestCase):
         image = SimpleUploadedFile(name='test_image_new.jpg', content=open('./test_image.jpg', 'rb').read(), content_type='image/jpeg')
         resp = client.post(reverse('photos'), {'date': '2018-05-27', 'contents': 'background', 'image': image, 'tripID': new_trip.id, 'folder': 'test', 'diaries': [new_diary.id]})
         self.assertEqual(resp.status_code, 201)
-        os.remove('test_image_new.jpg')
         
         # patch for change photo date
         resp = client.patch(reverse('photo-detail', args=(1,)), {'date': '2018-05-28'})
@@ -589,7 +586,6 @@ class PhotoDetailViewTest(TestCase):
         image = SimpleUploadedFile(name='test_image_new.jpg', content=open('./test_image.jpg', 'rb').read(), content_type='image/jpeg')
         resp = client.post(reverse('photos'), {'date': '2018-05-27', 'contents': 'background', 'image': image, 'tripID': new_trip.id, 'folder': 'test', 'diaries': new_diary.id})
         self.assertEqual(resp.status_code, 201)
-        os.remove('test_image_new.jpg')
         data = resp.data
 
         # put method failed in photo...
@@ -631,7 +627,6 @@ class PhotoDetailViewTest(TestCase):
         image = SimpleUploadedFile(name='test_image_new.jpg', content=open('./test_image.jpg', 'rb').read(), content_type='image/jpeg')
         resp = client.post(reverse('photos'), {'date': '2018-05-27', 'contents': 'background', 'image': image, 'tripID': new_trip.id, 'folder': 'test', 'diaries': new_diary.id})
         self.assertEqual(resp.status_code, 201)
-        os.remove('test_image_new.jpg')
         resp = client.delete(reverse('photo-detail', args=(1,)))
         self.assertEqual(resp.status_code, 204)
 

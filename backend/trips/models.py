@@ -35,7 +35,7 @@ class Photo(models.Model):
     image       = models.ImageField()
     folder      = models.CharField(max_length=20)
     date        = models.DateField()
-    diaries     = models.ManyToManyField(Diary,related_name="photos")
+    diaries     = models.ManyToManyField(Diary,related_name="photos", blank=True)
     tripID      = models.ForeignKey(Trip,related_name="trip_photo",on_delete=models.CASCADE)
 
 class Todo(models.Model):
