@@ -12,13 +12,21 @@ class Demo extends React.Component {
   state = {
     folder : this.props.folder
   }
+  componentWillReceiveProps(nextProps) {
+    console.log('####################componentWillReceiveProps', this.props,nextProps);
+    this.setState({folder:nextProps.folder})
+  }
+  shouldComponentUpdate(nextProps, nextState) {
+      console.log("#########shouldCOmponent",this.props, nextProps, this.state,nextState)
+      return (this.props!==nextProps) || (this.state!==nextState)
+  }
   handleSubmit = (e) => {
     e.preventDefault();
     this.props.form.validateFields((err, values) => {
       console.log('err in validated fields', err)
       if (!err) {
         console.log('Received values of form: ', values)
-	this.props.onAddPhoto(values.folder, values.photos)
+	      this.props.onAddPhoto(values.folder, values.photos)
       }
     });
   }
@@ -58,7 +66,7 @@ class Demo extends React.Component {
           })(
             <Select placeholder="Please select a folder">
             {this.state.folder.length>0 && this.state.folder.map(fold =>
-           <Option key = {fold.id} value = {fold.id}>{fold.name}</Option>
+           <Option key = {fold.name} value = {fold.name}>{fold.name}</Option>
             )}
             </Select>
           )}
