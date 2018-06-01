@@ -9,13 +9,16 @@ const RadioButton = Radio.Button;
 const RadioGroup = Radio.Group;
 
 class Demo extends React.Component {
+  state = {
+    folder : this.props.folder
+  }
   handleSubmit = (e) => {
     e.preventDefault();
     this.props.form.validateFields((err, values) => {
       console.log('err in validated fields', err)
       if (!err) {
         console.log('Received values of form: ', values)
-	this.props.onAddPhoto(values.contents, values.date, values.photos, values.folder)
+	this.props.onAddPhoto(values.folder, values.photos)
       }
     });
   }
@@ -26,26 +29,22 @@ class Demo extends React.Component {
     }
     return e && e.fileList;
   }
+  onChange = (e) => {
+    console.log(e.target.files[0])
+    console.log(this.state.folder)
+  }
+  beforeUpload = (file) => {
+    return false
+  }
   render() {
     const { getFieldDecorator } = this.props.form;
     const formItemLayout = {
       labelCol: { span: 6 },
       wrapperCol: { span: 14 },
     };
-    const token = sessionStorage.getItem('token')
-    const tripID = sessionStorage.getItem('tripID')
+    
     return (
       <Form onSubmit={this.handleSubmit}>
-	<FormItem 
-          {...formItemLayout}
-	  label="Contents"
-	>
-	  {getFieldDecorator('contents', {
-	    rules: [{ required: true, message: 'Please input the contents of trip!' }],
-	  })(
-	    <Input />
-	  )}
-	</FormItem>
 
         <FormItem
           {...formItemLayout}
@@ -58,20 +57,12 @@ class Demo extends React.Component {
             ],
           })(
             <Select placeholder="Please select a folder">
-              <Option value="china">China</Option>
-              <Option value="use">U.S.A</Option>
+            {this.state.folder.length>0 && this.state.folder.map(fold =>
+           <Option key = {fold.id} value = {fold.id}>{fold.name}</Option>
+            )}
             </Select>
           )}
         </FormItem>
-
-	<FormItem 
-          {...formItemLayout}
-	  label="Date"
-	>
-	  {getFieldDecorator('date', {
-	    rules: [{ required: true, message: 'Please input the date of trip!' }],
-	  })(<Input type="date" />)}
-	</FormItem>
 
         <FormItem
           {...formItemLayout}
@@ -81,8 +72,11 @@ class Demo extends React.Component {
             {getFieldDecorator('photos', {
               valuePropName: 'fileList',
               getValueFromEvent: this.normFile,
+              rules: [
+                { required: true, message: 'Please select photos!' },
+              ],
             })(
-              <Upload.Dragger name="image" headers={{ Authorization: 'Token ' +  token }} data={{folder: this.props.form.getFieldValue('folder'), date:this.props.form.getFieldValue('date'), contents:this.props.form.getFieldValue('contents'), tripID: tripID}} action="//127.0.0.1:8000/api/photos/">
+              <Upload.Dragger  beforeUpload={this.beforeUpload} name="image" action="//127.0.0.1:8000/api/photos/">
                 <p className="ant-upload-drag-icon">
                   <Icon type="inbox" />
                 </p>
@@ -92,7 +86,6 @@ class Demo extends React.Component {
             )}
           </div>
         </FormItem>
-
         <FormItem
           wrapperCol={{ span: 12, offset: 6 }}
         >

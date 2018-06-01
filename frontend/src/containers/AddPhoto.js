@@ -5,12 +5,13 @@ import { AddPhoto } from "../components/molecules/AddPhoto";
 const mapStateToProps = (state) => {
    return{
       addPhoto : state.addphoto,
+      folder : [{id:1,name:"180202_cafe"},{id:2,name:"180303_bread"}]
   }
 };
 
 const mapDispatchToProps = (dispatch) => {
    return{
-      onAddPhoto: (selectedFile,text) =>{
+      onAddPhoto: (folder,selectedFile) =>{
            // dispatch(addphotoRequest(selectedFile,text))
       }
    }
