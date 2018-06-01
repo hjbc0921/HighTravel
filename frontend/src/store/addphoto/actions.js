@@ -23,11 +23,11 @@ export const addfolderRequest = (name, date) => {
     name,
     date
   }
-};
+}
 
-export const addfolderSuc = (ownFolder) => {
+export const addfolderSuc = (message) => {
   return {
     type : ADDFOLDER_SUCCESS,
-    ownFolder
+    message
   }
 }

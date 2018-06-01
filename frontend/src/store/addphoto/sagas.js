@@ -5,35 +5,30 @@ import { STORE_TRIP_ID } from '../user/actions'
 const url = 'http://'+location.host+'/api/folders/'
 
 export function* loadFolders() {
-    console.log('loadFolders')
     var tripID = sessionStorage.getItem('tripID')
-    var tripFolderrl = url + 'trip/' + tripID + '/'
-    console.log(tripFolderUrl)
+    var tripFolderUrl = url + 'trip/' + tripID + '/'
     
     var folders
     yield fetch(tripFolderUrl)
         .then((resp) => resp.json())
         .then(function(data) {
-            console.log('folders for trip')
             folders = data
-            console.log(folders)
         })
 
-    console.log('tripFolders',folders)
-
     yield put({ type : 'STORE_FOLDER', folders });
+    sessionStorage.setItem('tripFolders', JSON.stringify(folders))
 
 }
 export function* postFolder(folder) {
     var token = sessionStorage.getItem('token')
-    //var myfolders = JSON.parse(sessionStorage.getItem('myfolders'))
-    var tripID = sessionStorage.getItem('tripID')
+    var myfolders = JSON.parse(sessionStorage.getItem('tripFolders'))
+    var tripID = JSON.parse(sessionStorage.getItem('tripID'))
+    var newFolder = { name: folder, photos_in_folder: [], tripID: tripID }
     let data
-    console.log('$$$44', token, tripID)
     if (folder != undefined) {
         data = yield call(fetch, url, {
             method: 'POST',
-            body: JSON.stringify({ name: folder, tripID: tripID, photos_in_folder: [] }),
+            body: JSON.stringify(newFolder),
             headers: {
                 'Authorization': `token ${token}`,
                 'Content-Type': 'application/json;'
@@ -41,22 +36,20 @@ export function* postFolder(folder) {
         })
     }
     if (!data.ok){
-        yield put(actions.addtripFail("Check the date"))
+        yield put(actions.addfolderFail("this Folder already exists"))
     }
     else{
-        // let body = yield call([data, data.json])
-        //myfolders.push(folder)
-        //yield put({ type : 'STORE_FOLDER', myfolders });
+        myfolders.push(newFolder)
+        yield put(actions.storeFolder(myfolders))
+        yield put(actions.addfolderSuc("new Folder created!"))
+        sessionStorage.setItem('tripFolders', JSON.stringify(myfolders))
     }
 }
 
 export function* watchPostFolderRequest() {
     while (true) {
-        console.log('in watch Post Folder Request')
         const { name, date } = yield take(actions.ADDFOLDER_REQUEST)
-        console.log('date : ' , date, 'name :' , name)
         var parsedDate = date.split('-').join('')
-        console.log("check here", parsedDate)
         var folder = parsedDate + '_' + name
         yield call(postFolder, folder)
     }
@@ -70,7 +63,6 @@ export function* watchStoreTripId() {
 }
 
 export default function* () {
-    //yield fork(watchStoreTripId)
-    console.log('in fork')
+    yield fork(watchStoreTripId)
     yield fork(watchPostFolderRequest)
 }

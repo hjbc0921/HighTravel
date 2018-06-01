@@ -16,7 +16,7 @@ const FolderCreateForm = Form.create()(
           onCancel={onCancel}
           onOk={onCreate}
         >
-         <p>If you select date 2018-01-01 and name your folder as Paris, the Folder will be created as 180101_Paris</p>
+         <p>If you select date 2018-01-01 and name your folder as Paris, the Folder will be created as 20180101_Paris</p>
           <Form layout="vertical">
             <FormItem label="Folder name">
               {getFieldDecorator('name', {
@@ -65,7 +65,7 @@ export class AddFolder extends React.Component {
   render() {
     return (
       <div>
-        <AddFolderButton onClick={this.showModal}>Add Folder</AddFolderButton>
+        <AddFolderButton onClick={this.showModal}>+ Add Folder</AddFolderButton>
         <FolderCreateForm
           wrappedComponentRef={this.saveFormRef}
           visible={this.state.visible}

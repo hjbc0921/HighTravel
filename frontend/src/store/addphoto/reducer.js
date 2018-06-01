@@ -1,5 +1,5 @@
-import { initialState} from "./selectors"
-import { ADDFOLDER_REQUEST, ADDFOLDER_FAIL, ADDFOLDER_SUCCESS} from "./actions";
+import { initialState } from "./selectors"
+import { ADDFOLDER_REQUEST, ADDFOLDER_FAIL, ADDFOLDER_SUCCESS } from "./actions";
 
 const addphoto_reducer = (state = initialState, action) => {
    switch (action.type) {
@@ -9,11 +9,11 @@ const addphoto_reducer = (state = initialState, action) => {
        };
       case ADDFOLDER_FAIL:
        return Object.assign({},state,{
-        message : action.err
+        err : action.err
        })
       case ADDFOLDER_SUCCESS:
        return Object.assign({},state,{
-         
+        message : action.message 
        })
      default:
        return state

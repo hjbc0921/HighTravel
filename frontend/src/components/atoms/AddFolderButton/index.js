@@ -4,8 +4,10 @@ import { font, palette } from 'styled-theme'
 
 const AddFolderButton = styled.button`
   font-family: ${font('primary')};
-  color: ${palette({ grayscale: 0 }, 1)};
-  background-color: white;
+  color: #484848;
+  background-color: Transparent;
+  margin-left: -10px;
+  padding-right: 300px;
   border: none;
 `
 
