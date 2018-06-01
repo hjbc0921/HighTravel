@@ -3,6 +3,7 @@ import {
   Form, Select, InputNumber, Switch, Radio,
   Slider, Button, Upload, Icon, Rate, Input
 } from 'antd';
+import AddFolder from '../../../containers/AddFolder'
 const FormItem = Form.Item;
 const Option = Select.Option;
 const RadioButton = Radio.Button;
@@ -60,6 +61,7 @@ class Demo extends React.Component {
             <Select placeholder="Please select a folder">
               <Option value="china">China</Option>
               <Option value="use">U.S.A</Option>
+              <Option value="add new folder"><AddFolder/></Option>
             </Select>
           )}
         </FormItem>
