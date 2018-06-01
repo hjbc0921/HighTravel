@@ -30,11 +30,13 @@ class Diary(models.Model):
     tripID      = models.ForeignKey(Trip,related_name="trip_diary",on_delete=models.CASCADE)
     date        = models.DateField()
 
+class Folder(models.Model):
+    name        = models.CharField(primary_key=True, max_length=30)
+    tripID      = models.ForeignKey(Trip,related_name="trip_folder",on_delete=models.CASCADE)
+
 class Photo(models.Model):
-    contents    = models.TextField()
     image       = models.ImageField()
-    folder      = models.CharField(max_length=20)
-    date        = models.DateField()
+    folder      = models.ForeignKey(Folder, related_name="photos_in_folder", on_delete=models.CASCADE)
     diaries     = models.ManyToManyField(Diary,related_name="photos", blank=True)
     tripID      = models.ForeignKey(Trip,related_name="trip_photo",on_delete=models.CASCADE)
 

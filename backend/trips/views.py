@@ -1,6 +1,6 @@
 from django.contrib.auth.models import User
-from trips.models import Trip, Budget, Expense, Photo, Diary, Todo, Rule, Schedule, Marker
-from trips.serializers import UserRegSerializer, TripSerializer, TripDetailSerializer, UserSerializer, BudgetSerializer, ExpenseSerializer, PhotoSerializer, DiarySerializer, TodoSerializer, RuleSerializer, ScheduleSerializer, MarkerSerializer  
+from trips.models import Trip, Budget, Expense, Folder, Photo, Diary, Todo, Rule, Schedule, Marker
+from trips.serializers import UserRegSerializer, TripSerializer, TripDetailSerializer, UserSerializer, BudgetSerializer, ExpenseSerializer, FolderSerializer, PhotoSerializer, DiarySerializer, TodoSerializer, RuleSerializer, ScheduleSerializer, MarkerSerializer  
 from rest_framework import generics
 from rest_framework.views import APIView
 from rest_framework.response import Response
@@ -112,6 +112,32 @@ class ExpenseOfTrip(generics.ListAPIView):
         return Expense.objects.filter(tripID__id=tripId)
 
 
+# api/folders/ url view
+class FolderList(generics.ListCreateAPIView):
+    queryset = Folder.objects.all()
+    serializer_class = FolderSerializer
+    permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
+
+# api/folders/id/ url view
+class FolderDetail(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Folder.objects.all()
+    serializer_class = FolderSerializer
+    permission_classes = (permissions.IsAuthenticatedOrReadOnly, )
+
+# api/folders/trip/tripId url view
+class FolderOfTrip(generics.ListAPIView):
+    serializer_class = FolderSerializer
+    permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
+
+    def get_queryset(self):
+        """
+        This view should return a list of all folder in tripId
+        """
+
+        tripId = self.kwargs['tripId']
+        return Folder.objects.filter(tripID__id=tripId)
+
+
 # api/photos/ url view
 class PhotoList(generics.ListCreateAPIView):
     queryset = Photo.objects.all()
@@ -119,7 +145,7 @@ class PhotoList(generics.ListCreateAPIView):
     permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
 
 # api/photos/id/ url view
-class PhotoDetail(generics.RetrieveUpdateDestroyAPIView):
+class PhotoDetail(generics.RetrieveDestroyAPIView):
     queryset = Photo.objects.all()
     serializer_class = PhotoSerializer
     permission_classes = (permissions.IsAuthenticatedOrReadOnly,)

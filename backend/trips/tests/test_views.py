@@ -5,7 +5,7 @@ from django.core.files.uploadedfile import SimpleUploadedFile
 from rest_framework.authtoken.models import Token
 from rest_framework.test import APITestCase
 from rest_framework.test import APIClient
-from trips.models import Trip, Budget, Expense, Diary, Photo, Todo, Rule, Schedule, Marker
+from trips.models import Trip, Budget, Expense, Diary, Photo, Todo, Rule, Schedule, Marker, Folder
 from django.urls import reverse
 
 def create_user(username, password):
@@ -509,6 +509,92 @@ class DiariesOfTripViewTest(TestCase):
         self.assertEqual(resp.status_code, 200)
 
 
+class FolderListViewTest(TestCase):
+
+    def test_view_url_exists_at_desired_location(self):
+        resp = self.client.get('/api/folders/')
+        self.assertEqual(resp.status_code, 200)
+
+    def test_view_url_accessible_by_name(self):
+        resp = self.client.get(reverse('folders'))
+        self.assertEqual(resp.status_code, 200)
+
+    def test_post_folder(self):
+        user = create_user(username='swpp1', password='High_Travel')
+        new_trip = create_trip(title="Europe", sinceWhen="2018-05-27", tilWhen="2018-06-27", creator='swpp1')
+        token = Token.objects.get(user__username='swpp1')
+        client = APIClient()
+        client.credentials(HTTP_AUTHORIZATION='Token ' + token.key)
+        resp = client.post(reverse('folders'), {'name': '20180101_Paris', 'tripID': new_trip.id, 'done': False})
+        self.assertEqual(resp.status_code, 201)
+
+
+class FolderDetailViewTest(TestCase):
+
+    def test_no_folder(self):
+        resp = self.client.get(reverse('folder-detail', args=(1,)))
+        self.assertEqual(resp.status_code, 404)
+
+    def test_get_folder_detail(self):
+        user = create_user(username='swpp1', password='High_Travel')
+        new_trip = create_trip(title="Europe", sinceWhen="2018-05-27", tilWhen="2018-06-27", creator='swpp1')
+        new_folder = Folder.objects.create(name="20180101_Paris", tripID=new_trip)
+        url = reverse('folder-detail', args=(new_folder.name,))
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, 200)
+
+    def test_patch_folder(self):
+        user = create_user(username='swpp1', password='High_Travel')
+        new_trip = create_trip(title="Europe", sinceWhen="2018-05-27", tilWhen="2018-06-27", creator='swpp1')
+        token = Token.objects.get(user__username='swpp1')
+        client = APIClient()
+        client.credentials(HTTP_AUTHORIZATION='Token ' + token.key)
+        resp = client.post(reverse('folders'), {'name': '20180101_Paris', 'tripID': new_trip.id, 'done': False})
+        self.assertEqual(resp.status_code, 201)
+        
+        # patch for change folder name
+        resp = client.patch(reverse('folder-detail', args=('20180101_Paris',)), {'name': '20180102_Paris'})
+        self.assertEqual(resp.status_code, 200)
+        
+    def test_put_folder(self):
+        user = create_user(username='swpp1', password='High_Travel')
+        new_trip = create_trip(title="Europe", sinceWhen="2018-05-27", tilWhen="2018-06-27", creator='swpp1')
+        token = Token.objects.get(user__username='swpp1')
+        client = APIClient()
+        client.credentials(HTTP_AUTHORIZATION='Token ' + token.key)
+        resp = client.post(reverse('folders'), {'name': '20180101_Paris', 'tripID': new_trip.id, 'done': False})
+        self.assertEqual(resp.status_code, 201)
+        self.assertEqual(resp.status_code, 201)
+        data = resp.data
+
+        # 200 Response after name changed
+        name_changed = data.copy()
+        name_changed['name'] = "20180102_Paris"
+        resp = client.put(reverse('folder-detail', args=("20180101_Paris",)), name_changed)
+        self.assertEqual(resp.status_code, 200)
+
+    def test_delete_folder(self):
+        user = create_user(username='swpp1', password='High_Travel')
+        new_trip = create_trip(title="Europe", sinceWhen="2018-05-27", tilWhen="2018-06-27", creator='swpp1')
+        token = Token.objects.get(user__username='swpp1')
+        client = APIClient()
+        client.credentials(HTTP_AUTHORIZATION='Token ' + token.key)
+        resp = client.post(reverse('folders'), {'name': '20180101_Paris', 'tripID': new_trip.id, 'done': False})
+        self.assertEqual(resp.status_code, 201)
+        resp = client.delete(reverse('folder-detail', args=("20180101_Paris",)))
+        self.assertEqual(resp.status_code, 204)
+
+
+class FolderOfTripViewTest(TestCase):
+
+    def test_view_url_exists_at_desired_location(self):
+        resp = self.client.get('/api/folders/trip/1/')
+        self.assertEqual(resp.status_code, 200)
+
+    def test_view_url_accessible_by_name(self):
+        resp = self.client.get(reverse('folders-of-trip', args=(1,)))
+        self.assertEqual(resp.status_code, 200)
+
 class PhotoListViewTest(TestCase):
 
     def test_view_url_exists_at_desired_location(self):
@@ -522,12 +608,13 @@ class PhotoListViewTest(TestCase):
     def test_post_photo(self):
         user = create_user(username='swpp1', password='High_Travel')
         new_trip = create_trip(title="Europe", sinceWhen="2018-05-27", tilWhen="2018-06-27", creator='swpp1')
+        new_folder = Folder.objects.create(name='180301_cafe', tripID=new_trip)
         new_diary = Diary.objects.create(date="2018-05-27", contents="First Day in Paris", writer=user, tripID=new_trip)
         token = Token.objects.get(user__username='swpp1')
         client = APIClient()
         client.credentials(HTTP_AUTHORIZATION='Token ' + token.key)
         image = SimpleUploadedFile(name='test_image_new.jpg', content=open('./test_image.jpg', 'rb').read(), content_type='image/jpeg')
-        resp = client.post(reverse('photos'), {'date': '2018-05-27', 'contents': 'background', 'image': image, 'tripID': new_trip.id, 'folder': 'test', 'diaries': new_diary.id})
+        resp = client.post(reverse('photos'), {'image': image, 'tripID': new_trip.id, 'folder': new_folder.name, 'diaries': [new_diary.id]})
         self.assertEqual(resp.status_code, 201)
 
 
@@ -540,92 +627,22 @@ class PhotoDetailViewTest(TestCase):
     def test_get_photo_detail(self):
         user = create_user(username="swpp1", password="High_Travel")
         new_trip = create_trip(title="Europe", sinceWhen="2018-05-27", tilWhen="2018-06-27", creator='swpp1')
-        new_photo = Photo.objects.create(date="2018-05-27", contents="flight", folder="in cafe", tripID=new_trip)
+        new_folder = Folder.objects.create(name='180301_cafe', tripID=new_trip)
+        new_photo = Photo.objects.create(folder=new_folder, tripID=new_trip)
         url = reverse('photo-detail', args=(new_photo.id,))
         response = self.client.get(url)
         self.assertEqual(response.status_code, 200)
-
-    def test_patch_photo(self):
-        user = create_user(username='swpp1', password='High_Travel')
-        new_trip = create_trip(title="Europe", sinceWhen="2018-05-27", tilWhen="2018-06-27", creator='swpp1')
-        new_diary = Diary.objects.create(date="2018-05-27", contents="First Day in Paris", writer=user, tripID=new_trip)
-        new_diary2 = Diary.objects.create(date="2018-05-29", contents="Third Day in Paris", writer=user, tripID=new_trip)
-        token = Token.objects.get(user__username='swpp1')
-        client = APIClient()
-        client.credentials(HTTP_AUTHORIZATION='Token ' + token.key)
-        image = SimpleUploadedFile(name='test_image_new.jpg', content=open('./test_image.jpg', 'rb').read(), content_type='image/jpeg')
-        resp = client.post(reverse('photos'), {'date': '2018-05-27', 'contents': 'background', 'image': image, 'tripID': new_trip.id, 'folder': 'test', 'diaries': [new_diary.id]})
-        self.assertEqual(resp.status_code, 201)
-        
-        # patch for change photo date
-        resp = client.patch(reverse('photo-detail', args=(1,)), {'date': '2018-05-28'})
-        self.assertEqual(resp.status_code, 200)
-        
-        # patch for change photo contents
-        resp = client.patch(reverse('photo-detail', args=(1,)), {'contents': 'Eiffel Tower'})
-        self.assertEqual(resp.status_code, 200)
-
-        # patch for change photo folder
-        resp = client.patch(reverse('photo-detail', args=(1,)), {'folder': 'in cafe'})
-        self.assertEqual(resp.status_code, 200)
-
-        # patch for change photo diaries (add / delete)
-        resp = client.patch(reverse('photo-detail', args=(1,)), {'diaries': [new_diary.id, new_diary2.id]})
-        self.assertEqual(resp.status_code, 200)
-        resp = client.patch(reverse('photo-detail', args=(1,)), {'diaries': [new_diary2.id]})
-        self.assertEqual(resp.status_code, 200)
-
-    def test_put_photo(self):
-        user = create_user(username='swpp1', password='High_Travel')
-        new_trip = create_trip(title="Europe", sinceWhen="2018-05-27", tilWhen="2018-06-27", creator='swpp1')
-        new_diary = Diary.objects.create(date="2018-05-27", contents="First Day in Paris", writer=user, tripID=new_trip)
-        new_diary2 = Diary.objects.create(date="2018-05-29", contents="Third Day in Paris", writer=user, tripID=new_trip)
-        token = Token.objects.get(user__username='swpp1')
-        client = APIClient()
-        client.credentials(HTTP_AUTHORIZATION='Token ' + token.key)
-        image = SimpleUploadedFile(name='test_image_new.jpg', content=open('./test_image.jpg', 'rb').read(), content_type='image/jpeg')
-        resp = client.post(reverse('photos'), {'date': '2018-05-27', 'contents': 'background', 'image': image, 'tripID': new_trip.id, 'folder': 'test', 'diaries': new_diary.id})
-        self.assertEqual(resp.status_code, 201)
-        data = resp.data
-
-        # put method failed in photo...
-        # 200 Response after date changed
-        date_changed = data.copy()
-        date_changed['date'] = '2018-05-28'
-        resp = client.put(reverse('photo-detail', args=(1,)), date_changed)
-        #self.assertEqual(resp.status_code, 200)
-
-        # 200 Response after contents changed
-        contents_changed = data.copy()
-        contents_changed['contents'] = 'Eiffel Tower'
-        resp = client.put(reverse('photo-detail', args=(1,)), contents_changed)
-        #self.assertEqual(resp.status_code, 200)
-
-        # 200 Response after folder changed 
-        folder_changed = data.copy()
-        folder_changed['folder'] = 'in cafe'
-        resp = client.put(reverse('photo-detail', args=(1,)), folder_changed)
-        #self.assertEqual(resp.status_code, 200)
-
-        # 200 Response after diaries changed 
-        diaries_added = data.copy()
-        diaries_added['diaries'] = [new_diary.id, new_diary2.id]
-        resp = client.put(reverse('photo-detail', args=(1,)), diaries_added)
-        #self.assertEqual(resp.status_code, 200)
-        diaries_deleted = data.copy()
-        diaries_deleted['diaries'] = [new_diary2.id]
-        resp = client.put(reverse('photo-detail', args=(1,)), diaries_deleted)
-        #self.assertEqual(resp.status_code, 200)
 
     def test_delete_photo(self):
         user = create_user(username='swpp1', password='High_Travel')
         new_trip = create_trip(title="Europe", sinceWhen="2018-05-27", tilWhen="2018-06-27", creator='swpp1')
         new_diary = Diary.objects.create(date="2018-05-27", contents="First Day in Paris", writer=user, tripID=new_trip)
+        new_folder = Folder.objects.create(name='180301_cafe', tripID=new_trip)
         token = Token.objects.get(user__username='swpp1')
         client = APIClient()
         client.credentials(HTTP_AUTHORIZATION='Token ' + token.key)
         image = SimpleUploadedFile(name='test_image_new.jpg', content=open('./test_image.jpg', 'rb').read(), content_type='image/jpeg')
-        resp = client.post(reverse('photos'), {'date': '2018-05-27', 'contents': 'background', 'image': image, 'tripID': new_trip.id, 'folder': 'test', 'diaries': new_diary.id})
+        resp = client.post(reverse('photos'), {'image': image, 'tripID': new_trip.id, 'folder': new_folder.name, 'diaries': [new_diary.id]})
         self.assertEqual(resp.status_code, 201)
         resp = client.delete(reverse('photo-detail', args=(1,)))
         self.assertEqual(resp.status_code, 204)

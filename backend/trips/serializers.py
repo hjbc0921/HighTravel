@@ -36,12 +36,17 @@ class ExpenseSerializer(serializers.ModelSerializer):
     class Meta:
         model = Expense
         fields = ('id','date','contents','money','spender','tripID')
+
+class FolderSerializer(WritableNestedModelSerializer):
+    class Meta:
+        model = Folder
+        fields = ('name','photos_in_folder', 'tripID')
  
 class PhotoSerializer(WritableNestedModelSerializer):
     image = serializers.ImageField(use_url=True)
     class Meta:
         model = Photo
-        fields = ('id','date','contents','folder','image','tripID','diaries')
+        fields = ('id', 'folder','image','tripID','diaries')
 
 class TodoSerializer(serializers.ModelSerializer):
     class Meta:
