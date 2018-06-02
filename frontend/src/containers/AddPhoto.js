@@ -1,9 +1,9 @@
 import { connect } from 'react-redux'
 import { AddPhoto } from "../components/molecules/AddPhoto";
-//import { addphotoRequest } from "../store/addphoto/actions";
+import { addphotoRequest } from "../store/addphoto/actions";
 
 const mapStateToProps = (state) => {
-  var fol = [{"name":"default"}]
+  var fol = [{"name":"20120202_test"}]
   //if (sessionStorage.getItem('tripFolders')!=="undefined"){
   //  fol = JSON.parse(sessionStorage.getItem('tripFolders'))
   //}

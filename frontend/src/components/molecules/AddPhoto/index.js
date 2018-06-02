@@ -8,10 +8,13 @@ const FormItem = Form.Item;
 const Option = Select.Option;
 const RadioButton = Radio.Button;
 const RadioGroup = Radio.Group;
+import axios from 'axios'
 
 class Demo extends React.Component {
   state = {
-    folder : this.props.folder
+    folder : this.props.folder,
+    fileList: [],
+    uploading: false,
   }
   componentWillReceiveProps(nextProps) {
     console.log('####################componentWillReceiveProps', this.props,nextProps);
@@ -21,35 +24,51 @@ class Demo extends React.Component {
       console.log("#########shouldCOmponent",this.props, nextProps, this.state,nextState)
       return (this.props!==nextProps) || (this.state!==nextState)
   }
-  handleSubmit = (e) => {
-    e.preventDefault();
-    this.props.form.validateFields((err, values) => {
-      console.log('err in validated fields', err)
-      if (!err) {
-        console.log('Received values of form: ', values)
-	      this.props.onAddPhoto(values.folder, values.photos)
-      }
+  handleUpload = () => {
+    const { fileList } = this.state;
+
+    this.setState({
+      uploading: true,
     });
+
+    const formData = new FormData()
+    formData.append('file', fileList[0])
+    formData.append('folder',"20120202_test")
+    formData.append('tripID',"1")
+  
+    axios.post('http://localhost:8000/api/photos/',formData,{
+        headers : {
+            "Authorization" : "token "+sessionStorage.getItem('token'),
+        }
+    })
   }
-  normFile = (e) => {
-    console.log('Upload event:', e);
-    if (Array.isArray(e)) {
-      return e;
-    }
-    return e && e.fileList;
-  }
-  onChange = (e) => {
-    console.log(e.target.files[0])
-    console.log(this.state.folder)
-  }
-  beforeUpload = (file) => {
-    return false
-  }
+
   render() {
     const { getFieldDecorator } = this.props.form;
     const formItemLayout = {
       labelCol: { span: 6 },
       wrapperCol: { span: 14 },
+    };
+    const { uploading } = this.state;
+    const props = {
+      action: '//jsonplaceholder.typicode.com/posts/',
+      onRemove: (file) => {
+        this.setState(({ fileList }) => {
+          const index = fileList.indexOf(file);
+          const newFileList = fileList.slice();
+          newFileList.splice(index, 1);
+          return {
+            fileList: newFileList,
+          };
+        });
+      },
+      beforeUpload: (file) => {
+        this.setState(({ fileList }) => ({
+          fileList: [...fileList, file],
+        }));
+        return false;
+      },
+      fileList: this.state.fileList,
     };
     
     return (
@@ -80,26 +99,30 @@ class Demo extends React.Component {
         >
           <div className="dropbox">
             {getFieldDecorator('photos', {
-              valuePropName: 'fileList',
-              getValueFromEvent: this.normFile,
               rules: [
                 { required: true, message: 'Please select photos!' },
               ],
             })(
-              <Upload.Dragger  beforeUpload={this.beforeUpload} name="image" action="//127.0.0.1:8000/api/photos/">
-                <p className="ant-upload-drag-icon">
-                  <Icon type="inbox" />
-                </p>
-                <p className="ant-upload-text">Click or drag file to this area to upload</p>
-                <p className="ant-upload-hint">Support for a single or bulk upload.</p>
-              </Upload.Dragger>
+              <div>
+              <Upload {...props}>
+              <Button>
+                <Icon type="upload" /> Select File
+              </Button>
+            </Upload>
+            </div>
             )}
           </div>
         </FormItem>
         <FormItem
           wrapperCol={{ span: 12, offset: 6 }}
         >
-          <Button type="primary" htmlType="submit">Submit</Button>
+          <Button 
+          className="upload-demo-start"
+          type="primary" 
+          name="file" 
+          onClick={this.handleUpload}
+          disabled={this.state.fileList.length === 0}
+          htmlType="submit">Submit</Button>
         </FormItem>
       </Form>
     );

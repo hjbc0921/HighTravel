@@ -2,7 +2,15 @@ export const ADDFOLDER_REQUEST = 'ADDFOLDER_REQUEST'
 export const ADDFOLDER_FAIL = "ADDFOLDERFAIL"
 export const ADDFOLDER_SUCCESS = "ADDFOLDER_SUCCESS"
 export const STORE_FOLDER = "STORE_FOLDER"
+export const ADDPHOTO_REQUEST = 'ADDPHOTO_REQUEST'
 
+export const addphotoRequest = (folder,selectedFiles) => {
+  return{
+    type : ADDPHOTO_REQUEST,
+    folder,
+    selectedFiles
+  }
+}
 export const storeFolder = (err) => {
   return{
     type : STORE_FOLDER,

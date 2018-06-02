@@ -3,10 +3,12 @@ import api from 'services/api'
 import * as actions from './actions'
 import { STORE_TRIP_ID } from '../user/actions'
 const url = 'http://'+location.host+'/api/folders/'
+import axios from 'axios'
+var token = sessionStorage.getItem('token')
+var tripID = sessionStorage.getItem('tripID')
 
 export function* loadFolders() {
     console.log('loadFolders')
-    var tripID = sessionStorage.getItem('tripID')
     var tripFolderrl = url + 'trip/' + tripID + '/'
     console.log(tripFolderUrl)
     
@@ -25,9 +27,7 @@ export function* loadFolders() {
 
 }
 export function* postFolder(folder) {
-    var token = sessionStorage.getItem('token')
     //var myfolders = JSON.parse(sessionStorage.getItem('myfolders'))
-    var tripID = sessionStorage.getItem('tripID')
     let data
     console.log('$$$44', token, tripID)
     if (folder != undefined) {
@@ -50,6 +50,25 @@ export function* postFolder(folder) {
     }
 }
 
+export function* postPhoto(folder,selectedFiles){
+   
+    var files = selectedFiles
+    for (var i=0;i<files.length;i++){
+        const formData = new FormData()
+        console.log(files[i])
+        formData.append('file', files[i])
+        formData.append('folder',folder)
+        formData.append('tripID',tripID)
+        console.log("#####SAGA####",formData.get('file').name,formData.get('folder'))
+        axios.post('http://localhost:8000/api/photos/',formData,{
+            headers : {
+                "Authorization" : "token "+token,
+            }
+        })
+    
+    }
+}
+
 export function* watchPostFolderRequest() {
     while (true) {
         console.log('in watch Post Folder Request')
@@ -69,8 +88,15 @@ export function* watchStoreTripId() {
     }
 }
 
+export function* watchPostPhotoRequest(){
+    while (true) {
+        const {folder,selectedFiles} = yield take(actions.ADDPHOTO_REQUEST)
+        yield call(postPhoto,folder,selectedFiles)
+    }
+}
 export default function* () {
     //yield fork(watchStoreTripId)
     console.log('in fork')
     yield fork(watchPostFolderRequest)
+    yield fork(watchPostPhotoRequest)
 }
