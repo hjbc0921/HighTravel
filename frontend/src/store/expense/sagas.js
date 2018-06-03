@@ -1,7 +1,7 @@
 import { take, call, fork, select, put} from 'redux-saga/effects'
 import api from 'services/api'
 import * as actions from './actions'
-const url = 'http://127.0.0.1:8000/api/expenses/'
+const url = 'http://'+location.host+'/api/expenses/'
 // import { STORE_TRIP_ID } from '../user/actions'
 import { STORE_USERS } from '../adduser/actions'
 

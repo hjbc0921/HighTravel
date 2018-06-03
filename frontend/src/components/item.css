@@ -169,4 +169,22 @@
     top: 50%;
     height:20vh;
     margin-top:5vh;
-   }
+   
+}
+
+
+.schedulelistwrapper {
+  display: flex;
+  font-family: "primary";
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: left;
+}
+
+.scheduleelement {
+  display: flex;
+  font-family: "primary";
+  flex-direction: row;
+  justify-content: left;
+  align-items: left;
+}

@@ -1,8 +1,7 @@
 import React from 'react'
 import AddSchedule from "../../../containers/AddSchedule";
-import AddTodo from "../../../containers/AddTodo";
-import TodoList from "../../../containers/TodoList";
 import Calendar from "../../../containers/Calendar";
+import ScheduleList from "../../../containers/ScheduleList"
 
 const HomePage = () => {
   return (
@@ -10,6 +9,8 @@ const HomePage = () => {
     <Calendar/> 
     <br/><br/>
     <AddSchedule/>
+    <br/><br/>
+    <ScheduleList/>
     </div>
   )
 }

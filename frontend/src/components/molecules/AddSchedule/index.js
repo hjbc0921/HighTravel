@@ -33,7 +33,7 @@ const ScheduleCreateForm = Form.create()(
           <Form layout="vertical">
             <FormItem label="Contents">
               {getFieldDecorator('contents', {
-                rules: [{ required: true, message: 'Please input the contents of this schedule' }],
+                rules: [{ required: true, message: 'Please input the contents of this schedule!' }]
               })(
                 <Input />
               )}
