@@ -5,16 +5,17 @@ const addphoto_reducer = (state = initialState, action) => {
    switch (action.type) {
       case ADDFOLDER_REQUEST:
        return {
+        error : false,
         updated : false,
        };
       case ADDFOLDER_FAIL:
        return Object.assign({},state,{
-        err : action.err,
+        error : true,
         updated : false,
        })
       case ADDFOLDER_SUCCESS:
        return Object.assign({},state,{
-        message : action.message,
+        error : false,
         updated : true,
        })
        case STORE_FOLDER:

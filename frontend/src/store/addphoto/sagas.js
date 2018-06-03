@@ -4,14 +4,15 @@ import * as actions from './actions'
 import { STORE_TRIP_ID } from '../user/actions'
 const url = 'http://'+location.host+'/api/folders/'
 import axios from 'axios'
-var token = sessionStorage.getItem('token')
-var tripID = sessionStorage.getItem('tripID')
+
 
 export function* loadFolders() {
+    var token = sessionStorage.getItem('token')
+    var tripID = sessionStorage.getItem('tripID')
     console.log('loadFolders')
     var tripFolderUrl = url + 'trip/' + tripID + '/'
     console.log(tripFolderUrl)
-    
+
     var folders = []
     yield fetch(tripFolderUrl)
         .then((resp) => resp.json())
@@ -24,6 +25,8 @@ export function* loadFolders() {
 
 }
 export function* postFolder(folder) {
+    var token = sessionStorage.getItem('token')
+    var tripID = sessionStorage.getItem('tripID')
     var myfolders = JSON.parse(sessionStorage.getItem('tripFolders'))
     var newFolder = { name: folder, photos_in_folder: [], tripID: tripID }
     let data
@@ -50,6 +53,8 @@ export function* postFolder(folder) {
 }
 
 export function* postPhoto(folder,fileList){
+    var token = sessionStorage.getItem('token')
+    var tripID = sessionStorage.getItem('tripID')
 
     for (var i=0;i<fileList.length;i++){
         const formData = new FormData()

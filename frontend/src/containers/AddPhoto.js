@@ -4,7 +4,8 @@ import { addphotoRequest } from "../store/addphoto/actions";
 
 const mapStateToProps = (state) => {
    return{
-    updated : state.addphoto.updated
+    updated : state.addphoto.updated,
+    error : state.addphoto.error
   }
 };
 

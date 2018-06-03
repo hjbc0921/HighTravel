@@ -1,5 +1,5 @@
 import React from 'react'
-import {Form, Select, Button, Upload, Input, Modal} from 'antd';
+import {message, Form, Select, Button, Upload, Input, Modal} from 'antd';
 import AddFolder from '../../../containers/AddFolder'
 const FormItem = Form.Item;
 const Option = Select.Option;
@@ -7,6 +7,11 @@ import axios from 'axios'
 import Icon from 'antd/lib/icon';
 import 'antd/dist/antd.css';
 import '../../item.css'
+message.config({
+  top: 400,
+  duration: 10,
+  maxCount: 3,
+})
 
 class Demo extends React.Component {
   state = {
@@ -15,17 +20,24 @@ class Demo extends React.Component {
     previewImage: '',
     fileList: []
   }
+
   componentWillReceiveProps(nextProps) {
     console.log('####################componentWillReceiveProps', this.props,nextProps);
-    var folders = JSON.parse(sessionStorage.getItem('tripFolders'))
-    var name = folders[folders.length-1].name
+ 
     if (nextProps.updated) {
+      var folders = JSON.parse(sessionStorage.getItem('tripFolders'))
+      var name = folders[folders.length-1].name
       this.setState({folder:folders})
       if (this.props.form.getFieldValue("folder")==="add new folder"){
       this.props.form.setFieldsValue({"folder":name})
+      message.success('New folder added and set');
       }
     }
+    if (!this.props.error && nextProps.error){
+      message.error('This folder name already exists')
+      this.props.form.resetFields()
     }
+  }
   
   shouldComponentUpdate(nextProps, nextState) {
       console.log("#########shouldCOmponent",this.props, nextProps, this.state,nextState)
@@ -44,6 +56,7 @@ class Demo extends React.Component {
     this.props.onAddPhoto(values.folder,fileList)
     this.props.form.resetFields()
     this.setState({fileList:[]})
+    message.success('New Photo added');
   }})
   };   
   
