@@ -3,20 +3,15 @@ import { AddPhoto } from "../components/molecules/AddPhoto";
 import { addphotoRequest } from "../store/addphoto/actions";
 
 const mapStateToProps = (state) => {
-  var fol = [{"name":"default"}]
-  if (sessionStorage.getItem('tripFolders')!=="undefined" && sessionStorage.getItem('tripFolders'!==null)){
-    fol = JSON.parse(sessionStorage.getItem('tripFolders'))
-    console.log('in Add Photo container', fol)
-  }
    return{
-      folder : fol
+    updated : state.addphoto.updated
   }
 };
 
 const mapDispatchToProps = (dispatch) => {
    return{
-      onAddPhoto: (folder,selectedFiles) =>{
-        dispatch(addphotoRequest(folder,selectedFiles))
+      onAddPhoto: (folder,fileList) =>{
+        dispatch(addphotoRequest(folder,fileList))
       }
    }
 };

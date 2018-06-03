@@ -1,19 +1,24 @@
 import { initialState } from "./selectors"
-import { ADDFOLDER_REQUEST, ADDFOLDER_FAIL, ADDFOLDER_SUCCESS } from "./actions";
+import { STORE_FOLDER,ADDFOLDER_REQUEST, ADDFOLDER_FAIL, ADDFOLDER_SUCCESS } from "./actions";
 
 const addphoto_reducer = (state = initialState, action) => {
    switch (action.type) {
       case ADDFOLDER_REQUEST:
        return {
-
+        updated : false,
        };
       case ADDFOLDER_FAIL:
        return Object.assign({},state,{
-        err : action.err
+        err : action.err,
+        updated : false,
        })
       case ADDFOLDER_SUCCESS:
        return Object.assign({},state,{
-        message : action.message 
+        message : action.message,
+        updated : true,
+       })
+       case STORE_FOLDER:
+       return Object.assign({},state,{
        })
      default:
        return state

@@ -1,4 +1,5 @@
 export const initialState = {
     message : "",
-    err : ""
+    err : "",
+    updated : false,
 }

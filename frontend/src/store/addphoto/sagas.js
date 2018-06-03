@@ -9,16 +9,16 @@ var tripID = sessionStorage.getItem('tripID')
 
 export function* loadFolders() {
     console.log('loadFolders')
-    var tripFolderrl = url + 'trip/' + tripID + '/'
+    var tripFolderUrl = url + 'trip/' + tripID + '/'
     console.log(tripFolderUrl)
     
-    var folders
+    var folders = []
     yield fetch(tripFolderUrl)
         .then((resp) => resp.json())
         .then(function(data) {
             folders = data
         })
-
+    console.log("GETFOLDER#######",folders)
     yield put({ type : 'STORE_FOLDER', folders });
     sessionStorage.setItem('tripFolders', JSON.stringify(folders))
 
@@ -42,19 +42,19 @@ export function* postFolder(folder) {
     }
     else{
         myfolders.push(newFolder)
+        sessionStorage.setItem('tripFolders', JSON.stringify(myfolders))
         yield put(actions.storeFolder(myfolders))
         yield put(actions.addfolderSuc("new Folder created!"))
-        sessionStorage.setItem('tripFolders', JSON.stringify(myfolders))
+        
     }
 }
 
-export function* postPhoto(folder,selectedFiles){
-   
-    var files = selectedFiles
-    for (var i=0;i<files.length;i++){
+export function* postPhoto(folder,fileList){
+
+    for (var i=0;i<fileList.length;i++){
         const formData = new FormData()
-        console.log(files[i])
-        formData.append('file', files[i])
+        console.log(fileList[i])
+        formData.append('file', fileList[i])
         formData.append('folder',folder)
         formData.append('tripID',tripID)
         console.log("#####SAGA####",formData.get('file').name,formData.get('folder'))
@@ -85,8 +85,8 @@ export function* watchStoreTripId() {
 
 export function* watchPostPhotoRequest(){
     while (true) {
-        const {folder,selectedFiles} = yield take(actions.ADDPHOTO_REQUEST)
-        yield call(postPhoto,folder,selectedFiles)
+        const {folder,fileList} = yield take(actions.ADDPHOTO_REQUEST)
+        yield call(postPhoto,folder,fileList)
     }
 }
 export default function* () {

@@ -86,6 +86,7 @@
     "webpack-md5-hash": "^0.0.5"
   },
   "dependencies": {
+    "axios": "^0.18.0",
     "babel-polyfill": "^6.20.0",
     "cors": "^2.8.4",
     "fullcalendar": "^3.9.0",
