@@ -29,6 +29,7 @@ matrix:
         - npm install fullcalendar-reactwrapper --save
         - npm install --save react-addons-update
         - npm install --save react-photo-gallery
+        - npm install --save axios
       script:
         - npm test -- --coverage
       cache:
