@@ -4,7 +4,7 @@ import { addphotoRequest } from "../store/addphoto/actions";
 
 const mapStateToProps = (state) => {
   var fol = [{"name":"default"}]
-  if (sessionStorage.getItem('tripFolders')!=="undefined"){
+  if (sessionStorage.getItem('tripFolders')!=="undefined" && sessionStorage.getItem('tripFolders'!==null)){
     fol = JSON.parse(sessionStorage.getItem('tripFolders'))
     console.log('in Add Photo container', fol)
   }

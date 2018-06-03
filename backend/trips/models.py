@@ -35,7 +35,7 @@ class Folder(models.Model):
     tripID      = models.ForeignKey(Trip,related_name="trip_folder",on_delete=models.CASCADE)
 
 class Photo(models.Model):
-    image       = models.ImageField()
+    image       = models.ImageField(blank=False,null=False)
     folder      = models.ForeignKey(Folder, related_name="photos_in_folder", on_delete=models.CASCADE)
     diaries     = models.ManyToManyField(Diary,related_name="photos", blank=True)
     tripID      = models.ForeignKey(Trip,related_name="trip_photo",on_delete=models.CASCADE)

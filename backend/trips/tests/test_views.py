@@ -614,7 +614,7 @@ class PhotoListViewTest(TestCase):
         client = APIClient()
         client.credentials(HTTP_AUTHORIZATION='Token ' + token.key)
         image = SimpleUploadedFile(name='test_image_new.jpg', content=open('./test_image.jpg', 'rb').read(), content_type='image/jpeg')
-        resp = client.post(reverse('photos'), {'image': image, 'tripID': new_trip.id, 'folder': new_folder.name, 'diaries': [new_diary.id]})
+        resp = client.post(reverse('photos'), {'file': image, 'tripID': new_trip.id, 'folder': new_folder.name, 'diaries': [new_diary.id]})
         self.assertEqual(resp.status_code, 201)
 
 
@@ -642,7 +642,7 @@ class PhotoDetailViewTest(TestCase):
         client = APIClient()
         client.credentials(HTTP_AUTHORIZATION='Token ' + token.key)
         image = SimpleUploadedFile(name='test_image_new.jpg', content=open('./test_image.jpg', 'rb').read(), content_type='image/jpeg')
-        resp = client.post(reverse('photos'), {'image': image, 'tripID': new_trip.id, 'folder': new_folder.name, 'diaries': [new_diary.id]})
+        resp = client.post(reverse('photos'), {'file': image, 'tripID': new_trip.id, 'folder': new_folder.name, 'diaries': [new_diary.id]})
         self.assertEqual(resp.status_code, 201)
         resp = client.delete(reverse('photo-detail', args=(1,)))
         self.assertEqual(resp.status_code, 204)
