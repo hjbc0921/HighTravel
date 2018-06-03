@@ -7,6 +7,7 @@ from rest_framework.response import Response
 from rest_framework import status
 from rest_framework import permissions
 from trips.permissions import IsParticipantOrReadOnly, IsCreatorOrReadOnly, IsSpenderOrReadOnly, IsWriterOrReadOnly
+from rest_framework.parsers import MultiPartParser, FormParser, FileUploadParser
 
 # api/trips/ url view
 class TripList(generics.ListCreateAPIView):
@@ -143,6 +144,15 @@ class PhotoList(generics.ListCreateAPIView):
     queryset = Photo.objects.all()
     serializer_class = PhotoSerializer
     permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
+    parser_classes = (MultiPartParser, FileUploadParser, FormParser)
+    def post(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save(image=request.FILES['file'])
+            #serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        else:
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 # api/photos/id/ url view
 class PhotoDetail(generics.RetrieveDestroyAPIView):

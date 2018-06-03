@@ -1,21 +1,20 @@
 import { connect } from 'react-redux'
 import { AddPhoto } from "../components/molecules/AddPhoto";
-//import { addphotoRequest } from "../store/addphoto/actions";
+import { addphotoRequest } from "../store/addphoto/actions";
 
 const mapStateToProps = (state) => {
    return{
-      addPhoto : state.addphoto,
+    updated : state.addphoto.updated,
+    error : state.addphoto.error
   }
 };
 
 const mapDispatchToProps = (dispatch) => {
    return{
-      onAddPhoto: (selectedFile,text) =>{
-           // dispatch(addphotoRequest(selectedFile,text))
+      onAddPhoto: (folder,fileList) =>{
+        dispatch(addphotoRequest(folder,fileList))
       }
    }
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(AddPhoto)
-
-                                                                      
