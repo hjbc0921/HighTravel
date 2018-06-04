@@ -46,18 +46,18 @@ class Demo extends React.Component {
 
   //close file preview modal
   handleCancel = () => {
-  this.setState({ previewVisible: false })
+    this.setState({ previewVisible: false })
   }
 
   handleUpload = () => {
-  this.props.form.validateFields((err, values) => {
-  if (!err) {
-    const { fileList } = this.state;
-    this.props.onAddPhoto(values.folder,fileList)
-    this.props.form.resetFields()
-    this.setState({fileList:[]})
-    message.success('New Photo added');
-  }})
+    this.props.form.validateFields((err, values) => {
+    if (!err) {
+      let { fileList } = this.state;
+      this.props.onAddPhoto(values.folder, fileList);
+      this.props.form.resetFields()
+      this.setState({fileList:[]})
+      message.success('New Photo added');
+    }})
   };   
   
 
@@ -68,44 +68,52 @@ class Demo extends React.Component {
     wrapperCol: { span: 16 },
     };
     const { uploading } = this.state;
+    self = this;
 
     const props = {
       action: '//jsonplaceholder.typicode.com/posts/',
       listType: "picture-card",
-      multiple:true,
+      multiple: true,
 
       //preview for one image
       onPreview:(file) => {
-        this.setState({
-        previewImage: file.url || file.thumbUrl,
-        previewVisible: true,
+        self.setState({
+          previewImage: file.url || file.thumbUrl,
+          previewVisible: true,
         });
       },
-
+      
+      onChange({ file, fileList }) {
+        file = fileList.find(f => f.uid === file.uid)
+        self.setState(({ fileList }) => ({
+          fileList: [...fileList, file]
+        }))
+      },
 
       //remove file from filelist
       onRemove: (file) => {
-        this.setState(({ fileList }) => {
-        const index = fileList.indexOf(file);
-        const newFileList = fileList.slice();
-        newFileList.splice(index, 1);
-        return {
-        fileList: newFileList,
-        };
+        self.setState(({ fileList }) => {
+          const index = fileList.indexOf(file);
+          const newFileList = fileList.slice();
+          newFileList.splice(index, 1);
+          return {
+            fileList: newFileList
+          };
         });
       },
 
       //do not send post request
       beforeUpload: (file) => {
-        this.setState(({ fileList }) => ({
-        fileList: [...fileList, file],
-        }));
+        // self.setState(({ fileList }) => ({
+        //   fileList: [...fileList, file]
+        // }));
         return false;
       },
 
-      fileList: this.state.fileList,
+      get fileList() {
+        return self.state.fileList
+      }
     };
-
   return (
 
     <Form >
@@ -128,41 +136,41 @@ class Demo extends React.Component {
           )}
         </FormItem>
         
-    <FormItem
-    {...formItemLayout}
-    label="Photo"
-    >
-    <div className="dropbox">
-    {getFieldDecorator('photos', {
-    rules: [
-    { required: true, message: 'Please select photos!' },
-    ],
-    })(
-    <div>
-    <Upload {...props}>
-    <Icon type="plus" />
-    <div className="ant-upload-text">Upload</div>
-    </Upload>
-    <Modal visible={this.state.previewVisible} footer={null} onCancel={this.handleCancel}>
-    <img alt="now" style={{ width: '100%' }} src={this.state.previewImage} />
-    </Modal>
-    </div>
-    )}
-    </div>
-    </FormItem>
+      <FormItem
+        {...formItemLayout}
+        label="Photo"
+        >
+        <div className="dropbox">
+          {getFieldDecorator('photos', {
+          rules: [
+          { required: true, message: 'Please select photos!' },
+          ],
+          })(
+        <div>
+        <Upload {...props}>
+          <Icon type="plus" />
+          <div className="ant-upload-text">Upload</div>
+        </Upload>
+        <Modal visible={this.state.previewVisible} footer={null} onCancel={this.handleCancel}>
+          <img alt="now" style={{ width: '100%' }} src={this.state.previewImage} />
+        </Modal>
+        </div>
+        )}
+        </div>
+      </FormItem>
 
-    <FormItem
-    wrapperCol={{ span: 12, offset: 6 }}
-    >
-    <Button
-    className="upload-demo-start"
-    type="primary"
-    onClick={this.handleUpload}
-    disabled={this.state.fileList.length === 0}
-    >
-    Submit
-    </Button>
-    </FormItem>
+      <FormItem
+      wrapperCol={{ span: 12, offset: 6 }}
+      >
+        <Button
+        className="upload-demo-start"
+        type="primary"
+        onClick={this.handleUpload}
+        disabled={this.state.fileList.length === 0}
+        >
+        Submit
+        </Button>
+      </FormItem>
     </Form>
 
   );

@@ -52,17 +52,18 @@ export function* postFolder(folder) {
     }
 }
 
-export function* postPhoto(folder,fileList){
-    var token = sessionStorage.getItem('token')
-    var tripID = sessionStorage.getItem('tripID')
+export function* postPhoto(folder, fileList){
+    let token = sessionStorage.getItem('token')
+    let tripID = sessionStorage.getItem('tripID')
+    
+   
+    fileList = fileList.map(f => f.originFileObj);
 
-    for (var i=0;i<fileList.length;i++){
+    for (let i = 0; i < fileList.length; i++){
         const formData = new FormData()
-        console.log(fileList[i])
         formData.append('file', fileList[i])
-        formData.append('folder',folder)
-        formData.append('tripID',tripID)
-        console.log("#####SAGA####",formData.get('file').name,formData.get('folder'))
+        formData.append('folder', folder)
+        formData.append('tripID', tripID)
         axios.post('http://localhost:8000/api/photos/',formData,{
             headers : {
                 "Authorization" : "token "+token,
