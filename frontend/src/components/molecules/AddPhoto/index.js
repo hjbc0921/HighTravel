@@ -9,7 +9,7 @@ import 'antd/dist/antd.css';
 import '../../item.css'
 message.config({
   top: 400,
-  duration: 10,
+  duration: 5,
   maxCount: 3,
 })
 
@@ -24,7 +24,7 @@ class Demo extends React.Component {
   componentWillReceiveProps(nextProps) {
     console.log('####################componentWillReceiveProps', this.props,nextProps);
  
-    if (nextProps.updated) {
+    if (!this.props.updated && nextProps.updated) {
       var folders = JSON.parse(sessionStorage.getItem('tripFolders'))
       var name = folders[folders.length-1].name
       this.setState({folder:folders})

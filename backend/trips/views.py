@@ -118,12 +118,24 @@ class FolderList(generics.ListCreateAPIView):
     queryset = Folder.objects.all()
     serializer_class = FolderSerializer
     permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
+    def post(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+        if serializer.is_valid():
+            try : 
+                folder = Folder.objects.get(name=serializer.validated_data['name'])
+            except :
+                return self.create(request,*args,**kwargs)
+            if (folder.tripID==serializer.validated_data['tripID']):
+                return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+            else:
+                return self.create(request,*args,**kwargs)
 
 # api/folders/id/ url view
 class FolderDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = Folder.objects.all()
     serializer_class = FolderSerializer
     permission_classes = (permissions.IsAuthenticatedOrReadOnly, )
+
 
 # api/folders/trip/tripId url view
 class FolderOfTrip(generics.ListAPIView):

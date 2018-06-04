@@ -528,6 +528,16 @@ class FolderListViewTest(TestCase):
         resp = client.post(reverse('folders'), {'name': '20180101_Paris', 'tripID': new_trip.id, 'done': False})
         self.assertEqual(resp.status_code, 201)
 
+    def test_post_folder_error(self):
+        user = create_user(username='swpp1', password='High_Travel')
+        new_trip = create_trip(title="Europe", sinceWhen="2018-05-27", tilWhen="2018-06-27", creator='swpp1')
+        folder1 = Folder.objects.create(name="20180101_Paris",tripID=new_trip)
+        token = Token.objects.get(user__username='swpp1')
+        client = APIClient()
+        client.credentials(HTTP_AUTHORIZATION='Token ' + token.key)
+        resp = client.post(reverse('folders'), {'name': '20180101_Paris', 'tripID': new_trip.id})
+        self.assertEqual(resp.status_code, 400)
+        
 
 class FolderDetailViewTest(TestCase):
 
@@ -539,7 +549,7 @@ class FolderDetailViewTest(TestCase):
         user = create_user(username='swpp1', password='High_Travel')
         new_trip = create_trip(title="Europe", sinceWhen="2018-05-27", tilWhen="2018-06-27", creator='swpp1')
         new_folder = Folder.objects.create(name="20180101_Paris", tripID=new_trip)
-        url = reverse('folder-detail', args=(new_folder.name,))
+        url = reverse('folder-detail', args=(new_folder.id,))
         response = self.client.get(url)
         self.assertEqual(response.status_code, 200)
 
@@ -553,7 +563,7 @@ class FolderDetailViewTest(TestCase):
         self.assertEqual(resp.status_code, 201)
         
         # patch for change folder name
-        resp = client.patch(reverse('folder-detail', args=('20180101_Paris',)), {'name': '20180102_Paris'})
+        resp = client.patch(reverse('folder-detail', args=(1,)), {'name': '20180102_Paris'})
         self.assertEqual(resp.status_code, 200)
         
     def test_put_folder(self):
@@ -570,7 +580,7 @@ class FolderDetailViewTest(TestCase):
         # 200 Response after name changed
         name_changed = data.copy()
         name_changed['name'] = "20180102_Paris"
-        resp = client.put(reverse('folder-detail', args=("20180101_Paris",)), name_changed)
+        resp = client.put(reverse('folder-detail', args=(1,)), name_changed)
         self.assertEqual(resp.status_code, 200)
 
     def test_delete_folder(self):
@@ -581,7 +591,7 @@ class FolderDetailViewTest(TestCase):
         client.credentials(HTTP_AUTHORIZATION='Token ' + token.key)
         resp = client.post(reverse('folders'), {'name': '20180101_Paris', 'tripID': new_trip.id, 'done': False})
         self.assertEqual(resp.status_code, 201)
-        resp = client.delete(reverse('folder-detail', args=("20180101_Paris",)))
+        resp = client.delete(reverse('folder-detail', args=(1,)))
         self.assertEqual(resp.status_code, 204)
 
 
@@ -614,7 +624,7 @@ class PhotoListViewTest(TestCase):
         client = APIClient()
         client.credentials(HTTP_AUTHORIZATION='Token ' + token.key)
         image = SimpleUploadedFile(name='test_image_new.jpg', content=open('./test_image.jpg', 'rb').read(), content_type='image/jpeg')
-        resp = client.post(reverse('photos'), {'file': image, 'tripID': new_trip.id, 'folder': new_folder.name, 'diaries': [new_diary.id]})
+        resp = client.post(reverse('photos'), {'file': image, 'tripID': new_trip.id, 'folder': new_folder.id, 'diaries': [new_diary.id]})
         self.assertEqual(resp.status_code, 201)
 
 
@@ -642,7 +652,7 @@ class PhotoDetailViewTest(TestCase):
         client = APIClient()
         client.credentials(HTTP_AUTHORIZATION='Token ' + token.key)
         image = SimpleUploadedFile(name='test_image_new.jpg', content=open('./test_image.jpg', 'rb').read(), content_type='image/jpeg')
-        resp = client.post(reverse('photos'), {'file': image, 'tripID': new_trip.id, 'folder': new_folder.name, 'diaries': [new_diary.id]})
+        resp = client.post(reverse('photos'), {'file': image, 'tripID': new_trip.id, 'folder': new_folder.id, 'diaries': [new_diary.id]})
         self.assertEqual(resp.status_code, 201)
         resp = client.delete(reverse('photo-detail', args=(1,)))
         self.assertEqual(resp.status_code, 204)

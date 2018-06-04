@@ -44,7 +44,9 @@ export function* postFolder(folder) {
         yield put(actions.addfolderFail("this Folder already exists"))
     }
     else{
-        myfolders.push(newFolder)
+        let body = yield call([data, data.json])
+        let tripJson = {id:body.id, name:body.name}
+        myfolders.push(tripJson)
         sessionStorage.setItem('tripFolders', JSON.stringify(myfolders))
         yield put(actions.storeFolder(myfolders))
         yield put(actions.addfolderSuc("new Folder created!"))
@@ -56,13 +58,15 @@ export function* postPhoto(folder, fileList){
     let token = sessionStorage.getItem('token')
     let tripID = sessionStorage.getItem('tripID')
     
-   
+    let folders = JSON.parse(sessionStorage.getItem('tripFolders'))
+    let folderID = folders.find(f => f.name === folder)
+    console.log("#####SAGA",folderID.id,folders,folder)
     fileList = fileList.map(f => f.originFileObj);
 
     for (let i = 0; i < fileList.length; i++){
         const formData = new FormData()
         formData.append('file', fileList[i])
-        formData.append('folder', folder)
+        formData.append('folder', folderID.id)
         formData.append('tripID', tripID)
         axios.post('http://localhost:8000/api/photos/',formData,{
             headers : {

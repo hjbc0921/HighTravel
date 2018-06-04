@@ -40,7 +40,7 @@ class ExpenseSerializer(serializers.ModelSerializer):
 class FolderSerializer(WritableNestedModelSerializer):
     class Meta:
         model = Folder
-        fields = ('name','photos_in_folder', 'tripID')
+        fields = ('id','name','photos_in_folder', 'tripID')
  
 class PhotoSerializer(WritableNestedModelSerializer):
     image = serializers.ImageField(use_url=True,read_only=True)

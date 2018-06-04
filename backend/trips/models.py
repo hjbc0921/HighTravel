@@ -31,7 +31,7 @@ class Diary(models.Model):
     date        = models.DateField()
 
 class Folder(models.Model):
-    name        = models.CharField(primary_key=True, max_length=30)
+    name        = models.CharField(max_length=30)
     tripID      = models.ForeignKey(Trip,related_name="trip_folder",on_delete=models.CASCADE)
 
 class Photo(models.Model):
