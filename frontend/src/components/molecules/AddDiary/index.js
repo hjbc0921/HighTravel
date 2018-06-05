@@ -5,20 +5,6 @@ const FormItem = Form.Item;
 const { TextArea } = Input;
 
 class Demo extends React.Component {
-  state = {
-    folder : this.props.folder
-  }
-
-  componentWillReceiveProps(nextProps) {
-    console.log('####################componentWillReceiveProps', this.props,nextProps);
-    this.setState({folder:nextProps.folder})
-  }
-
-  shouldComponentUpdate(nextProps, nextState) {
-      console.log("#########shouldCOmponent",this.props, nextProps, this.state,nextState)
-      return (this.props!==nextProps) || (this.state!==nextState)
-  }
-
   handleSubmit = (e) => {
     e.preventDefault();
     this.props.form.validateFields((err, values) => {
@@ -30,12 +16,10 @@ class Demo extends React.Component {
   }
 
   pickDate = (e) => {
-    console.log('pickDate', this.props.form, e, e.target);
     if (!e || !e.target) {
       return e;
     }
     const { target } = e;
-    console.log('pick Date' , target.value)
     this.props.selectedDate(target.value)
     return target.value;
   }

@@ -18,32 +18,21 @@ export function* loadPhotos(date) {
         })
 
     console.log('tripPhotos',photos)
-    var photolist = []
-    var imageUrl
-    for (var i=0; i<photos.length; i++) {
-        imageUrl = photos[i].image
-        imageUrl = imageUrl.replace("localhost:3000", "127.0.0.1:8000")
-        photolist.push({src: imageUrl, width: 5, height: 4})
-    }
-    console.log('you are here', photolist)
-
-    sessionStorage.setItem('photoOfDate', JSON.stringify(photolist))
-    console.log('!!!', sessionStorage.getItem('photoOfDate'))
+    sessionStorage.setItem('photoOfDate', JSON.stringify(photos))
     yield put({ type : 'STORE_DATE_PHOTO', photos })
 
 }
 
 export function* postDiary(date, contents, photos) {
-    console.log('post in postRule')
 
     var token = sessionStorage.getItem('token')
     var tripID = sessionStorage.getItem('tripID')
     var userID = sessionStorage.getItem('userID')
-
     let data
+
     try {
-        if (date != undefined && contents != undefined && photos != undefined) {
-            data = yield call(fetch, url, {
+        if (date != undefined && contents != undefined) {
+            data = yield call(fetch, diaryUrl, {
                 method: 'POST',
                 body: JSON.stringify({ contents: contents, writer: userID, date: date, tripID: tripID, photos: photos }),
                 headers: {
@@ -63,14 +52,14 @@ export function* postDiary(date, contents, photos) {
 export function* watchPostDiaryRequest() {
     while (true) {
         const { date, contents, photos } = yield take(actions.POST_DIARY_REQUEST)
-        yield call(postDiary, contents, photos)
+        console.log('watch Post Diary', date, contents, photos)
+        yield call(postDiary, date, contents, photos)
     }
 }
 
 export function* watchPickDate() {
     while (true) {
         const { date } = yield take(actions.PICK_DATE)
-        console.log('caught pick date', date)
         yield call(loadPhotos, date)
     }
 }
