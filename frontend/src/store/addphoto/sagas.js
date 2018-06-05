@@ -20,7 +20,9 @@ export function* loadFolders() {
             folders = data
         })
     console.log("GETFOLDER#######",folders)
-    yield put({ type : 'STORE_FOLDER', folders });
+    var sorted = folders.sort(function(a,b) {return (a.name < b.name) ? -1 : ((b.name < a.name) ? 1 : 0);} )
+    console.log("GETFOLDER#######",sorted)
+    yield put({ type : 'STORE_FOLDER', sorted });
     sessionStorage.setItem('tripFolders', JSON.stringify(folders))
 
 }
