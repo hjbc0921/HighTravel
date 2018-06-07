@@ -10,16 +10,18 @@ const mapStateToProps = (state) => {
   // sessionStorage holds real photo list(including photo's id)
   // photolist only holds image url and their size to be shown
 
-  var photoOfDate = sessionStorage.getItem('photoOfDate')
-  if (photoOfDate!=="undefined" && photoOfDate!==null) {
-    photos = JSON.parse(photoOfDate)
-  } 
+  var photoOfDate = state.adddiary.photos
+  console.log(photoOfDate)
+  //if (photoOfDate!==[]) {
+  //  photos = JSON.parse(photoOfDate)
+  //} 
 
-  for (var i=0; i<photos.length; i++) {
-      imageUrl = photos[i].image
+  for (var i=0; i<photoOfDate.length; i++) {
+      imageUrl = photoOfDate[i].image
       imageUrl = imageUrl.replace("localhost:3000", "127.0.0.1:8000")
       photolist.push({src: imageUrl, width: 5, height: 4})
   }
+  console.log(photolist)
    return{
      photos : photolist,
      updated: state.adddiary.updated

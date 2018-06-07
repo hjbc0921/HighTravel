@@ -10,6 +10,7 @@ const adddiary_reducer = (state = initialState, action) => {
       case STORE_DATE_PHOTO:
        return Object.assign({},state,{
         updated: true,
+        photos : JSON.parse(sessionStorage.getItem('photoOfDate'))
        })
      default:
        return state

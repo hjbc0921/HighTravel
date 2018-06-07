@@ -11,7 +11,8 @@ class Demo extends React.Component {
     this.props.form.validateFields((err, values) => {
       if (!err) {
         console.log('Received values of form: ', values)
-	this.props.onAddDiary(values.date, values.contents, values.photos)
+        console.log(this.props.children)
+	      this.props.onAddDiary(values.date, values.contents, values.photos)
       }
     });
   }
@@ -21,7 +22,8 @@ class Demo extends React.Component {
       return e;
     }
     const { target } = e;
-    this.props.selectedDate(target.value)
+    if (target.value!=="")
+      this.props.selectedDate(target.value)
     return target.value;
   }
 
