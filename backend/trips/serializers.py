@@ -4,7 +4,7 @@ from trips.models import *
 from drf_writable_nested import WritableNestedModelSerializer
 
 class DiarySerializer(serializers.ModelSerializer):
-    photos = serializers.PrimaryKeyRelatedField(many=True,queryset=Photo.objects.all())
+    photos = serializers.PrimaryKeyRelatedField(many=True, required=False, queryset=Photo.objects.all())
     class Meta:
         model = Diary
         fields = ('id','contents','writer','date','tripID','photos')

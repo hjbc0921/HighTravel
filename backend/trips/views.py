@@ -185,6 +185,21 @@ class PhotoOfTrip(generics.ListAPIView):
         tripId = self.kwargs['tripId']
         return Photo.objects.filter(tripID__id=tripId)
 
+# api/photos/trip/tripId/date/date_of_photo url view
+class PhotoOfDate(generics.ListAPIView):
+    serializer_class = PhotoSerializer
+    permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
+
+    def get_queryset(self):
+        """
+        This view should return a list of all photos in date
+        """
+
+        date = self.kwargs['date_of_photo']
+        tripId = self.kwargs['tripId']
+        return Photo.objects.filter(folder__name__startswith=date, tripID__id=tripId)
+
+
 
 # api/diaries/ url view
 class DiaryList(generics.ListCreateAPIView):

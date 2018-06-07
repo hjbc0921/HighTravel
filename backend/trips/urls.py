@@ -21,6 +21,7 @@ urlpatterns = [
     url(r'^photos/$',views.PhotoList.as_view(), name='photos'),
     url(r'^photos/(?P<pk>[0-9]+)/$', views.PhotoDetail.as_view(), name='photo-detail'),
     path('photos/trip/<int:tripId>/', views.PhotoOfTrip.as_view(), name='photos-of-trip'),
+    path('photos/trip/<int:tripId>/date/<int:date_of_photo>/', views.PhotoOfDate.as_view(), name='photos-of-date'),
     url(r'^diaries/$',views.DiaryList.as_view(), name='diaries'),
     url(r'^diaries/(?P<pk>[0-9]+)/$', views.DiaryDetail.as_view(), name='diary-detail'),
     path('diaries/trip/<int:tripId>/user/<int:userId>/', views.DiaryOfTrip.as_view(), name='diaries-of-trip-user'),
