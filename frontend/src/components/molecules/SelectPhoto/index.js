@@ -10,6 +10,7 @@ export class SelectPhoto extends React.Component {
     this.selectPhoto = this.selectPhoto.bind(this);
   }
 
+  
   componentWillReceiveProps(nextProps) {
     if (nextProps.updated) {
       this.setState({ photos: nextProps.photos})
