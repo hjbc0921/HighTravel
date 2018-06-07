@@ -292,7 +292,7 @@ class ScheduleList(generics.ListCreateAPIView):
     def post(self, request, *args, **kwargs):
         serializer = self.get_serializer(data=request.data)
         if serializer.is_valid():
-            if serializer.validated_data['sinceWhen'] >= serializer.validated_data['tilWhen']:
+            if serializer.validated_data['sinceWhen'] > serializer.validated_data['tilWhen']:
                 return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
         return self.create(request,*args,**kwargs)
 
@@ -306,7 +306,7 @@ class ScheduleDetail(generics.RetrieveUpdateDestroyAPIView):
     def put(self, request, *args, **kwargs):
         serializer = self.get_serializer(data=request.data)
         if serializer.is_valid():
-            if serializer.validated_data['sinceWhen'] >= serializer.validated_data['tilWhen']:
+            if serializer.validated_data['sinceWhen'] > serializer.validated_data['tilWhen']:
                 return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
         return self.update(request,*args,**kwargs)
 

@@ -9,8 +9,8 @@ const mapStateToProps = (state) => {
   }
 
   return {
-    schedules,
-   updated: state.schedules.updated
+  schedules : schedules,
+  updated: state.schedules.updated
   }
 };
 
