@@ -1,15 +1,37 @@
 import React from 'react'
-import { Form, Button, Input } from 'antd';
+import { message, Form, Button, Input } from 'antd';
 import { SelectPhoto } from '../SelectPhoto'
 const FormItem = Form.Item;
 const { TextArea } = Input;
-
+message.config({
+  top: 400,
+  duration: 5,
+  maxCount: 3,
+})
 
 class Demo extends React.Component {
   constructor(props){
     super(props)
     this.state = {photos:[]}
     this.selectPhoto = this.selectPhoto.bind(this)
+  }
+  componentWillReceiveProps(nextProps) {
+    console.log('####################componentWillReceiveProps', this.props,nextProps);
+ 
+    if (!this.props.updated && nextProps.updated) {
+      this.setState({photos:[]})
+      message.success('New Diary added');
+    }
+    if (!this.props.error && nextProps.error){
+      message.error('Failed to add diary')
+      this.setState({photos:[]})
+      this.props.form.resetFields()
+    }
+  }
+  
+  shouldComponentUpdate(nextProps, nextState) {
+      console.log("#########shouldCOmponent",this.props, nextProps, this.state,nextState)
+      return nextProps.updated || (this.props!==nextProps) || (this.state!==nextState)
   }
 
   handleSubmit = (e) => {
@@ -26,7 +48,8 @@ class Demo extends React.Component {
             }
           }
         }
-	      this.props.onAddDiary(values.date, values.contents, select)
+        this.props.onAddDiary(values.date, values.contents, select)
+        this.props.form.resetFields()
       }
     });
   }

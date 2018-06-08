@@ -18,7 +18,8 @@ const mapStateToProps = (state) => {
   }
    return{
      photos : photolist,
-     //updated: state.adddiary.updated
+     updated : state.adddiary.updated,
+     error : state.adddiary.error
   }
 }
 

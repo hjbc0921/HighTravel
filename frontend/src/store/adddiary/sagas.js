@@ -27,10 +27,10 @@ export function* postDiary(date, contents, select) {
     let tripID = sessionStorage.getItem('tripID')
     let userID = sessionStorage.getItem('userID')
     let data
-
+    let allphotos = JSON.parse(sessionStorage.getItem('photoOfDate'))
     let photos = []
-    if (select.length!==0) {
-        let allphotos = JSON.parse(sessionStorage.getItem('photoOfDate'))
+
+    if (allphotos.length!==0) {   
         for (let i=0;i<select.length;i++){
             photos.push(allphotos[select[i]].id)
         }
@@ -49,10 +49,10 @@ export function* postDiary(date, contents, select) {
         }
     } catch (e) {
         console.log('post diary failed')
+        yield put(actions.addDiaryFail())
     }
     
-    // load Diary list again or put newly created diary here
-
+    yield put(actions.addDiarySuc())
 }
 
 export function* watchPostDiaryRequest() {
