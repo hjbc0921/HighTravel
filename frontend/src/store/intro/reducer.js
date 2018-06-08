@@ -6,7 +6,6 @@ const intro_reducer = (state = initialState, action) => {
     case USER_INFO_RECEIVED:
       return Object.assign({},state,{
         error : false,
-        message : "You are logged in",
       })
     case LOGIN_FAILED:
       return Object.assign({},state,{

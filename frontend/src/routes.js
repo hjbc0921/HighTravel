@@ -1,6 +1,12 @@
 import React from 'react';
-import { IndexRoute, Route, browserHistory } from 'react-router';
+import { Switch, IndexRoute, Route, browserHistory } from 'react-router';
 import { Home, User, Intro, Signup, None} from './components/pages'
+import { message} from 'antd';
+message.config({
+  top: 400,
+  duration: 7,
+  maxCount: 3,
+})
 
 function requireAuth(nextState, replace) {
   if (sessionStorage.getItem('token')==="null" || sessionStorage.getItem('token')===null) {
@@ -12,14 +18,25 @@ function requireAuth(nextState, replace) {
   }
 }
 
+function checkAuth(nextState, replace){
+  if(sessionStorage.getItem('token')!=="null" && sessionStorage.getItem('token')!==null){
+    console.log(sessionStorage.getItem('token'))
+    replace({
+      pathname:'/user',
+      state : {nextPathname: nextState.location.pathname}
+    })
+    message.warning('You are already logged in. To switch user, use Logout button.')
+  }
+}
+
 const routes = (
     <Route history={browserHistory}>
     <div>
       <Route path="/" component={Home} onEnter={requireAuth} />
       <Route path="/user" component={User} onEnter={requireAuth}/>
       <Route path="/signup" component={Signup} />
-      <Route path="/intro" component={Intro} />       
-      <Route path="/test" component={None} />
+      <Route path="/intro" component={Intro} onEnter={checkAuth}/>       
+      <Route component={None} />
     </div>
   </Route>
 )
