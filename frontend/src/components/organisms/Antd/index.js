@@ -7,6 +7,7 @@ import Money from '../../organisms/Money'
 import Photo from '../../organisms/Photo'
 
 import AddUser from "../../../containers/AddUser";
+import Settings from "../../../containers/Settings";
 import Logout from "../../../containers/Logout"
 import {Link} from 'react-router'
 import img from './../../image2.jpg';
@@ -82,7 +83,7 @@ const Antd = ({antd,menu,changeContent,toggleCol}) => {
                     {(menu==="money") && <div> <Money/> </div>}
                     {(menu==="photo") && <div> <Photo/> </div>}
                     {(menu==="diary") && <div> <Diary/> </div>}
-                    {(menu==="setting") && sessionStorage.getItem('owns')==="true" && <div> <AddUser/> </div>}
+                    {(menu==="setting") && <div> <Settings/> </div>}
                     </div>
                 </Content>
             </Layout>
