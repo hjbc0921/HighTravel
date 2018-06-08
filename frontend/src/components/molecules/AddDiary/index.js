@@ -1,20 +1,35 @@
 import React from 'react'
 import { Form, Button, Input } from 'antd';
-import SelectPhoto from '../../../containers/SelectPhoto'
+import { SelectPhoto } from '../SelectPhoto'
 const FormItem = Form.Item;
 const { TextArea } = Input;
 
 
 class Demo extends React.Component {
+  constructor(props){
+    super(props)
+    this.state = {photos:[]}
+    this.selectPhoto = this.selectPhoto.bind(this)
+  }
+
   handleSubmit = (e) => {
     e.preventDefault();
     this.props.form.validateFields((err, values) => {
       if (!err) {
         console.log('Received values of form: ', values)
-        console.log(this.props.children)
+        console.log(this.state)
 	      this.props.onAddDiary(values.date, values.contents, values.photos)
       }
     });
+  }
+
+  selectPhoto(event, obj) {
+    let photos = this.props.photos;
+    console.log("selected??######",photos)
+    photos[obj.index].selected = !photos[obj.index].selected;
+    console.log("select#####",photos.map(p => p.selected));
+    this.setState({ photos: photos });
+    console.log("state######",this.state);
   }
 
   pickDate = (e) => {
@@ -62,7 +77,7 @@ class Demo extends React.Component {
                 { required: false },
               ],
             })(
-                <SelectPhoto/>
+                <SelectPhoto photos={this.props.photos} onSelectPhoto={this.selectPhoto}/>
           )}
         </FormItem>
         <FormItem
