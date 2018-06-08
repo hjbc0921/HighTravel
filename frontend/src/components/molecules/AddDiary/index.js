@@ -17,19 +17,24 @@ class Demo extends React.Component {
     this.props.form.validateFields((err, values) => {
       if (!err) {
         console.log('Received values of form: ', values)
-        console.log(this.state)
-	      this.props.onAddDiary(values.date, values.contents, values.photos)
+        let selected = this.state.photos.map(p=>p.selected);
+        let select = []
+        if (selected.length>0){
+          for (let i=0;i<selected.length;i++){
+            if (selected[i]===true){
+              select.push(i)
+            }
+          }
+        }
+	      this.props.onAddDiary(values.date, values.contents, select)
       }
     });
   }
 
   selectPhoto(event, obj) {
     let photos = this.props.photos;
-    console.log("selected??######",photos)
     photos[obj.index].selected = !photos[obj.index].selected;
-    console.log("select#####",photos.map(p => p.selected));
     this.setState({ photos: photos });
-    console.log("state######",this.state);
   }
 
   pickDate = (e) => {

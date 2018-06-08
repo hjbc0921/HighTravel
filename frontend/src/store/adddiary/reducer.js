@@ -5,7 +5,7 @@ const adddiary_reducer = (state = initialState, action) => {
    switch (action.type) {
       case POST_DIARY_REQUEST:
        return {
-
+        photos : []
        };
       case STORE_DATE_PHOTO:
        return Object.assign({},state,{

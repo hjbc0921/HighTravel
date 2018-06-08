@@ -10,7 +10,7 @@ const mapStateToProps = (state) => {
   // photolist only holds image url and their size to be shown
 
   var photoOfDate = state.adddiary.photos
-
+ 
   for (var i=0; i<photoOfDate.length; i++) {
       imageUrl = photoOfDate[i].image
       imageUrl = imageUrl.replace("localhost:3000", "127.0.0.1:8000")
@@ -27,8 +27,8 @@ const mapDispatchToProps = (dispatch) => {
       selectedDate: (date) => {
         dispatch(pickDate(date))
       },
-      onAddDiary: (date, contents, photos) =>{
-        dispatch(postDiaryRequest(date, contents, photos))
+      onAddDiary: (date, contents, select) =>{
+        dispatch(postDiaryRequest(date, contents, select))
       }
    }
 };

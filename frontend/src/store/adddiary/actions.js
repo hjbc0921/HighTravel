@@ -9,12 +9,12 @@ export const pickDate = (date) => {
     }
 }
 
-export const postDiaryRequest = (date, contents, photos) => {
+export const postDiaryRequest = (date, contents, select) => {
     return {
         type: POST_DIARY_REQUEST,
         date,
         contents,
-        photos
+        select
     }
 }
 
