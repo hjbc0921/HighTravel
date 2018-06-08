@@ -36,7 +36,7 @@ const routes = (
       <Route path="/user" component={User} onEnter={requireAuth}/>
       <Route path="/signup" component={Signup} />
       <Route path="/intro" component={Intro} onEnter={checkAuth}/>       
-      <Route component={None} />
+      <Route path="*" component={None} />
     </div>
   </Route>
 )
