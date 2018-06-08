@@ -6,7 +6,6 @@ import Map from '../../organisms/Map'
 import Money from '../../organisms/Money'
 import Photo from '../../organisms/Photo'
 
-import AddUser from "../../../containers/AddUser";
 import Settings from "../../../containers/Settings";
 import Logout from "../../../containers/Logout"
 import {Link} from 'react-router'

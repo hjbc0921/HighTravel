@@ -4,17 +4,25 @@ import { Table, Input, Icon, Button, Popconfirm } from 'antd';
 class EditableCell extends React.Component {
   state = {
     value: this.props.value,
+    originVal: this.props.value,
     editable: false,
+    field: this.props.field,
   }
   handleChange = (e) => {
     const value = e.target.value;
-    console.log('+++++++++++change', value)
+    console.log('+++++++++++change', e, value)
     this.setState({ value });
+    console.log('---', this.state)
   }
   check = () => {
     this.setState({ editable: false });
     if (this.props.onChange) {
       this.props.onChange(this.state.value);
+      console.log('+++++++++++check', this.state.value)
+      // PATCH success
+      this.setState({ originVal: this.state.value });
+      // PATCH fail
+      //this.setState({ value: this.state.originVal });
       console.log('+++++++++++check', this.state.value)
     }
   }
@@ -58,14 +66,14 @@ class EditableCell extends React.Component {
 class Settings extends React.Component {
   constructor(props) {
     super(props);
-    var otherUsers = JSON.parse(props.addUser.users)
+    var otherUsers = props.users
     var idx = 3
     var users = []
     var u
     for (var i=0; i<otherUsers.length; i++) {
       u = otherUsers[i]
       if (u.name != sessionStorage.getItem('username'))
-        users.push({key: ++idx, field: '', name: u.name,})
+        users.push({key: ++idx, field: '', data: u.name,})
     }
 
     var defaultCol = [{
@@ -74,14 +82,17 @@ class Settings extends React.Component {
       width: '30%',
     }, {
       title: 'data',
-      dataIndex: 'name',
+      dataIndex: 'data',
       width: '40%',
       render: (text, record) => {
+        console.log('text', text, 'record', record)
         return (
           (record.key <= 2) && (sessionStorage.getItem('owns')=='true') ?
             <EditableCell
               value={text}
-              onChange={this.onCellChange(record.key, 'name')}
+              onChange={this.onCellChange(record.field, 'data')}
+              field={record.field}
+              //onPatch={this.props.onPatch}
             />  : text
         );
       },
@@ -105,24 +116,7 @@ class Settings extends React.Component {
 
     this.columns = defaultCol.concat(adminCol)
 
-    var defaultRow =  [{
-      key: '0',
-      field: 'title',
-      name: 'Europe',
-    }, {
-      key: '1',
-      field: 'sinceWhen',
-      name: '2018-01-01',
-    }, {
-      key: '2',
-      field: 'tilWhen',
-      name: '2018-03-01',
-    }, {
-      key: '3',
-      field: 'users',
-      name: sessionStorage.getItem('username'),
-    }]
-
+    var defaultRow = this.props.tripInfo
     this.state = {
       dataSource: defaultRow.concat(users),
       count: 5
@@ -132,11 +126,24 @@ class Settings extends React.Component {
   onCellChange = (key, dataIndex) => {
     return (value) => {
       const dataSource = [...this.state.dataSource];
+      console.log('onCellChange', key, dataIndex, value)
+      if (key=='sinceWhen') {
+        if (dataSource[2].data <= value) {
+          console.log('FAIL', 'tilWhen: ', dataSource[2].data, 'sinceWhen: ' , value)
+        }
+        else {
+          console.log('SUCCESS', 'tilWhen: ', dataSource[2].data, 'sinceWhen: ' , value)
+        }
+      }
+
       const target = dataSource.find(item => item.key === key);
+      /*
       if (target) {
         target[dataIndex] = value;
         this.setState({ dataSource });
       }
+      */
+      console.log('source', dataSource, this.state.dataSource)
     };
   }
   onDelete = (key) => {
@@ -147,7 +154,7 @@ class Settings extends React.Component {
     const { count, dataSource } = this.state;
     const newData = {
       key: count,
-      name: `Edward King ${count}`,
+      data: `Edward King ${count}`,
       age: 32,
       address: `London, Park Lane no. ${count}`,
     };

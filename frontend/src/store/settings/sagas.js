@@ -8,9 +8,11 @@ const url = 'http://'+location.host+'/api/trips/'
 const userUrl = 'http://'+location.host+'/api/users/'
 
 
-export function* loadUsers(tripID) {
+export function* loadUsers() {
     console.log('loadUsers')
-    console.log(tripID)
+    var tripID = sessionStorage.getItem('tripID')
+    console.log('in loadUsers', tripID)
+
     var myname = sessionStorage.getItem('username')
     var tripTitle = sessionStorage.getItem('triptitle') 
     
@@ -27,9 +29,13 @@ export function* loadUsers(tripID) {
         console.log('Get Trip list failed')
     }
 
-    console.log(ourTrip)
-    var userlist = ourTrip.users
+    console.log('ourTrip', ourTrip)
+    var tripInfo = [{ key: 0, field: 'title', data: ourTrip.title }, { key: 1, field: 'sinceWhen', data: ourTrip.sinceWhen }, { key: 2, field: 'tilWhen', data: ourTrip.tilWhen }, { key: 3, field: 'users', data: myname }]
     var creator = ourTrip.creator
+    sessionStorage.setItem('tripInfo', JSON.stringify(tripInfo))
+
+    var userlist = ourTrip.users
+    sessionStorage.setItem('users', JSON.stringify(userlist))
     if (creator===myname) sessionStorage.setItem("owns","true")
     console.log(userlist)
     var userObjects = []
@@ -178,7 +184,7 @@ export function* watchStoreTripId() {
     while (true) {
         const action = yield take(STORE_TRIP_ID)
         console.log('tripID', action.tripID)
-        yield call(loadUsers, action.tripID)
+        yield call(loadUsers)
     }
 }
 
