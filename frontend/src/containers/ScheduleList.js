@@ -3,8 +3,8 @@ import {ScheduleList} from "../components/molecules/ScheduleList";
 import { deleteScheduleRequest } from '../store/schedules/actions'
 
 const mapStateToProps = (state) => {
-  var schedules = sessionStorage.getItem('tripSchedules')
-  if (sessionStorage.getItem('tripSchedules')!=="undefined"){
+  var schedules = []
+  if ( sessionStorage.getItem('tripSchedules')!==null && sessionStorage.getItem('tripSchedules')!=="undefined"){
     schedules = JSON.parse(sessionStorage.getItem('tripSchedules'))
   }
 
