@@ -175,7 +175,7 @@ export function* watchPostRequest () {
 
 export function* watchStoreTripId () {
     while (true) {
-        const action = yield take(STORE_USERS)
+        const action = yield take(STORE_TRIP_INFO)
         yield call(loadExpense)
     }
 }
