@@ -1,5 +1,6 @@
 export const initialState = {
     users: [],
     msg: '',
-    err: false
+    err: false,
+    updated: false
 }

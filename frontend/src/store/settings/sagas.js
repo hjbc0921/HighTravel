@@ -71,6 +71,7 @@ export function* loadUsers() {
 
     var users = JSON.stringify(userObjects)
     yield put({ type : 'STORE_USERS', users, msg, err });
+    console.log('load User end')
 }
 
 export function* addUser(username) {
@@ -180,6 +181,55 @@ export function* watchAddUserRequest() {
     }
 }
 
+export function* patchTrip(key, value) {
+    //patch and return success or fail to state(state.expense.updated is true when success)
+    var token = sessionStorage.getItem('token')
+    var tripID = sessionStorage.getItem('tripID')
+    var tripInfo = JSON.parse(sessionStorage.getItem('tripInfo'))
+    var sinceWhen = tripInfo[1].data
+    var tilWhen = tripInfo[2].data
+    console.log('check date', sinceWhen, tilWhen)
+    var tripUrl = url + tripID + '/'
+    //var tripExpenses = JSON.parse(sessionStorage.getItem('tripExpenses'))
+    var data
+    console.log('in patchTrip saga', key, value)
+    var patchData = {}
+    var valid = true
+    patchData[key] = value
+    if (key == 'sinceWhen' && tilWhen <= value)
+        valid = false
+    if (key == 'tilWhen' && sinceWhen >= value)
+        valid = false
+    console.log(patchData, valid)
+    try {
+        if (key != undefined && value != undefined && valid) {
+            data = yield call(fetch, tripUrl, {
+                method: 'PATCH',
+                body: JSON.stringify(patchData),
+                headers: {
+                    'Authorization': `token ${token}`,
+                    'Content-Type': 'application/json'
+                }
+            })
+        }
+        console.log('patch trip success')
+        //yield put(actions.patchexpenseSuc())
+    } catch (e) {
+        console.log('patch trip failed')
+        //yield put(actions.patchexpenseFail())
+    }
+    yield call(loadUsers)
+}
+
+export function* watchTripPatchRequest() {
+    while (true) {
+        console.log('tripPatch watch')
+        const action = yield take(actions.TRIP_PATCH_REQUEST)
+        console.log('action: ', action)
+        yield call(patchTrip, action.key, action.value)
+    }
+}
+
 export function* watchStoreTripId() {
     while (true) {
         const action = yield take(STORE_TRIP_ID)
@@ -191,4 +241,5 @@ export function* watchStoreTripId() {
 export default function* () {
     yield fork(watchStoreTripId)
     yield fork(watchAddUserRequest)
+    yield fork(watchTripPatchRequest)
 }

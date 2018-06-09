@@ -4,26 +4,22 @@ import { Table, Input, Icon, Button, Popconfirm } from 'antd';
 class EditableCell extends React.Component {
   state = {
     value: this.props.value,
-    originVal: this.props.value,
+    updated: this.props.updated,
     editable: false,
-    field: this.props.field,
+  }
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.updated) {
+      this.setState({value: nextProps.value})
+    }
   }
   handleChange = (e) => {
     const value = e.target.value;
-    console.log('+++++++++++change', e, value)
     this.setState({ value });
-    console.log('---', this.state)
   }
   check = () => {
     this.setState({ editable: false });
     if (this.props.onChange) {
       this.props.onChange(this.state.value);
-      console.log('+++++++++++check', this.state.value)
-      // PATCH success
-      this.setState({ originVal: this.state.value });
-      // PATCH fail
-      //this.setState({ value: this.state.originVal });
-      console.log('+++++++++++check', this.state.value)
     }
   }
   edit = () => {
@@ -85,15 +81,13 @@ class Settings extends React.Component {
       dataIndex: 'data',
       width: '40%',
       render: (text, record) => {
-        console.log('text', text, 'record', record)
         return (
           (record.key <= 2) && (sessionStorage.getItem('owns')=='true') ?
             <EditableCell
-              value={text}
+              value={record.data}
               onChange={this.onCellChange(record.field, 'data')}
-              field={record.field}
-              //onPatch={this.props.onPatch}
-            />  : text
+	      updated={this.props.updated}
+            />  : record.data
         );
       },
     }]
@@ -105,7 +99,7 @@ class Settings extends React.Component {
         dataIndex: 'operation',
         render: (text, record) => {
           return (
-            (this.state.dataSource.length > 1) && (record.key > 3) ?
+            record.key > 3 ?
               <Popconfirm title="Sure to delete?" onConfirm={() => this.onDelete(record.key)}>
                 <a href="javascript:;">Delete</a>
               </Popconfirm>
@@ -118,34 +112,31 @@ class Settings extends React.Component {
 
     var defaultRow = this.props.tripInfo
     this.state = {
-      dataSource: defaultRow.concat(users),
-      count: 5
+      tripInfo: defaultRow,
+      dataSource: users,
+      count: 5,
+      updated: false
+    }
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.updated) {
+      this.setState({tripInfo: nextProps.tripInfo})
     }
   }
 
   onCellChange = (key, dataIndex) => {
     return (value) => {
-      const dataSource = [...this.state.dataSource];
-      console.log('onCellChange', key, dataIndex, value)
-      if (key=='sinceWhen') {
-        if (dataSource[2].data <= value) {
-          console.log('FAIL', 'tilWhen: ', dataSource[2].data, 'sinceWhen: ' , value)
-        }
-        else {
-          console.log('SUCCESS', 'tilWhen: ', dataSource[2].data, 'sinceWhen: ' , value)
-        }
-      }
-
-      const target = dataSource.find(item => item.key === key);
-      /*
+      const tripInfo = [...this.state.tripInfo];
+      const target = tripInfo.find(item => item.field === key);
       if (target) {
         target[dataIndex] = value;
-        this.setState({ dataSource });
+        this.setState({ tripInfo });
+	this.props.onPatch(key, value)
       }
-      */
-      console.log('source', dataSource, this.state.dataSource)
     };
   }
+
   onDelete = (key) => {
     const dataSource = [...this.state.dataSource];
     this.setState({ dataSource: dataSource.filter(item => item.key !== key) });
@@ -164,14 +155,15 @@ class Settings extends React.Component {
     });
   }
   render() {
-    const { dataSource } = this.state;
+    const { tripInfo, dataSource } = this.state;
+    var source = tripInfo.concat(dataSource)
     const columns = this.columns;
     return (
       <div>
         <Button onClick={this.handleAdd} type="primary" style={{ marginBottom: 16 }}>
           Add a row
         </Button>
-        <Table bordered dataSource={dataSource} columns={columns} />
+        <Table bordered dataSource={source} columns={columns} />
       </div>
     );
   }
