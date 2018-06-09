@@ -3,8 +3,20 @@ from rest_framework import serializers
 from trips.models import *
 from drf_writable_nested import WritableNestedModelSerializer
 
-class DiarySerializer(serializers.ModelSerializer):
-    photos = serializers.PrimaryKeyRelatedField(many=True, required=False, queryset=Photo.objects.all())
+class PhotoSerializer(WritableNestedModelSerializer):
+    image = serializers.ImageField(use_url=True,read_only=True)
+    class Meta:
+        model = Photo
+        fields = ('id', 'folder','image','tripID','diaries')
+
+class DiaryDetailSerializer(WritableNestedModelSerializer):
+    photos = PhotoSerializer(many=True, required=False)
+    class Meta:
+        model = Diary
+        fields = ('id','contents','writer','date','tripID','photos')
+
+class DiarySerializer(WritableNestedModelSerializer):
+    photos    = serializers.PrimaryKeyRelatedField(many=True,required=False,queryset=Photo.objects.all())
     class Meta:
         model = Diary
         fields = ('id','contents','writer','date','tripID','photos')
@@ -42,11 +54,6 @@ class FolderSerializer(WritableNestedModelSerializer):
         model = Folder
         fields = ('id','name','photos_in_folder', 'tripID')
  
-class PhotoSerializer(WritableNestedModelSerializer):
-    image = serializers.ImageField(use_url=True,read_only=True)
-    class Meta:
-        model = Photo
-        fields = ('id', 'folder','image','tripID','diaries')
 
 class TodoSerializer(serializers.ModelSerializer):
     class Meta:
