@@ -1,6 +1,6 @@
 from django.contrib.auth.models import User
 from trips.models import Trip, Budget, Expense, Folder, Photo, Diary, Todo, Rule, Schedule, Marker
-from trips.serializers import UserRegSerializer, TripSerializer, TripDetailSerializer, UserSerializer, BudgetSerializer, ExpenseSerializer, FolderSerializer, PhotoSerializer, DiarySerializer, TodoSerializer, RuleSerializer, ScheduleSerializer, MarkerSerializer  
+from trips.serializers import DiaryDetailSerializer, UserRegSerializer, TripSerializer, TripDetailSerializer, UserSerializer, BudgetSerializer, ExpenseSerializer, FolderSerializer, PhotoSerializer, DiarySerializer, TodoSerializer, RuleSerializer, ScheduleSerializer, MarkerSerializer  
 from rest_framework import generics
 from rest_framework.views import APIView
 from rest_framework.response import Response
@@ -218,7 +218,7 @@ class DiaryDetail(generics.RetrieveUpdateDestroyAPIView):
 
 # api/diaries/trip/tripId/user/userId url view
 class DiaryOfTrip(generics.ListAPIView):
-    serializer_class = DiarySerializer
+    serializer_class = DiaryDetailSerializer
     permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
 
     def get_queryset(self):
