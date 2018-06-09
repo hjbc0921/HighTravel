@@ -28,7 +28,7 @@ const Wrapper = styled.div`
   height: 20vh;
 `;
 
-const Antd = ({antd,menu,changeContent,toggleCol}) => {
+const Antd = ({antd,menu,title,changeContent,toggleCol}) => {
     const handleClick = (e) => {
         changeContent(e.key)
     }

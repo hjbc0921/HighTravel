@@ -1,6 +1,6 @@
 import React from 'react'
 import { message, Table, Input, Icon, Popconfirm } from 'antd';
-import { AddUser } from '../../atoms/AddUser'
+import { AddForm } from '../../atoms/AddForm'
 import EditableCell from '../../atoms/EditableCell'
 
 message.config({
@@ -119,7 +119,7 @@ class Settings extends React.Component {
     const columns = this.columns;
     return (
       <div>
-        {(sessionStorage.getItem('owns')=='true') ? <AddUser onAddUser={this.props.onAddUser}/> : null}
+        {(sessionStorage.getItem('owns')=='true') ? <AddForm onAddForm={this.props.onAddUser} icon={'user-add'} placeholder={'Username to invite'} msg={'Please input username to invite!'} btn={'Add User'}/> : null}
         <Table bordered dataSource={source} columns={columns} />
       </div>
     );

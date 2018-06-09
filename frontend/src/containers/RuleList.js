@@ -1,6 +1,6 @@
 import { connect } from 'react-redux'
 import { RuleList } from '../components/molecules/RuleList'
-import { deleteRuleRequest } from '../store/rules/actions'
+import { deleteRuleRequest, postRuleRequest } from '../store/rules/actions'
 
 const mapStateToProps = (state) => {
     var rules = sessionStorage.getItem('rules')
@@ -12,6 +12,9 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
     return {
+        onPostRule: (input) => {
+            dispatch(postRuleRequest(input))
+        },
         onDeleteRule: (ruleId) => {
             dispatch(deleteRuleRequest(ruleId))
         }

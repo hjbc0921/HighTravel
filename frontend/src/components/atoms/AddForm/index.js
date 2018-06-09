@@ -6,7 +6,7 @@ function hasErrors(fieldsError) {
   return Object.keys(fieldsError).some(field => fieldsError[field]);
 }
 
-class AddUserForm extends React.Component {
+class AddElementForm extends React.Component {
   componentDidMount() {
     // To disabled submit button at the beginning.
     this.props.form.validateFields();
@@ -15,7 +15,7 @@ class AddUserForm extends React.Component {
     e.preventDefault();
     this.props.form.validateFields((err, values) => {
       if (!err) {
-	this.props.onAddUser(values.userName)
+	this.props.onAddForm(values.userName)
         this.props.form.resetFields()
       }
     });
@@ -35,9 +35,9 @@ class AddUserForm extends React.Component {
           help={userNameError || ''}
         >
           {getFieldDecorator('userName', {
-            rules: [{ required: true, message: 'Please input username to invite!' }],
+            rules: [{ required: true, message: this.props.msg }],
           })(
-            <Input prefix={<Icon type="user-add" style={{ color: 'rgba(0,0,0,.25)' }} />} placeholder="Username to invite" />
+            <Input prefix={<Icon type={this.props.icon} style={{ color: 'rgba(0,0,0,.25)' }} />} placeholder={this.props.placeholder} />
           )}
         </FormItem>
         <FormItem>
@@ -46,7 +46,7 @@ class AddUserForm extends React.Component {
             htmlType="submit"
             disabled={hasErrors(getFieldsError())}
           >
-            Add User
+            {this.props.btn}
           </Button>
         </FormItem>
       </Form>
@@ -54,4 +54,4 @@ class AddUserForm extends React.Component {
   }
 }
 
-export const AddUser = Form.create()(AddUserForm);
+export const AddForm = Form.create()(AddElementForm);

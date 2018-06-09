@@ -1,6 +1,8 @@
 import React from 'react'
-import Button from '../../../components/atoms/Button'
+//import Button from '../../../components/atoms/Button'
 import Rule from '../../../components/atoms/Rule'
+import { AddForm } from '../../atoms/AddForm'
+import { Button } from 'antd'
 
 export class RuleList extends React.Component {
   render() {
@@ -12,6 +14,7 @@ export class RuleList extends React.Component {
             <Rule rule={rule} />
             <Button id="button3" onClick={ event => this.props.onDeleteRule(rule.id) }>Delete</Button>
           </div>)}
+        <AddForm onAddForm={this.props.onPostRule} icon={'profile'} placeholder={'Contents for new Rule'} msg={'Please input content of new rule!'} btn={'Add Rule'}/>
       </div>
     );
     }

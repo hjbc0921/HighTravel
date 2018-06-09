@@ -143,6 +143,7 @@
 .ruleelement {
   display: flex;
   font-family: "primary";
+  margin-right: 15px;
   flex-direction: row;
   justify-content: center;
   align-items: center;
@@ -150,16 +151,17 @@
 
 .rule {
   font-family: "primary";
-  width: 250px;
+  width: 350px;
   text-align: center;
   vertical-align: middle;
   line-height: 20px;
   padding: 6px;
   margin-top: 2.5px;
   margin-bottom: 2.5px;
+  margin-right: 17px;
   top: 50%;
   background: #ccccff;
-  border-radius: 20px;
+  border-radius: 10px;
   word-wrap: break-word;
   display: inline-block;
 }

@@ -5,7 +5,8 @@ import {changeContents,toggleCollapsed} from "../store/antd/actions";//modify co
 const mapStateToProps = (state) => {
   return {
     antd: state.antd,
-    menu: sessionStorage.getItem('menu')
+    menu: sessionStorage.getItem('menu'),
+    title: sessionStorage.getItem('triptitle')
   }
 };
 
