@@ -2,8 +2,7 @@ import { take, call, fork, select, put} from 'redux-saga/effects'
 import api from 'services/api'
 import * as actions from './actions'
 const url = 'http://'+location.host+'/api/expenses/'
-// import { STORE_TRIP_ID } from '../user/actions'
-import { STORE_USERS } from '../adduser/actions'
+import { STORE_TRIP_INFO } from '../settings/actions'
 
 export function* loadExpense() {
     var tripID = sessionStorage.getItem('tripID')

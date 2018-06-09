@@ -1,5 +1,12 @@
 import React from 'react'
-import { Table, Input, Icon, Button, Popconfirm } from 'antd';
+import { message, Table, Input, Icon, Popconfirm } from 'antd';
+import AddUser from '../../atoms/AddUser'
+
+message.config({
+  top: 4,
+  duration: 1,
+  maxCount: 3,
+});
 
 class EditableCell extends React.Component {
   state = {
@@ -68,8 +75,8 @@ class Settings extends React.Component {
     var u
     for (var i=0; i<otherUsers.length; i++) {
       u = otherUsers[i]
-      if (u.name != sessionStorage.getItem('username'))
-        users.push({key: ++idx, field: '', data: u.name,})
+      if (u.username != sessionStorage.getItem('username'))
+        users.push({key: ++idx, field: '', data: u.username,})
     }
 
     var defaultCol = [{
@@ -100,7 +107,7 @@ class Settings extends React.Component {
         render: (text, record) => {
           return (
             record.key > 3 ?
-              <Popconfirm title="Sure to delete?" onConfirm={() => this.onDelete(record.key)}>
+              <Popconfirm title="Sure to delete?" onConfirm={() => this.onDelete(record.data)}>
                 <a href="javascript:;">Delete</a>
               </Popconfirm>
              : null
@@ -122,6 +129,24 @@ class Settings extends React.Component {
   componentWillReceiveProps(nextProps) {
     if (nextProps.updated) {
       this.setState({tripInfo: nextProps.tripInfo})
+      var otherUsers = nextProps.users
+      var idx = 3
+      var users = []
+      var u
+      for (var i=0; i<otherUsers.length; i++) {
+        u = otherUsers[i]
+        if (u.username != sessionStorage.getItem('username'))
+          users.push({key: ++idx, field: '', data: u.username,})
+      }
+      this.setState({dataSource: users})
+    }
+    if (this.props.pop) {
+      if (nextProps.err) {
+        message.error(nextProps.msg)
+        }
+      else {
+        message.success(nextProps.msg)
+        }
     }
   }
 
@@ -139,20 +164,11 @@ class Settings extends React.Component {
 
   onDelete = (key) => {
     const dataSource = [...this.state.dataSource];
-    this.setState({ dataSource: dataSource.filter(item => item.key !== key) });
-  }
-  handleAdd = () => {
-    const { count, dataSource } = this.state;
-    const newData = {
-      key: count,
-      data: `Edward King ${count}`,
-      age: 32,
-      address: `London, Park Lane no. ${count}`,
-    };
-    this.setState({
-      dataSource: [...dataSource, newData],
-      count: count + 1,
-    });
+    var users = this.props.users
+    var remainUsers = users.filter(u => u.username !== key)
+    var ids = remainUsers.map(u => u.id)
+    this.props.deleteUser(ids)
+    this.setState({ dataSource: dataSource.filter(item => item.data !== key) });
   }
   render() {
     const { tripInfo, dataSource } = this.state;
@@ -160,9 +176,7 @@ class Settings extends React.Component {
     const columns = this.columns;
     return (
       <div>
-        <Button onClick={this.handleAdd} type="primary" style={{ marginBottom: 16 }}>
-          Add a row
-        </Button>
+        <AddUser onAddUser={this.props.onAddUser}/>
         <Table bordered dataSource={source} columns={columns} />
       </div>
     );

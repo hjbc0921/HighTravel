@@ -1,7 +1,7 @@
 import React, { PropTypes } from 'react'
 import {Button} from 'antd';
 
-export const AddUser = ({addUser, onAddUser}) => {
+export const AddUser = ({onAddUser}) => {
   let username
 
   const onAddUserBtn = () => {

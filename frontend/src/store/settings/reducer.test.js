@@ -1,12 +1,23 @@
 import { initialState } from './selectors'
-import { storeUsers }  from './actions'
+import { storeUsers, storeTripInfo }  from './actions'
 import settings_reducer from './reducer'
 
 describe('Store Users', () => {
     it('Store add user state', () => {
         expect(settings_reducer(
-            { users: [], msg: '', err: 'false', updated: false },
-            storeUsers([{id: 1, username: 'admin'}], 'user added', false)
-        )).toEqual({users: [{id: 1, username: 'admin'}], msg: 'user added', err: false, updated: true})
+            { msg: '', pop: false, err: false, updated: false },
+            storeUsers('user added', false)
+        )).toEqual({msg: 'user added', pop: true, err: false, updated: true})
     })}
 )
+
+/*
+describe('Store Trip Info', () => {
+    it('Store trip info state', () => {
+        expect(settings_reducer(
+            { msg: '', pop: false, err: false, updated: false },
+            storeTripInfo()
+        )).toEqual({msg: '', pop: false, err: false, updated: true})
+    })}
+)
+*/

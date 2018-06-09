@@ -1,7 +1,8 @@
-export const STORE_ENDS = 'STROE_ENDS';
+export const STORE_TRIP_INFO = 'STROE_TRIP_INFO';
 export const ADDUSER_REQUEST = 'ADDUSER_REQUEST';
 export const STORE_USERS = 'STORE_USERS';
 export const TRIP_PATCH_REQUEST = 'TRIP_PATCH_REQUEST';
+export const DELETE_USER_REQUEST = 'DELETE_USER_REQUEST';
 
 export const storeEnds = () => {
   return {
@@ -10,17 +11,20 @@ export const storeEnds = () => {
 };
 
 export const adduserRequest = (username) => {
-    console.log('=====Adduser Request action==')
-    console.log("add user request executed")
-console.log(username)
   return {
     type: ADDUSER_REQUEST,
     username
   }
 };
 
+export const deleteUserRequest = (ids) => {
+  return {
+    type: DELETE_USER_REQUEST,
+    ids
+  }
+};
+
 export const tripPatchRequest = (key, value) => {
-    console.log('=====tripPATCH Request action==', key, value)
   return {
     type: TRIP_PATCH_REQUEST,
     key,
@@ -28,23 +32,16 @@ export const tripPatchRequest = (key, value) => {
   }
 };
 
-export const storeUsers = (users, msg, err) => {
+export const storeUsers = (msg, err) => {
   return {
     type: STORE_USERS,
-    users,
     msg,
     err
   }
 };
 
-/*
-export const STORE_STATUS = 'STORE_STATUS';
-
-export const storeStatus = (msg, err) => {
+export const storeTripInfo = () => {
   return {
-    type: STORE_STATUS,
-    msg: msg,
-    err: err
+    type: STORE_TRIP_INFO
   }
 };
-*/
