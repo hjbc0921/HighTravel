@@ -1,9 +1,9 @@
 import React from 'react'
-import { shallow } from 'enzyme'
-import AddUser from './index'
+import { shallow, mount } from 'enzyme'
+import { AddUser } from './index'
 
 const onAddUser = jest.fn()
-const wrap = (props = {}) => shallow(<AddUser onAddUserBtn={onAddUser} {...props} />)
+const wrap = () => mount(<AddUser handleSubmit={onAddUser} input='test' />)
 
 it('calls onAddUser when Clicked', () => {
    onAddUser.mockClear()

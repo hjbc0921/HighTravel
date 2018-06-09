@@ -1,27 +1,57 @@
 import React, { PropTypes } from 'react'
-import {Button} from 'antd';
+import { Form, Icon, Input, Button } from 'antd';
+const FormItem = Form.Item;
 
-export const AddUser = ({onAddUser}) => {
-  let username
-
-  const onAddUserBtn = () => {
-    onAddUser(username.value);
-    username.value = ''
-  }	
-  return (
-    <div>
-      <div> username : <input required ref = {node=>{username = node;}} /></div>
-      <p style= {{ color: (sessionStorage.getItem('adduser_err')=="true") ? 'red' : 'black' }}>{ sessionStorage.getItem('adduser_msg') }</p>
-      <Button type = "default" icon = "user-add" onClick={onAddUserBtn}>AddUser</Button>
-    </div>
-  )
+function hasErrors(fieldsError) {
+  return Object.keys(fieldsError).some(field => fieldsError[field]);
 }
 
-AddUser.propTypes = {
-  username: PropTypes.string.isRequired
+class AddUserForm extends React.Component {
+  componentDidMount() {
+    // To disabled submit button at the beginning.
+    this.props.form.validateFields();
+  }
+  handleSubmit = (e) => {
+    e.preventDefault();
+    this.props.form.validateFields((err, values) => {
+      if (!err) {
+	this.props.onAddUser(values.userName)
+        this.props.form.resetFields()
+      }
+    });
+  }
+  render() {
+  const { getFieldDecorator } = this.props.form;
+  const { getFieldError } = this.props.form;
+  const { getFieldsError } = this.props.form;
+  const { isFieldTouched } = this.props.form;
+
+    // Only show error after a field is touched.
+    const userNameError = isFieldTouched('userName') && getFieldError('userName');
+    return (
+      <Form layout="inline" onSubmit={this.handleSubmit}>
+        <FormItem
+          validateStatus={userNameError ? 'error' : ''}
+          help={userNameError || ''}
+        >
+          {getFieldDecorator('userName', {
+            rules: [{ required: true, message: 'Please input username to invite!' }],
+          })(
+            <Input prefix={<Icon type="user-add" style={{ color: 'rgba(0,0,0,.25)' }} />} placeholder="Username to invite" />
+          )}
+        </FormItem>
+        <FormItem>
+          <Button
+            type="primary"
+            htmlType="submit"
+            disabled={hasErrors(getFieldsError())}
+          >
+            Add User
+          </Button>
+        </FormItem>
+      </Form>
+    );
+  }
 }
 
-AddUser.defaultProps = {
- username:''
-}
-export default AddUser
+export const AddUser = Form.create()(AddUserForm);

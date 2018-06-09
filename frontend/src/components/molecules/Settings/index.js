@@ -1,70 +1,13 @@
 import React from 'react'
 import { message, Table, Input, Icon, Popconfirm } from 'antd';
-import AddUser from '../../atoms/AddUser'
+import { AddUser } from '../../atoms/AddUser'
+import EditableCell from '../../atoms/EditableCell'
 
 message.config({
   top: 4,
   duration: 1,
   maxCount: 3,
 });
-
-class EditableCell extends React.Component {
-  state = {
-    value: this.props.value,
-    updated: this.props.updated,
-    editable: false,
-  }
-  componentWillReceiveProps(nextProps) {
-    if (nextProps.updated) {
-      this.setState({value: nextProps.value})
-    }
-  }
-  handleChange = (e) => {
-    const value = e.target.value;
-    this.setState({ value });
-  }
-  check = () => {
-    this.setState({ editable: false });
-    if (this.props.onChange) {
-      this.props.onChange(this.state.value);
-    }
-  }
-  edit = () => {
-    this.setState({ editable: true });
-  }
-  render() {
-    const { value, editable } = this.state;
-    return (
-      <div className="editable-cell">
-        {
-          editable ? (
-            <Input
-              value={value}
-              onChange={this.handleChange}
-              onPressEnter={this.check}
-              suffix={
-                <Icon
-                  type="check"
-                  className="editable-cell-icon-check"
-                  onClick={this.check}
-                />
-              }
-            />
-          ) : (
-            <div style={{ paddingRight: 24 }}>
-              {value || ' '}
-              <Icon
-                type="edit"
-                className="editable-cell-icon"
-                onClick={this.edit}
-              />
-            </div>
-          )
-        }
-      </div>
-    );
-  }
-}
 
 class Settings extends React.Component {
   constructor(props) {
@@ -140,7 +83,7 @@ class Settings extends React.Component {
       }
       this.setState({dataSource: users})
     }
-    if (this.props.pop) {
+    if (this.props.pop && nextProps.pop) {
       if (nextProps.err) {
         message.error(nextProps.msg)
         }
@@ -176,7 +119,7 @@ class Settings extends React.Component {
     const columns = this.columns;
     return (
       <div>
-        <AddUser onAddUser={this.props.onAddUser}/>
+        {(sessionStorage.getItem('owns')=='true') ? <AddUser onAddUser={this.props.onAddUser}/> : null}
         <Table bordered dataSource={source} columns={columns} />
       </div>
     );
