@@ -1,4 +1,4 @@
-import React, { PropTypes } from 'react'
+mport React, { PropTypes } from 'react'
 import styled from 'styled-components'
 import { font, palette } from 'styled-theme'
 import Gallery from 'react-photo-gallery';
@@ -8,30 +8,82 @@ const Wrapper = styled.div`
   color: ${palette('grayscale', 0)};
 `
 
-const PhotoList = () => {
-  const Foldername ='example'
-  const Photo = [{
- src:  'http://travel.chosun.com/site/data/img_dir/2017/06/30/2017063001239_0.jpg',
- width:10,
- height:10,
-},
-  {
-    src :'https://img-wishbeen.akamaized.net/plan/1454465238030_15657083522_d45a489b15_b.jpg',
-    width:10,
-    height:10	,
-}
- ];
-
-  return (
-    <div>
-      <Foldername/>
-      <Gallery photos={Photo}/>
+export const PhotoList = (photo_list) => {
+     console.log("11111");
+     console.log(photo_list);  
+     var newArray= [];
+     var tempArray = [];
+     var usedArray = [];
+     var date;
+     var folder;
+     var Photo=[];
+     var folderShowed='';
+     var PhotoSet=[];
+     if(photo_list == {})
+     return(
+      <div></div>
+     ) 
+     for(var k=0; k<photo_list.photo_list.length;k++){
+        usedArray[k] = 0;
+     }
+     console.log(usedArray)
+     for(var i=0; i<photo_list.photo_list.length;i++){
+        if ( folder !=undefined && usedArray[i] == 0){
+          folder = photo_list.photo_list[i].folder;
+          tempArray.push(photo_list.photo_list[i]);
+          usedArray[i] = 1;
+        }  
+        else if(  folder != photo_list.photo_list[i].folder && usedArray[i] == 0){
+          folder = photo_list.photo_list[i].folder;
+          tempArray.push(photo_list.photo_list[i]);
+          usedArray[i] = 1;
+       }
+       for (var j=i+1; j<photo_list.photo_list.length;j++){
+          if( folder == photo_list.photo_list[j].folder && usedArray[j]==0){
+               tempArray.push(photo_list.photo_list[j]); 
+               usedArray[j] = 1;
+          }   
+       }
+     if(tempArray!=[])
+        newArray.push(tempArray); 
+        tempArray=[];
+     }
+     console.log(newArray)
+   for(var l=0; l< newArray.length;l++){
+    for ( var m=0; m< newArray[l].length;m++){
+         folderShowed = newArray[l][m].folder;
+         Photo.push({src:newArray[l][m].image.replace("0.0.0.0:3000","0.0.0.0:8000"),
+                     sizes: ['(min-width: 50px) 20vw,(min-width: 50px) 20vw,40vw'],
+                     width:5,
+                     height:5
+                    }
+                   )
+    }
+    console.log(Photo)
+    if(folderShowed!='')
+    PhotoSet.push({folder:folderShowed,
+                   photos:Photo}
+                  );
+    folderShowed ='';
+    Photo=[];
+   }
+   console.log(PhotoSet)
+   
+   return(
+   <div>
+       {PhotoSet.map(data =>
+      <div>
+      <div> {data.folder} </div>
+        <Gallery photos={data.photos}/>
+      </div>  )
+      }
+     
     </div>
-  )
+   )
+ 
 }
 
 PhotoList.propTypes = {
-  Foldername: PropTypes.string,
   Photo: PropTypes.arrayOf(PropTypes.shape({
   src:PropTypes.string.isRequired,
   width:PropTypes.number.isRequired,
