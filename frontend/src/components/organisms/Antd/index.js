@@ -66,11 +66,10 @@ const Antd = ({antd,menu,title,changeContent,toggleCol}) => {
                     <Menu.Item key="home"><Icon type="home" /><span>Home</span></Menu.Item>
                     <Menu.Item key="rules"><Icon type="profile" /><span>Rules {"&"} Todos</span></Menu.Item>
                     <Menu.Item key="money"><Icon type="wallet" /><span>Money</span></Menu.Item>
+                    <Menu.Item key="map"><Icon type="environment-o" /><span>Map</span></Menu.Item>
                     <Menu.Item key="photo"><Icon type="camera-o" /><span>Photo</span></Menu.Item>
                     <Menu.Item key="diary"><Icon type="edit" /><span>Diary</span></Menu.Item>
-                    {true &&
                     <Menu.Item key="setting"><Icon type="setting" /><span>Settings</span></Menu.Item>
-                    }
                     
                 </Menu>
             </Sider>
@@ -80,6 +79,7 @@ const Antd = ({antd,menu,title,changeContent,toggleCol}) => {
                     {(menu==="home" || menu===null) && <div> <HomePage/> </div>}
                     {(menu==="rules") && <div> <Rules/> </div>}
                     {(menu==="money") && <div> <Money/> </div>}
+                    {(menu==="map") && <div> <Map/> </div>}
                     {(menu==="photo") && <div> <Photo/> </div>}
                     {(menu==="diary") && <div> <Diary/> </div>}
                     {(menu==="setting") && <div> <Settings/> </div>}
