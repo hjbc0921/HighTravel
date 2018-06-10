@@ -997,7 +997,7 @@ class MarkerListViewTest(TestCase):
         token = Token.objects.get(user__username='swpp1')
         client = APIClient()
         client.credentials(HTTP_AUTHORIZATION='Token ' + token.key)
-        resp = client.post(reverse('markers'), {'place': 'EiffelTower', 'tripID': new_trip.id})
+        resp = client.post(reverse('markers'), {'place': 'EiffelTower', 'internalID':'2', 'lat':'37.23','lng':'126.23', 'tripID': new_trip.id})
         self.assertEqual(resp.status_code, 201)
 
 
@@ -1011,7 +1011,7 @@ class MarkerDetailViewTest(TestCase):
     def test_get_marker_detail(self):
         user = create_user(username="swpp1", password="High_Travel")
         new_trip = create_trip(title="Europe", sinceWhen="2018-05-27", tilWhen="2018-06-27", creator='swpp1')
-        new_marker = Marker.objects.create(place="Eiffel Tower", tripID=new_trip)
+        new_marker = Marker.objects.create(place="Eiffel Tower", internalID=2, lat='37.23',lng='126.34',tripID=new_trip)
         url = reverse('marker-detail', args=(new_marker.id,))
         response = self.client.get(url)
         self.assertEqual(response.status_code, 200)
@@ -1022,20 +1022,20 @@ class MarkerDetailViewTest(TestCase):
         token = Token.objects.get(user__username='swpp1')
         client = APIClient()
         client.credentials(HTTP_AUTHORIZATION='Token ' + token.key)
-        resp = client.post(reverse('markers'), {'place': 'EiffelTower', 'tripID': new_trip.id})
+        resp = client.post(reverse('markers'), {'place': 'EiffelTower', 'internalID':'2', 'lat':'37.23','lng':'126.34','tripID': new_trip.id})
         self.assertEqual(resp.status_code, 201)
         
         # patch for change marker place
         resp = client.patch(reverse('marker-detail', args=(1,)), {'place': 'Guell Park'})
         self.assertEqual(resp.status_code, 200)
         
-    def test_put_expense(self):
+    def test_put_marker(self):
         user = create_user(username='swpp1', password='High_Travel')
         new_trip = create_trip(title="Europe", sinceWhen="2018-05-27", tilWhen="2018-06-27", creator='swpp1')
         token = Token.objects.get(user__username='swpp1')
         client = APIClient()
         client.credentials(HTTP_AUTHORIZATION='Token ' + token.key)
-        resp = client.post(reverse('markers'), {'place': 'EiffelTower', 'tripID': new_trip.id})
+        resp = client.post(reverse('markers'), {'place': 'EiffelTower', 'internalID':'2', 'lat':'37.23','lng':'126.34','tripID': new_trip.id})
         self.assertEqual(resp.status_code, 201)
         data = resp.data
 
@@ -1051,7 +1051,7 @@ class MarkerDetailViewTest(TestCase):
         token = Token.objects.get(user__username='swpp1')
         client = APIClient()
         client.credentials(HTTP_AUTHORIZATION='Token ' + token.key)
-        resp = client.post(reverse('markers'), {'place': 'EiffelTower', 'tripID': new_trip.id})
+        resp = client.post(reverse('markers'), {'place': 'EiffelTower', 'internalID':'2', 'lat':'37.23','lng':'126.34','tripID': new_trip.id})
         self.assertEqual(resp.status_code, 201)
         resp = client.delete(reverse('marker-detail', args=(1,)))
         self.assertEqual(resp.status_code, 204)
