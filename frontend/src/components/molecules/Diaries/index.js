@@ -7,17 +7,28 @@ const Wrapper = styled.div`
   font-family: ${font('primary')};
   color: ${palette('grayscale', 0)};
 `
-export const Diaries = (diary_list) => {
-     console.log(diary_list.diary_list);  
+export const Diaries = (diary_list) => {			
+   console.log(diary_list) 
      var newArray= [];
      var date;
      var contents;
      var Photo=[];
      var dateShowed='';
      var DiarySet=[];
-   for(var l=0; l<diary_list.length;l++){
-        DiarySet.push({date:diary_list[i].date,
-		contents: diary_list[i].contents})
+   if(diary_list.diary_list == null)
+   return (
+     <div></div>
+   )
+   for(var l=0; l<diary_list.diary_list.length;l++){
+        for(var i=0; i<diary_list.diary_list[l].photos.length;i++){
+            Photo.push({src:diary_list.diary_list[l].photos[i],
+                        width:10,
+                        height:10
+                       });
+        }
+        DiarySet.push({date:diary_list.diary_list[l].date,
+		contents: diary_list.diary_list[l].contents,
+                photos:Photo})
    }
    console.log(DiarySet)
    return(
@@ -26,8 +37,8 @@ export const Diaries = (diary_list) => {
       <div>
       <div> {data.date} </div>
 	  <div> {data.contents} </div>
-        //<Gallery photos={data.photos}
-      </div>  )
+         <Gallery photos={data.photos} />
+        </div>  )
       }
     </div>
    )
