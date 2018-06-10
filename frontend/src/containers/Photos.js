@@ -4,11 +4,10 @@ import { storePhotoRequest } from "../store/photos/actions";
 
 const mapStateToProps = (state) => {
    var photos = []
-   if (sessionStorage.getItem('photoList')!="undefined"){
+   if (sessionStorage.getItem('photoList')!="undefined" && sessionStorage.getItem('photoList')!==null){
      photos = JSON.parse(sessionStorage.getItem('photoList'))
    }
-   else
-   console.log("und photo")
+  console.log("CONT########",photos)
    return {
      photo_list: photos
    }

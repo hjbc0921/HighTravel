@@ -3,7 +3,7 @@ import { Tabs } from 'antd';
 const TabPane = Tabs.TabPane;
 import Icon from 'antd/lib/icon'
 import AddPhoto from "../../../containers/AddPhoto";
-import PhotoList from "../../../components/molecules/Photos";
+import PhotoList from "../../../containers/Photos";
 ;
 
 const Photo = () => {

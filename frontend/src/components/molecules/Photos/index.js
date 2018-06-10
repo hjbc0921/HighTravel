@@ -1,4 +1,4 @@
-mport React, { PropTypes } from 'react'
+import React, { PropTypes } from 'react'
 import styled from 'styled-components'
 import { font, palette } from 'styled-theme'
 import Gallery from 'react-photo-gallery';
@@ -9,8 +9,7 @@ const Wrapper = styled.div`
 `
 
 export const PhotoList = (photo_list) => {
-     console.log("11111");
-     console.log(photo_list);  
+     console.log("PHOTO#############",photo_list);  
      var newArray= [];
      var tempArray = [];
      var usedArray = [];
@@ -52,7 +51,7 @@ export const PhotoList = (photo_list) => {
    for(var l=0; l< newArray.length;l++){
     for ( var m=0; m< newArray[l].length;m++){
          folderShowed = newArray[l][m].folder;
-         Photo.push({src:newArray[l][m].image.replace("0.0.0.0:3000","0.0.0.0:8000"),
+         Photo.push({src:newArray[l][m].image.replace(":3000",":8000"),
                      sizes: ['(min-width: 50px) 20vw,(min-width: 50px) 20vw,40vw'],
                      width:5,
                      height:5

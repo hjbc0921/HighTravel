@@ -6,12 +6,10 @@ import {STORE_TRIP_ID} from '../user/actions'
 const url = 'http://' + location.host +'/api/photos/'
 
 export function* loadPhotos() {
-   console.log("1")
    var tripID = sessionStorage.getItem('tripID')
-   console.log("2")
    var tripPhotoUrl = url +'trip/'+ tripID+ '/'  
-   console.log(tripPhotoUrl) 
-   console.log("3")
+   
+
    var photos = []
    yield fetch (tripPhotoUrl)
      .then((resp) => resp.json())
@@ -19,9 +17,10 @@ export function* loadPhotos() {
        console.log('photos for trip')
        photos= data
      })
-   console.log("4")
+   
      yield put({ type : 'STORE_PHOTO', photos })
 }
+
 export function* watchStorePhotoRequest(){
   console.log("6")
     while(true){

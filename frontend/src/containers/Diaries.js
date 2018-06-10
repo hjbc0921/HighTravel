@@ -3,9 +3,10 @@ import { Diaries} from '../components/molecules/Diaries'
 
 const mapStateToProps = (state) => {
     var diaries = []
-    if (sessionStorage.getItem('diaryList')!="undefined"){
+    if (sessionStorage.getItem('diaryList')!="undefined" && sessionStorage.getItem('diaryList')!==null){
        diaries = JSON.parse(sessionStorage.getItem('diaryList'))
    }
+   console.log("CONT######",diaries)
    return {
      diary_list : diaries
    }

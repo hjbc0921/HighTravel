@@ -21,20 +21,21 @@ export const Diaries = (diary_list) => {
    )
    for(var l=0; l<diary_list.diary_list.length;l++){
         for(var i=0; i<diary_list.diary_list[l].photos.length;i++){
-            Photo.push({src:diary_list.diary_list[l].photos[i],
+          console.log("DIARY########",diary_list.diary_list[l].photos[i].image.replace(":3000",":8000"))
+            Photo.push({src:diary_list.diary_list[l].photos[i].image.replace(":3000",":8000"),
                         width:10,
                         height:10
                        });
         }
         DiarySet.push({date:diary_list.diary_list[l].date,
 		contents: diary_list.diary_list[l].contents,
-                photos:Photo})
+                photos:Photo, id:l})
    }
    console.log(DiarySet)
    return(
    <div>
        {DiarySet.map(data =>
-      <div>
+      <div key={data.id}>
       <div> {data.date} </div>
 	  <div> {data.contents} </div>
          <Gallery photos={data.photos} />
