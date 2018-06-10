@@ -58,6 +58,7 @@ class Schedule(models.Model):
 class Marker(models.Model):
     place       = models.CharField(max_length=200)
     tripID      = models.ForeignKey(Trip,related_name="trip_marker",on_delete=models.CASCADE)
+    internalID  = models.IntegerField(default=0)
 
 @receiver(post_save, sender=settings.AUTH_USER_MODEL)
 def create_auth_token(sender,instance=None,created=False,**kwargs):

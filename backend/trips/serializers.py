@@ -73,7 +73,7 @@ class ScheduleSerializer(serializers.ModelSerializer):
 class MarkerSerializer(serializers.ModelSerializer):
     class Meta:
         model = Marker
-        fields = ('id','place','tripID')
+        fields = ('id','place','internalID','tripID')
 
 class TripSerializer(serializers.ModelSerializer):
     users = UserSerializer(read_only=True,many=True)
