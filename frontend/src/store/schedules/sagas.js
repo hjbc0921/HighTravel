@@ -59,8 +59,57 @@ export function* watchStoreTripId() {
         yield call(loadSchedules)
     }
 }
+export function* deleteEach(scheduleID) {
+    console.log('in delete each')
+    var token = sessionStorage.getItem('token')
+    var scheduleUrl
+    var scheduleID
+    var data
+    console.log(scheduleID)
+    scheduleUrl = url + scheduleID + '/'
+    console.log(scheduleUrl)
+    try {
+        if (scheduleID != undefined) {
+        data = yield call(fetch, scheduleUrl, {
+            method: 'DELETE',
+            headers: {
+                'Authorization': `token ${token}`,
+                'Content-Type': 'application/json'
+               }
+            })
+        console.log('data', data)
+        }
+    } catch (e) {
+        console.log(e)
+        console.log('delete schedule failed')
+    }
+    console.log('delete is done')
+}
 
+
+export function* deleteSchedule(scheIDs) {
+    console.log(scheIDs,"deleteSchedule@@@@@@@@@@@@@saga")
+    var tripID = sessionStorage.getItem('tripID')
+    try {
+        yield scheIDs.map((scheID) => call(deleteEach, scheID))
+    } catch(e) {
+        console.log('delete schedule failed')
+    }
+    yield call(loadSchedules,tripID)
+}
+
+export function* watchDeleteScheduleRequest() {
+    while (true) {
+        const {scheIDs} = yield take(actions.DELETE_SCHEDULE_REQUEST)
+        yield call(deleteSchedule,scheIDs)
+    }
+}
 export default function* () {
     yield fork(watchStoreTripId)
     yield fork(watchPostScheduleRequest)
+    yield fork(watchDeleteScheduleRequest)
+
 }
+
+
+
