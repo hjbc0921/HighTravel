@@ -19,7 +19,8 @@ class MapContainer extends React.Component {
   render() {
     return (
       <div>
-      <Map google={this.props.google} 
+      <Map
+      google={this.props.google} 
       onRightclick={this.onMapClick}
       initialCenter={{lat: 37.459263,
         lng: 126.953131}}

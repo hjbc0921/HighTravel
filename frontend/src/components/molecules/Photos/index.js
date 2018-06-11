@@ -10,6 +10,8 @@ const Wrapper = styled.div`
 
 export const PhotoList = (photo_list) => {
      console.log("PHOTO#############",photo_list);  
+  const onPhotoConfirm = () =>{
+  }
      var newArray= [];
      var tempArray = [];
      var usedArray = [];
@@ -70,6 +72,7 @@ export const PhotoList = (photo_list) => {
    
    return(
    <div>
+      {onPhotoConfirm}
        {PhotoSet.map(data =>
       <div>
       <div> {data.folder} </div>
