@@ -12,7 +12,6 @@ export const Diaries = (diary_list) => {
      var newArray= [];
      var date;
      var contents;
-     var Photo=[];
      var dateShowed='';
      var DiarySet=[];
    if(diary_list.diary_list == null)
@@ -20,16 +19,17 @@ export const Diaries = (diary_list) => {
      <div></div>
    )
    for(var l=0; l<diary_list.diary_list.length;l++){
+        var tempPhoto=[];
         for(var i=0; i<diary_list.diary_list[l].photos.length;i++){
           console.log("DIARY########",diary_list.diary_list[l].photos[i].image.replace(":3000",":8000"))
-            Photo.push({src:diary_list.diary_list[l].photos[i].image.replace(":3000",":8000"),
+            tempPhoto.push({src:diary_list.diary_list[l].photos[i].image.replace(":3000",":8000"),
                         width:10,
                         height:10
                        });
         }
         DiarySet.push({date:diary_list.diary_list[l].date,
 		contents: diary_list.diary_list[l].contents,
-                photos:Photo, id:l})
+                photos:tempPhoto, id:l})
    }
    console.log(DiarySet)
    return(
