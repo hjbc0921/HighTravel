@@ -1,4 +1,5 @@
 import { initialState } from './selectors'
+import {POST_SCHEDULE_REQUEST, POST_SCHEDULE_SUCCESS,POST_SCHEDULE_FAIL,DELETE_SCHEDULE_REQUEST} from "./actions";
 
 const schedules_reducer = (state = initialState, action) => {
 
@@ -21,6 +22,11 @@ const schedules_reducer = (state = initialState, action) => {
         return Object.assign({},state,{
             updated:false
         })
+	case 'DELETE_SCHEDULE_REQUEST':
+	return Object.assign({},state,{
+        updated : false
+       }) 
+
         default:
             return state
     }
