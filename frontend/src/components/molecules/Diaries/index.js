@@ -7,7 +7,10 @@ const Wrapper = styled.div`
   font-family: ${font('primary')};
   color: ${palette('grayscale', 0)};
 `
-export const Diaries = (diary_list) => {			
+export const Diaries = (diary_list) => {
+
+ const onDiaryConfirm = () => {
+ }			
    console.log(diary_list) 
      var newArray= [];
      var date;
@@ -34,6 +37,7 @@ export const Diaries = (diary_list) => {
    console.log(DiarySet)
    return(
    <div>
+       {onDiaryConfirm}
        {DiarySet.map(data =>
       <div key={data.id}>
       <div> {data.date} </div>
