@@ -6,7 +6,7 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
 from rest_framework import permissions
-from trips.permissions import IsParticipantOrReadOnly, IsCreatorOrReadOnly, IsSpenderOrReadOnly, IsWriterOrReadOnly
+from trips.permissions import IsCreatorOrReadOnly, IsSpenderOrReadOnly, IsWriterOrReadOnly
 from rest_framework.parsers import MultiPartParser, FormParser, FileUploadParser
 
 # api/trips/ url view
@@ -123,11 +123,9 @@ class FolderList(generics.ListCreateAPIView):
         if serializer.is_valid():
             try : 
                 folder = Folder.objects.get(name=serializer.validated_data['name'])
-            except :
-                return self.create(request,*args,**kwargs)
-            if (folder.tripID==serializer.validated_data['tripID']):
-                return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-            else:
+                if (folder.tripID==serializer.validated_data['tripID']):
+                    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+            except:
                 return self.create(request,*args,**kwargs)
 
 # api/folders/id/ url view
@@ -163,8 +161,7 @@ class PhotoList(generics.ListCreateAPIView):
             serializer.save(image=request.FILES['file'])
             #serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
-        else:
-            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 # api/photos/id/ url view
 class PhotoDetail(generics.RetrieveDestroyAPIView):

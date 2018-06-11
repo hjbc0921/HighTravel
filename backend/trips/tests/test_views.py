@@ -626,6 +626,8 @@ class PhotoListViewTest(TestCase):
         image = SimpleUploadedFile(name='test_image_new.jpg', content=open('./test_image.jpg', 'rb').read(), content_type='image/jpeg')
         resp = client.post(reverse('photos'), {'file': image, 'tripID': new_trip.id, 'folder': new_folder.id, 'diaries': [new_diary.id]})
         self.assertEqual(resp.status_code, 201)
+        resp = client.post(reverse('photos'), {'file': image, 'tripID': new_trip.id, 'folder': -1, 'diaries': [new_diary.id]})
+        self.assertEqual(resp.status_code, 400)
 
 
 class PhotoDetailViewTest(TestCase):
@@ -882,6 +884,8 @@ class ScheduleListViewTest(TestCase):
         client.credentials(HTTP_AUTHORIZATION='Token ' + token.key)
         resp = client.post(reverse('schedules'), {'sinceWhen': '2018-05-27', 'tilWhen': '2018-06-27', 'contents': 'stay in Paris', 'tripID': new_trip.id})
         self.assertEqual(resp.status_code, 201)
+        resp = client.post(reverse('schedules'), {'sinceWhen': '2018-07-27', 'tilWhen': '2018-06-27', 'contents': 'stay in Paris', 'tripID': new_trip.id})
+        self.assertEqual(resp.status_code, 400)
 
 
 

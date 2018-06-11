@@ -1,7 +1,7 @@
 from django.db import IntegrityError
 from django.test import TestCase
 from trips.models import create_auth_token
-from trips.models import Trip, Budget, Expense, Diary, Photo, Todo, Rule, Schedule, Marker, Folder
+from trips.models import Trip, Budget, Expense, Photo, Todo, Rule, Schedule, Marker, Folder
 from django.conf import settings
 from django.contrib.auth.models import User
 from rest_framework.authtoken.models import Token
@@ -85,17 +85,6 @@ class FolderModelTest(TestCase):
         folder = Folder.objects.get(name="180301_cafe")
         max_length = folder._meta.get_field('name').max_length
         self.assertEquals(max_length, 30)
-
-
-class PhotoModelTest(TestCase):
-
-    @classmethod
-    def setUpTestData(cls):
-        #Set up non-nodified objects used by all test methods
-        admin = User.objects.create(username="swpp1", password="High_Travel")
-        trip = admin.my_trips.create(title="Europe", sinceWhen="2018-05-27", tilWhen="2018-06-27", creator='swpp1') 
-        folder = Folder.objects.create(name="180301_cafe", tripID=trip)
-        photo = Photo.objects.create(tripID=trip, folder=folder)
 
 
 class TodoModelTest(TestCase):
