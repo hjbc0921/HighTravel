@@ -3,6 +3,18 @@ from rest_framework import serializers
 from trips.models import *
 from drf_writable_nested import WritableNestedModelSerializer
 
+class FolderSerializer(WritableNestedModelSerializer):
+    class Meta:
+        model = Folder
+        fields = ('id','name','photos_in_folder', 'tripID')
+ 
+class PhotoDetailSerializer(WritableNestedModelSerializer):
+    image = serializers.ImageField(use_url=True,read_only=True)
+    folder = FolderSerializer()
+    class Meta:
+        model = Photo
+        fields = ('id', 'folder','image','tripID','diaries')
+
 class PhotoSerializer(WritableNestedModelSerializer):
     image = serializers.ImageField(use_url=True,read_only=True)
     class Meta:
@@ -49,11 +61,6 @@ class ExpenseSerializer(serializers.ModelSerializer):
         model = Expense
         fields = ('id','date','contents','money','spender','tripID')
 
-class FolderSerializer(WritableNestedModelSerializer):
-    class Meta:
-        model = Folder
-        fields = ('id','name','photos_in_folder', 'tripID')
- 
 
 class TodoSerializer(serializers.ModelSerializer):
     class Meta:
