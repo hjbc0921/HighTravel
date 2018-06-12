@@ -1,3 +1,17 @@
+.container {
+  display: flex;
+  justify-content: flex-start;
+  flex-direction: row;
+  margin: auto;
+}
+
+.eachbutton {
+  display: flex;
+  justify-content: flex-start;
+  flex-direction: row;
+  margin-right: 10px;
+}
+
 .head {
     background : #4bb462;
     display : table;

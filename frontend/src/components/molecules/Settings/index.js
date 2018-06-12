@@ -64,7 +64,6 @@ class Settings extends React.Component {
     this.state = {
       tripInfo: defaultRow,
       dataSource: users,
-      count: 5,
       updated: false
     }
   }

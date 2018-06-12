@@ -1,5 +1,5 @@
 import { connect } from 'react-redux'
-import {Budget} from '../components/molecules/Budget'
+import Budget from '../components/molecules/Budget'
 import {changeBudgetContent,deleteBudgetRows} from '../store/budget/actions'
 
 const mapStateToProps = (state) => {

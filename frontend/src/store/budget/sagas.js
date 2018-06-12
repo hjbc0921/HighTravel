@@ -12,7 +12,6 @@ export function* loadBudget(tripID) {
         yield fetch(tripBudgetUrl)
             .then((resp) => resp.json())
             .then(function(data) {
-                console.log('budgets for trip')
                 tripBudgets = data
             })
     } catch (e) {
@@ -49,12 +48,12 @@ export function* postBudget(contents,money){
 export function* patchBudget(idUpdatedRow) {
     var token = sessionStorage.getItem('token')
     var tripID = sessionStorage.getItem('tripID')
-    var budgetUrl = url + idUpdatedRow.id + '/'
+    var budgetUrl = url + idUpdatedRow.realId + '/'
     var tripBudgets = JSON.parse(sessionStorage.getItem('tripBudgets'))
     var data
-    console.log(idUpdatedRow)
     delete idUpdatedRow.id
-    console.log(idUpdatedRow)
+    delete idUpdatedRow.key
+    delete idUpdatedRow.realId
     try {
         if (idUpdatedRow != undefined) {
             data = yield call(fetch, budgetUrl, {
@@ -75,14 +74,11 @@ export function* patchBudget(idUpdatedRow) {
 }
 
 export function* deleteEach(budgetID) {
-    console.log('in delete each')
     var token = sessionStorage.getItem('token')
     var budgetUrl
     var budgetID
     var data
-    console.log(budgetID)
     budgetUrl = url + budgetID + '/'
-    console.log(budgetUrl)
     try {
         if (budgetID != undefined) {
         data = yield call(fetch, budgetUrl, {
@@ -92,48 +88,26 @@ export function* deleteEach(budgetID) {
                 'Content-Type': 'application/json'
                }
             })
-        console.log('data', data)
         }
     } catch (e) {
         console.log(e)
         console.log('delete budget failed')
     }
-    console.log('delete is done')
 }
 
 export function* deleteBudget(budIDs) {
-    console.log(budIDs,"deleteBudget@@@@@@saga")
     var tripID = sessionStorage.getItem('tripID')
-    /*
-    for (var i=0; i<budIDs.length; i++) {
-        console.log('before deleteEach')
-        yield call(deleteEach, budIDs[i])
-        console.log('after deleteEach', budIDs[i])
-    }
-    */
-    //budget IDs are stored in list
-    //call loadBudget(tripID) after delete
     try {
         yield budIDs.map((budgetID) => call(deleteEach, budgetID))
     } catch(e) {
         console.log('delete budget failed')
     }
-    /*
-    yield all(budIDs.map(function(budgetID) {
-        console.log('in deleteBudget', budgetID)
-        call(deleteEach, budgetID);
-        console.log('end delete')}))
-    console.log('before load budget')
-    var tripID = sessionStorage.getItem('tripID')
-    yield call(loadBudget,tripID)
-    */
     yield call(loadBudget,tripID)
 }
 
 export function* watchPostRequest () {
     while (true) {
         const {contents,money} = yield take(actions.ADDBUDGET_REQUEST)
-        console.log('addbudgetRequest is given')
         yield call(postBudget,contents,money)
     }
 }
