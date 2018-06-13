@@ -1,54 +1,77 @@
-import React, { PropTypes } from 'react'
-import styled from 'styled-components'
-import { font, palette } from 'styled-theme'
-const ReactDataGrid = require('react-data-grid');
+import React from 'react'
+import { Col, Table, Button } from 'antd';
+import EditableCell from '../../atoms/EditableCell'
 import AddExpense from '../../../containers/Addexpense'
-import update from 'react-addons-update';
-import {Button, Col} from 'antd'
 
-const Wrapper = styled.div`
-  font-family: ${font('primary')};
-  color: ${palette('grayscale', 0)};
-`
-class MoneyFormatter extends React.Component {
-  static propTypes = {
-    value: PropTypes.number.isRequired
-  };
+class Expense extends React.Component {
+  constructor(props) {
+    super(props);
+    this.columns = [{
+      title: 'ID',
+      dataIndex: 'id',
+    }, {
+      title: 'Date',
+      dataIndex: 'date',
+      render: (text, record) => {
+        return (
+          sessionStorage.getItem('username') == record.spender ?
+          <EditableCell
+            value={record.date}
+            onChange={this.onCellChange(record.id, record.date, 'date')}
+            updated={this.props.updated}
+          /> : record.date
+        );
+      }
+    }, {
+      title: 'Spender',
+      dataIndex: 'spender',
+    }, {
+      title: 'Contents',
+      dataIndex: 'contents',
+      render: (text, record) => {
+        return (
+          sessionStorage.getItem('username') == record.spender ?
+          <EditableCell
+            value={record.contents}
+            onChange={this.onCellChange(record.id, record.contents, 'contents')}
+            updated={this.props.updated}
+          /> : record.contents
+        );
+      }
+    }, {
+      title: 'Money',
+      dataIndex: 'money',
+      render: (text, record) => {
+        return (
+          sessionStorage.getItem('username') == record.spender ?
+          <EditableCell
+            value={record.money}
+            onChange={this.onCellChange(record.id, record.money, 'money')}
+            updated={this.props.updated}
+          /> : record.money
+        );
+      }
+    }];
 
-  render() {
-    const percentComplete = this.props.value + '원';
-    return (<div>
-      {percentComplete}
-      </div>
-       );
+    var rows = this.createRows(this.props.expense.length, this.props.expense, this.props.totalExpense)
+    console.log('################3', this.props.expense)
+
+    this.state = {
+      selectedRowKeys: [], // Check here to configure the default column
+      data: rows[0],
+      total: rows[1],
+      each: rows[2],
+    };
   }
-}
 
-export class Expense extends React.Component {
-  constructor(props, context) {
-    super(props, context);
-    this._columns = [
-      { key: 'id', name: 'ID', width: 80 },
-      { key: 'date', name: 'Date', editable:true, width:200},
-      { key : 'spender', name: 'Spender', width:100},
-      { key: 'contents', name: 'Contents', editable:true, width:300 },
-      { key: 'money', name: 'Money',editable:true, width:200,formatter: MoneyFormatter } ];
-      var row = this.createRows(this.props.expense.length,this.props.expense,this.props.totalExpense)
-      this.state = { rows: row[0], selectedIndexes : [], total: row[1], each: row[2]};
-  }
   componentWillReceiveProps(nextProps) {
-    console.log('####################componentWillReceiveProps', this.props,nextProps);
-    if (nextProps.updated2){
-      var row = this.createRows(nextProps.expense.length,nextProps.expense,nextProps.totalExpense)
-      this.setState({selectedIndexes : [], rows:row[0], total: row[1], each:row[2]})
+    if (nextProps.updated) {
+      var rows = this.createRows(nextProps.expense.length, nextProps.expense, nextProps.totalExpense)
+        console.log('%%%%%%%%%%%componentReceive', rows[0], rows[1], rows[2])
+      this.setState({ selectedRowKeys: [], data: rows[0], total: rows[1], each: rows[2] })
     }
   }
   
-  shouldComponentUpdate(nextProps, nextState) {
-      console.log("#########shouldCOmponent",this.props, nextProps, this.state,nextState)
-      return (nextProps.updated2 ) || (this.props!==nextProps) || (this.state!==nextState)
-  }
-
   createRows = (numRows,expenses,users) => {
     let rows = [];
     var total = 0;
@@ -57,6 +80,7 @@ export class Expense extends React.Component {
         var exp = expenses[i]
         rows.push({
           id: i+1,
+          realId: exp.id,
           contents: exp.contents,
           money: parseInt(exp.money),
           spender : exp.spender,
@@ -67,84 +91,98 @@ export class Expense extends React.Component {
     var user;
     var each = ""
     for (user in users) {
-      each += user + " spent " + users[user]
+      each += user + " spent " + users[user] + "원 " 
     }
+    console.log('%%%%%%%%%%%5', rows, total, each)
     return [rows,total,each];
   };
-  rowGetter = (i) => {
-    return this.state.rows[i];
-  };
 
-  handleDelete = () => {
-    var expenses = this.props.expense
-    var expIDs = []
-    for (var i=0;i<this.state.selectedIndexes.length;i++){
-      expIDs.push(expenses[this.state.selectedIndexes[i]].id)
-    }
-    this.props.onDelete(expIDs)
+  onCellChange = (id, originVal, dataIndex) => {
+    return (value) => {
+      const data = [...this.state.data];
+      const target = data.find(item => item.id === id);
+      if (target) {
+        if (dataIndex == 'money') {
+          if (Number.isInteger(parseInt(value))) {
+            target[dataIndex] = value;
+            this.props.changeContent(target)
+            console.log('MONEY_CHANGE', target)
+          }
+          else {
+            target[dataIndex] = originVal;
+            console.log('MONEY_CHANGE_INVALID', target)
+          }
+        }
+        else {
+          target[dataIndex] = value;
+          this.props.changeContent(target)
+            console.log('CONTENT_CHANGE', target)
+        }
+      }
+    };
+      this.setState({ data });
   }
 
-  handleGridRowsUpdated = ({ fromRow, toRow, updated }) => {
-    let expID = this.props.expense[fromRow].id
-    let idUpdatedRow = update(updated,{id:{$set:expID}})
-    this.props.changeContent(idUpdatedRow)
-   
-    let updatedRow = update(this.state.rows, {[fromRow]:{$merge: updated}});
-    this.setState({ rows:updatedRow });
-    
-  };
-
-  onRowsSelected = (rows) => {
-    let rowIndexes = rows.map(r => r.rowIdx);
-    console.log(rowIndexes)
-    this.setState({selectedIndexes: this.state.selectedIndexes.concat(rows.map(r => r.rowIdx))});
-  };
-
-  onRowsDeselected = (rows) => {
-    let rowIndexes = rows.map(r => r.rowIdx);
-    console.log(rowIndexes)
-    console.log(rowIndexes.indexOf(0))
-    console.log("##filter##",this.state.selectedIndexes.filter(i => rowIndexes.indexOf(i) === -1 ))
-    this.setState({selectedIndexes: this.state.selectedIndexes.filter(i => rowIndexes.indexOf(i) === -1 )});
-  };
-
-  onCellSelected = ({ rowIdx, idx }) => {
-    this.grid.openCellEditor(rowIdx, idx);
-  };
-
+  deleteBudget = () => {
+    var expenses = this.props.expense
+    var expIDs = []
+    for (var i=0; i<this.state.selectedRowKeys.length; i++) {
+      expIDs.push(expenses[this.state.selectedRowKeys[i]].id)
+        console.log(this.state.selectedRowKeys[i])
+        }
+    this.props.onDelete(expIDs)
+  }
+  onSelectChange = (selectedRowKeys) => {
+    console.log('###########################3', selectedRowKeys)
+    this.setState({ selectedRowKeys });
+  }
   render() {
-    return  (
+    const { loading, selectedRowKeys } = this.state;
+    const rowSelection = {
+      selectedRowKeys,
+      onChange: this.onSelectChange,
+      getCheckboxProps: record => ({
+        disabled: record.spender !== sessionStorage.getItem('username'),
+        //checked: record.spender === sessionStorage.getItem('username') ? true : false,
+        spender: record.spender
+      }),
+      onSelectAll: (selected, selectedRows, changeRows) => {
+        console.log('$$$$$$$$$$444444', selected, selectedRows, changeRows)
+        return (selectedRows) => {
+          selectedRows.filter(r.spender !== sessionStorage.getItem('username')) 
+        }
+      }
+    };
+    const hasSelected = selectedRowKeys.length > 0;
+    const columns = this.columns;
+    const data = this.state.data
+    return (
       <div>
         <h2> Your expense adds up to {this.state.total} 원 </h2>
         <h2> {this.state.each} </h2>
-        <div>
-        <Col span={12}><AddExpense/></Col>
-        <Col span={12}>
-      {this.state.selectedIndexes.length>0 && <Button onClick={this.handleDelete} > Delete </Button>}
-      </Col>
-      </div>
-      <br></br>
-      <ReactDataGrid id="expense"
-        ref={ node => this.grid = node }
-        rowKey = "id"
-        rowSelection={{
-          showCheckbox: true,
-          enableShiftSelect: true,
-          onRowsSelected: this.onRowsSelected,
-          onRowsDeselected: this.onRowsDeselected,
-          selectBy: {
-            indexes: this.state.selectedIndexes
-          }}}
-        enableCellSelect={true}
-        columns={this._columns}
-        rowGetter={this.rowGetter}
-        rowsCount={this.state.rows.length}
-        minHeight={500}
-        //onCellSelected={this.onCellSelected}
-        onGridRowsUpdated={this.handleGridRowsUpdated} 
-        />
+        <div style={{ marginBottom: 10 }}>
+          <div className="container">
+            <div className="eachbutton">
+              <AddExpense/>
+            </div>
+            <div className="eachbutton">
+              <Button
+                type="primary"
+                onClick={this.deleteBudget}
+                disabled={!hasSelected}
+              >
+                Delete
+              </Button>
+            </div>
           </div>
-      );
+          <span style={{ marginLeft: 140 }}>
+            {hasSelected ? `Selected ${selectedRowKeys.length} items` : ''}
+          </span>
+        </div>
+        <Table rowSelection={rowSelection} columns={columns} dataSource={data} />
+      </div>
+    );
   }
 }
 
+export default Expense

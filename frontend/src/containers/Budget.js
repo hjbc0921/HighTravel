@@ -3,8 +3,13 @@ import Budget from '../components/molecules/Budget'
 import {changeBudgetContent,deleteBudgetRows} from '../store/budget/actions'
 
 const mapStateToProps = (state) => {
+  var budget = sessionStorage.getItem('tripBudgets')
+  if (budget == null || budget == 'undefined')
+    budget = []
+  else
+    budget = JSON.parse(budget)
   return {
-    budget: JSON.parse(sessionStorage.getItem('tripBudgets')),
+    budget: budget,
     updated : state.budget.updated
   }
 }

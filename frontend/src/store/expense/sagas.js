@@ -1,8 +1,9 @@
 import { take, call, fork, select, put} from 'redux-saga/effects'
 import api from 'services/api'
 import * as actions from './actions'
+import { STORE_TRIP_ID } from '../user/actions'
+
 const url = 'http://'+location.host+'/api/expenses/'
-import { STORE_TRIP_INFO } from '../settings/actions'
 
 export function* loadExpense() {
     var tripID = sessionStorage.getItem('tripID')
@@ -13,7 +14,6 @@ export function* loadExpense() {
         yield fetch(tripExpenseUrl)
             .then((resp) => resp.json())
             .then(function(data) {
-                console.log('expenses for trip')
                 tripExpenses = data
             })
     } catch (e) {
@@ -31,8 +31,8 @@ export function* loadExpense() {
     for (var i=0; i<users.length; i++) {
         console.log('@@@@@@1@@@@@@@@')
         personId = users[i].id
-        console.log('@@@@@@2@@@@@@@@', personId, users[i].name)
-        personName = users[i].name
+        console.log('@@@@@@2@@@@@@@@', personId, users[i].username)
+        personName = users[i].username
         userIdName[personId] = personName
         totalExpenses[personName] = 0
         console.log('@@@@@@3@@@@@@@@')
@@ -87,11 +87,13 @@ export function* patchExpense(idUpdatedRow) {
     //patch and return success or fail to state(state.expense.updated is true when success)
     var token = sessionStorage.getItem('token')
     var tripID = sessionStorage.getItem('tripID')
-    var expenseUrl = url + idUpdatedRow.id + '/'
+    var expenseUrl = url + idUpdatedRow.realId + '/'
     var tripExpenses = JSON.parse(sessionStorage.getItem('tripExpenses'))
     var data
     console.log(idUpdatedRow)
     delete idUpdatedRow.id
+    delete idUpdatedRow.realId
+    delete idUpdatedRow.spender
     console.log(idUpdatedRow)
     try {
         if (idUpdatedRow != undefined) {
@@ -109,7 +111,7 @@ export function* patchExpense(idUpdatedRow) {
         console.log('patch expense failed')
         yield put(actions.patchexpenseFail())
     }
-    yield call(loadExpense,tripID)
+    yield call(loadExpense)
 }
 
 export function* deleteEach(expenseID) {
@@ -148,7 +150,7 @@ export function* deleteExpense(expIDs) {
     } catch(e) {
         console.log('delete expense failed')
     }
-    yield call(loadExpense, tripID)
+    yield call(loadExpense)
 }
 
 export function* watchPatchRequest() {
@@ -173,9 +175,12 @@ export function* watchPostRequest () {
     }
 }
 
+const delay = (ms) => new Promise(res => setTimeout(res, ms))
+
 export function* watchStoreTripId () {
     while (true) {
-        const action = yield take(STORE_TRIP_INFO)
+        yield take(STORE_TRIP_ID)
+        yield delay(1000)
         yield call(loadExpense)
     }
 }
