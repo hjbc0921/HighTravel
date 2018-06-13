@@ -1,3 +1,10 @@
+.vs {
+  display: flex;
+  justify-content: flex-end;
+  width: 100%;
+  flex-direction: row;
+}
+
 .container {
   display: flex;
   justify-content: flex-start;
