@@ -54,7 +54,6 @@ class Expense extends React.Component {
     }];
 
     var rows = this.createRows(this.props.expense.length, this.props.expense, this.props.totalExpense)
-    console.log('################3', this.props.expense)
 
     this.state = {
       selectedRowKeys: [], // Check here to configure the default column
@@ -67,7 +66,6 @@ class Expense extends React.Component {
   componentWillReceiveProps(nextProps) {
     if (nextProps.updated) {
       var rows = this.createRows(nextProps.expense.length, nextProps.expense, nextProps.totalExpense)
-        console.log('%%%%%%%%%%%componentReceive', rows[0], rows[1], rows[2])
       this.setState({ selectedRowKeys: [], data: rows[0], total: rows[1], each: rows[2] })
     }
   }
@@ -75,10 +73,10 @@ class Expense extends React.Component {
   createRows = (numRows,expenses,users) => {
     let rows = [];
     var total = 0;
-    console.log("createRows",expenses)
       for (var i=0;i<numRows;i++){
         var exp = expenses[i]
         rows.push({
+          key: i.toString(),
           id: i+1,
           realId: exp.id,
           contents: exp.contents,
@@ -89,11 +87,10 @@ class Expense extends React.Component {
         total += parseInt(exp.money)
       }
     var user;
-    var each = ""
+    var each = [] 
     for (user in users) {
-      each += user + " spent " + users[user] + "원 " 
+      each.push(user + " spent " + users[user] + "원 ")
     }
-    console.log('%%%%%%%%%%%5', rows, total, each)
     return [rows,total,each];
   };
 
@@ -106,34 +103,27 @@ class Expense extends React.Component {
           if (Number.isInteger(parseInt(value))) {
             target[dataIndex] = value;
             this.props.changeContent(target)
-            console.log('MONEY_CHANGE', target)
           }
           else {
             target[dataIndex] = originVal;
-            console.log('MONEY_CHANGE_INVALID', target)
           }
         }
         else {
           target[dataIndex] = value;
           this.props.changeContent(target)
-            console.log('CONTENT_CHANGE', target)
         }
       }
     };
-      this.setState({ data });
   }
 
   deleteBudget = () => {
     var expenses = this.props.expense
     var expIDs = []
-    for (var i=0; i<this.state.selectedRowKeys.length; i++) {
+    for (var i=0; i<this.state.selectedRowKeys.length; i++)
       expIDs.push(expenses[this.state.selectedRowKeys[i]].id)
-        console.log(this.state.selectedRowKeys[i])
-        }
     this.props.onDelete(expIDs)
   }
   onSelectChange = (selectedRowKeys) => {
-    console.log('###########################3', selectedRowKeys)
     this.setState({ selectedRowKeys });
   }
   render() {
@@ -143,23 +133,18 @@ class Expense extends React.Component {
       onChange: this.onSelectChange,
       getCheckboxProps: record => ({
         disabled: record.spender !== sessionStorage.getItem('username'),
-        //checked: record.spender === sessionStorage.getItem('username') ? true : false,
         spender: record.spender
       }),
-      onSelectAll: (selected, selectedRows, changeRows) => {
-        console.log('$$$$$$$$$$444444', selected, selectedRows, changeRows)
-        return (selectedRows) => {
-          selectedRows.filter(r.spender !== sessionStorage.getItem('username')) 
-        }
-      }
     };
     const hasSelected = selectedRowKeys.length > 0;
-    const columns = this.columns;
+    const columns = this.columns
     const data = this.state.data
+    const each = this.state.each
     return (
       <div>
         <h2> Your expense adds up to {this.state.total} 원 </h2>
-        <h2> {this.state.each} </h2>
+        {each.map(u => 
+          <h2 key={u.toString()}>{u}</h2>)}
         <div style={{ marginBottom: 10 }}>
           <div className="container">
             <div className="eachbutton">

@@ -71,7 +71,7 @@ class Markers extends React.Component {
     for (var i=0; i<budgets.length; i++) {
       var bud = budgets[i]
       rows.push({
-        key: i+1,
+        key: i.toString(),
         realId: bud.id,
         id: i+1,
         contents: bud.contents,
@@ -100,8 +100,7 @@ class Markers extends React.Component {
           //this.props.changeContent(target)
         }
       }
-    };
-      this.setState({ data });
+    }
   }
 
   deleteBudget = () => {
