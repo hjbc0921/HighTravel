@@ -30,17 +30,17 @@ export const PhotoList = (photo_list) => {
      console.log(usedArray)
      for(var i=0; i<photo_list.photo_list.length;i++){
         if ( folder !=undefined && usedArray[i] == 0){
-          folder = photo_list.photo_list[i].folder;
+          folder = photo_list.photo_list[i].folder.name;
           tempArray.push(photo_list.photo_list[i]);
           usedArray[i] = 1;
         }  
-        else if(  folder != photo_list.photo_list[i].folder && usedArray[i] == 0){
-          folder = photo_list.photo_list[i].folder;
+        else if(  folder != photo_list.photo_list[i].folder.name && usedArray[i] == 0){
+          folder = photo_list.photo_list[i].folder.name;
           tempArray.push(photo_list.photo_list[i]);
           usedArray[i] = 1;
        }
        for (var j=i+1; j<photo_list.photo_list.length;j++){
-          if( folder == photo_list.photo_list[j].folder && usedArray[j]==0){
+          if( folder == photo_list.photo_list[j].folder.name && usedArray[j]==0){
                tempArray.push(photo_list.photo_list[j]); 
                usedArray[j] = 1;
           }   
@@ -52,7 +52,7 @@ export const PhotoList = (photo_list) => {
      console.log(newArray)
    for(var l=0; l< newArray.length;l++){
     for ( var m=0; m< newArray[l].length;m++){
-         folderShowed = newArray[l][m].folder;
+         folderShowed = newArray[l][m].folder.name;
          Photo.push({src:newArray[l][m].image.replace(":3000",":8000"),
                      sizes: ['(min-width: 50px) 20vw,(min-width: 50px) 20vw,40vw'],
                      width:5,
