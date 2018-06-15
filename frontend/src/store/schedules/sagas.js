@@ -13,10 +13,8 @@ export function* loadSchedules() {
     yield fetch(tripScheduleUrl)
         .then((resp) => resp.json())
         .then(function(data) {
-            console.log('schedules for trip')
             schedules = data
         })
-    console.log('loadsche########',schedules)
     yield put({ type : 'STORE_SCHEDULE', schedules })
 }
 
@@ -39,7 +37,6 @@ export function* postSchedule(contents, since, until) {
         yield put(actions.postScheduleFail())
     }
     
-    console.log('before loadSchedules')
     yield call(loadSchedules)
 }
 
@@ -48,13 +45,13 @@ export function* patchSchedule(idUpdatedRow) {
     var tripID = sessionStorage.getItem('tripID')
     var scheduleUrl = url + idUpdatedRow.realId + '/'
     var tripSchedules = JSON.parse(sessionStorage.getItem('tripSchedules'))
+    var valid = idUpdatedRow.sinceWhen <= idUpdatedRow.tilWhen
     var data
-    console.log('-------------------', idUpdatedRow)
     delete idUpdatedRow.id
     delete idUpdatedRow.realId
     console.log(idUpdatedRow)
     try {
-        if (idUpdatedRow != undefined) {
+        if (idUpdatedRow != undefined && valid) {
             data = yield call(fetch, scheduleUrl, {
                 method: 'PATCH',
                 body: JSON.stringify(idUpdatedRow),
@@ -63,7 +60,6 @@ export function* patchSchedule(idUpdatedRow) {
                     'Content-Type': 'application/json'
                 }
             })
-            console.log('-------------PATCH')
         }
         yield put(actions.patchscheduleSuc())
     } catch (e) {
@@ -76,9 +72,6 @@ export function* patchSchedule(idUpdatedRow) {
 export function* watchPostScheduleRequest() {
     while (true) {
         const { contents, since, until } = yield take(actions.POST_SCHEDULE_REQUEST)
-        console.log("POSTSCHE@@@@@@@@@@@",contents)
-        console.log(since)
-        console.log(until)
         yield call(postSchedule, contents, since, until)
     }
 }
@@ -97,14 +90,11 @@ export function* watchStoreTripId() {
     }
 }
 export function* deleteEach(scheduleID) {
-    console.log('in delete each')
     var token = sessionStorage.getItem('token')
     var scheduleUrl
     var scheduleID
     var data
-    console.log(scheduleID)
     scheduleUrl = url + scheduleID + '/'
-    console.log(scheduleUrl)
     try {
         if (scheduleID != undefined) {
         data = yield call(fetch, scheduleUrl, {
@@ -114,18 +104,15 @@ export function* deleteEach(scheduleID) {
                 'Content-Type': 'application/json'
                }
             })
-        console.log('data', data)
         }
     } catch (e) {
         console.log(e)
         console.log('delete schedule failed')
     }
-    console.log('delete is done')
 }
 
 
 export function* deleteSchedule(scheIDs) {
-    console.log(scheIDs,"deleteSchedule@@@@@@@@@@@@@saga")
     var tripID = sessionStorage.getItem('tripID')
     try {
         yield scheIDs.map((scheID) => call(deleteEach, scheID))

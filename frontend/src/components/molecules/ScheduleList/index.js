@@ -93,7 +93,7 @@ class ScheduleList extends React.Component {
     var schedules = this.props.schedules
     var schedIDs = []
     for (var i=0; i<this.state.selectedRowKeys.length; i++)
-      schedIDs.push(schedules[this.state.selectedRowKeys[i]-1].id)
+      schedIDs.push(schedules[this.state.selectedRowKeys[i]].id)
     this.props.onDeleteSchedule(schedIDs)
   }
   onSelectChange = (selectedRowKeys) => {

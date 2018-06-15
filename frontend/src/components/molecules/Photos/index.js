@@ -75,7 +75,7 @@ export const PhotoList = (photo_list) => {
       {onPhotoConfirm}
        {PhotoSet.map(data =>
       <div>
-      <div> {data.folder} </div>
+      <h1> {data.folder} </h1>
         <Gallery photos={data.photos}/>
       </div>  )
       }

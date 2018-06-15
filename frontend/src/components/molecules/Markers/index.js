@@ -130,7 +130,7 @@ class Markers extends React.Component {
               </Button>
             </div>
           </div>
-          <span style={{ marginLeft: 140 }}>
+          <span style={{ marginLeft: 10 }}>
             {hasSelected ? `Selected ${selectedRowKeys.length} items` : ''}
           </span>
         </div>

@@ -1,16 +1,17 @@
 import React from 'react'
-import AddSchedule from "../../../containers/AddSchedule";
+//import AddSchedule from "../../../containers/AddSchedule";
 import Calendar from "../../../containers/Calendar";
 import ScheduleList from "../../../containers/ScheduleList"
 
 const HomePage = () => {
   return (
-    <div>
-    <Calendar/> 
-    <br/><br/>
-    <AddSchedule/>
-    <br/><br/>
-    <ScheduleList/>
+    <div className = "garo">
+      <div className = "left">
+        <Calendar/> 
+      </div>
+      <div className = "right">
+        <ScheduleList/>
+      </div>
     </div>
   )
 }

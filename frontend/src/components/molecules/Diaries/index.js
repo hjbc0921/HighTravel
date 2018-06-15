@@ -40,8 +40,8 @@ export const Diaries = (diary_list) => {
        {onDiaryConfirm}
        {DiarySet.map(data =>
       <div key={data.id}>
-      <div> {data.date} </div>
-	  <div> {data.contents} </div>
+      <h1> {data.date} </h1>
+	  <h2> {data.contents} </h2>
          <Gallery photos={data.photos} />
         </div>  )
       }
