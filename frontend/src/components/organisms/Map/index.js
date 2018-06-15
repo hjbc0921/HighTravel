@@ -6,11 +6,13 @@ import Markers from '../../molecules/Markers'
 
 const Map = () => {
   return (
-    <div>
+    <div className="vs">
+    <div className = "mapvs">
         <GoogleApiWrapper/>
-        <div className="vs">
-            <Markers/>
-        </div>
+    </div>
+    <div className = "markervs">
+        <Markers/>
+    </div>
     </div>
   )
 }
