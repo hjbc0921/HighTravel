@@ -1,8 +1,14 @@
-.vs {
-  display: flex;
-  justify-content: flex-end;
-  width: 100%;
-  flex-direction: row;
+.vs{
+    display: flex;
+    flex-direction:column;
+}
+.mapvs{
+    width:70vw;
+    margin:auto;
+}
+
+.markervs{
+    margin-top:50vh;
 }
 
 .container {

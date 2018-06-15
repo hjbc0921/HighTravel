@@ -1,7 +1,6 @@
 import React from 'react'
 import { Icon, Col, Table, Button, Popconfirm } from 'antd';
 import EditableCell from '../../atoms/EditableCell'
-//import AddBudget from '../../../containers/Addbudget'
 
 const budgets = [{
   key: 0,

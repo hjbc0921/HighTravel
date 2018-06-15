@@ -3,8 +3,14 @@ import {Map, Marker, GoogleApiWrapper} from 'google-maps-react';
 import {addMarker} from "../../../store/addmarker/actions"
 
 const style = {
-  width: '70%',
-  height: '97%'
+  width: '70vw',
+  height: '45vh',
+}
+
+const style2 = {
+  width: '70vw',
+  height: '45vh',
+  
 }
 
 class MapContainer extends React.Component {
@@ -27,6 +33,7 @@ class MapContainer extends React.Component {
       <Map
       google={this.props.google} 
       style={style}
+      containerStyle={style2}
       onRightclick={this.onMapClick}
       initialCenter={{lat: 37.459263,
         lng: 126.953131}}
