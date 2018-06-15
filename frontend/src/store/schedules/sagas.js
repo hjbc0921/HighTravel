@@ -43,6 +43,36 @@ export function* postSchedule(contents, since, until) {
     yield call(loadSchedules)
 }
 
+export function* patchSchedule(idUpdatedRow) {
+    var token = sessionStorage.getItem('token')
+    var tripID = sessionStorage.getItem('tripID')
+    var scheduleUrl = url + idUpdatedRow.realId + '/'
+    var tripSchedules = JSON.parse(sessionStorage.getItem('tripSchedules'))
+    var data
+    console.log('-------------------', idUpdatedRow)
+    delete idUpdatedRow.id
+    delete idUpdatedRow.realId
+    console.log(idUpdatedRow)
+    try {
+        if (idUpdatedRow != undefined) {
+            data = yield call(fetch, scheduleUrl, {
+                method: 'PATCH',
+                body: JSON.stringify(idUpdatedRow),
+                headers: {
+                    'Authorization': `token ${token}`,
+                    'Content-Type': 'application/json'
+                }
+            })
+            console.log('-------------PATCH')
+        }
+        yield put(actions.patchscheduleSuc())
+    } catch (e) {
+        console.log('patch schedule failed', e, data)
+        yield put(actions.patchscheduleFail())
+    }
+    yield call(loadSchedules)
+}
+
 export function* watchPostScheduleRequest() {
     while (true) {
         const { contents, since, until } = yield take(actions.POST_SCHEDULE_REQUEST)
@@ -50,6 +80,13 @@ export function* watchPostScheduleRequest() {
         console.log(since)
         console.log(until)
         yield call(postSchedule, contents, since, until)
+    }
+}
+
+export function* watchPatchRequest() {
+    while (true) {
+        const {idUpdatedRow} = yield take(actions.CHANGE_SCHEDULE_CONTENT)
+        yield call(patchSchedule,idUpdatedRow)
     }
 }
 
@@ -95,7 +132,7 @@ export function* deleteSchedule(scheIDs) {
     } catch(e) {
         console.log('delete schedule failed')
     }
-    yield call(loadSchedules,tripID)
+    yield call(loadSchedules)
 }
 
 export function* watchDeleteScheduleRequest() {
@@ -106,9 +143,9 @@ export function* watchDeleteScheduleRequest() {
 }
 export default function* () {
     yield fork(watchStoreTripId)
+    yield fork(watchPatchRequest)
     yield fork(watchPostScheduleRequest)
     yield fork(watchDeleteScheduleRequest)
-
 }
 
 

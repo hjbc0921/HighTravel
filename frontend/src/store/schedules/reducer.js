@@ -1,5 +1,5 @@
 import { initialState } from './selectors'
-import {POST_SCHEDULE_REQUEST, POST_SCHEDULE_SUCCESS,POST_SCHEDULE_FAIL,DELETE_SCHEDULE_REQUEST} from "./actions";
+import { CHANGE_SCHEDULE_CONTENT, POST_SCHEDULE_REQUEST, POST_SCHEDULE_SUCCESS,POST_SCHEDULE_FAIL,DELETE_SCHEDULE_REQUEST, PATCH_SCHEDULE_SUCCESS, PATCH_SCHEDULE_FAIL } from "./actions"
 
 const schedules_reducer = (state = initialState, action) => {
 
@@ -9,6 +9,10 @@ const schedules_reducer = (state = initialState, action) => {
             return Object.assign({}, state, {
                 schedules: action.schedules,
                 updated:true
+            })
+        case 'CHANGE_EXPENSE_CONTENT':
+            return Object.assign({},state,{
+                updated : false
             })
         case 'POST_SCHEDULE_REQUEST':
             return Object.assign({},state,{
@@ -26,7 +30,14 @@ const schedules_reducer = (state = initialState, action) => {
 	return Object.assign({},state,{
         updated : false
        }) 
-
+       case 'PATCH_SCHEDULE_FAIL':
+        return Object.assign({},state,{
+         updated : true
+        })
+       case 'PATCH_SCHEDULE_SUCCESS':
+        return Object.assign({},state,{
+         updated : true
+        })
         default:
             return state
     }

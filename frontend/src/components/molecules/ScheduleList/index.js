@@ -1,119 +1,138 @@
-import React, { PropTypes } from 'react'
-import styled from 'styled-components'
-import { font, palette } from 'styled-theme'
-const ReactDataGrid = require('react-data-grid');
+import React from 'react'
+import { Col, Table, Button } from 'antd';
+import EditableCell from '../../atoms/EditableCell'
 import AddSchedule from '../../../containers/AddSchedule'
-import update from 'react-addons-update';
-import {Button, Col} from 'antd'
 
-export class ScheduleList extends React.Component {
-	constructor(props, context) {
-    super(props, context);
-    this._columns = [
-      { key: 'id', name: 'ID', width: 80 },
-	  { key: 'since', name: 'Since',width: 200},
-      { key: 'until', name: 'Until', width: 200},
-      { key: 'contents', name: 'Contents', editable:true, width: 300 }];
-    var row = this.createRows(this.props.schedules.length,this.props.schedules)
-    this.state = { rows: row[0], selectedIndexes : [], total: row[1]};
+class ScheduleList extends React.Component {
+  constructor(props) {
+    super(props);
+    this.columns = [{
+      title: 'ID',
+      dataIndex: 'id',
+    }, {
+      title: 'Since',
+      dataIndex: 'sinceWhen',
+      render: (text, record) => {
+        return (
+          <EditableCell
+            value={record.sinceWhen}
+            onChange={this.onCellChange(record.id, record.sinceWhen, 'sinceWhen')}
+            updated={this.props.updated}
+          />
+        );
+      }
+    }, {
+      title: 'Until',
+      dataIndex: 'tilWhen',
+      render: (text, record) => {
+        return (
+          <EditableCell
+            value={record.tilWhen}
+            onChange={this.onCellChange(record.id, record.tilWhen, 'tilWhen')}
+            updated={this.props.updated}
+          />
+        );
+      }
+    }, {
+      title: 'Contents',
+      dataIndex: 'contents',
+      render: (text, record) => {
+        return (
+          <EditableCell
+            value={record.contents}
+            onChange={this.onCellChange(record.id, record.contents, 'contents')}
+            updated={this.props.updated}
+          />
+        );
+      }
+    }];
+
+
+    this.state = {
+      selectedRowKeys: [], // Check here to configure the default column
+      data: this.createRows(this.props.schedules), 
+    };
   }
+
+  createRows = (schedules) => {
+    var sched = []
+    for (var i=0; i<schedules.length; i++)
+      sched.push({
+        key: i.toString(),
+        id: i+1,
+        realId: schedules[i].id,
+        sinceWhen: schedules[i].sinceWhen,
+        tilWhen: schedules[i].tilWhen,
+        contents: schedules[i].contents
+      })
+    return sched
+  }
+
   componentWillReceiveProps(nextProps) {
-    console.log('####################componentWillReceiveProps', this.props,nextProps);
-    if (nextProps.updated){
-      var row = this.createRows(nextProps.schedules.length,nextProps.schedules)
-      this.setState({selectedIndexes : [], rows:row[0], total: row[1]})
+    if (nextProps.updated) {
+      this.setState({ selectedRowKeys: [], data: this.createRows(nextProps.schedules) })
     }
   }
   
-  shouldComponentUpdate(nextProps, nextState) {
-      console.log("#########shouldCOmponent",this.props, nextProps, this.state,nextState)
-      return (nextProps.updated ) || (this.props!==nextProps) || (this.state!==nextState)
-  }
-  createRows = (numRows,schedules) => {
-    let rows = [];
-    console.log("createRows",schedules)
-    for (var i=0;i<numRows;i++){
-      var sche = schedules[i]
-      rows.push({
-        id: i+1,
-        contents: sche.contents,
-        since: sche.sinceWhen,
-		until: sche.tilWhen
-      })
+  onCellChange = (id, originVal, dataIndex) => {
+    return (value) => {
+      const data = [...this.state.data];
+      //const data = this.props.data
+      const target = data.find(item => item.id === id);
+      const realId = target.realId
+      if (target) {
+          target[dataIndex] = value;
+          //target['realId'] = realId;
+      }
+          console.log('@@@@@@@@@@@@@@@@@3333333333', target, realId)
+          this.props.changeContent(target)
     }
-    return [rows];
-  };
+  }
 
-  rowGetter = (i) => {
-    return this.state.rows[i];
-  };
-
-  handleDelete = () => {
+  deleteSchedule = () => {
     var schedules = this.props.schedules
-    var scheIDs = []
-    for (var i=0;i<this.state.selectedIndexes.length;i++){
-      scheIDs.push(schedules[this.state.selectedIndexes[i]].id)
-    }
-    this.props.onDeleteSchedule(scheIDs)
+    var schedIDs = []
+    for (var i=0; i<this.state.selectedRowKeys.length; i++)
+      schedIDs.push(schedules[this.state.selectedRowKeys[i]-1].id)
+    this.props.onDeleteSchedule(schedIDs)
   }
-  handleGridRowsUpdated = ({ fromRow, toRow, updated }) => {
-    let scheID = this.props.schedule[fromRow].id
-    let idUpdatedRow = update(updated,{id:{$set:scheID}})
-    this.props.changeContent(idUpdatedRow)
-
-    let updatedRow = update(this.state.rows, {[fromRow]:{$merge: updated}});
-    this.setState({ rows:updatedRow });
- 
-  };
-
-  onRowsSelected = (rows) => {
-    let rowIndexes = rows.map(r => r.rowIdx);
-    console.log(rowIndexes)
-    this.setState({selectedIndexes: this.state.selectedIndexes.concat(rows.map(r => r.rowIdx))});
-  };
-
-  onRowsDeselected = (rows) => {
-    let rowIndexes = rows.map(r => r.rowIdx);
-    console.log(rowIndexes)
-    this.setState({selectedIndexes: this.state.selectedIndexes.filter(i => rowIndexes.indexOf(i) === -1 )});
-  };
-
-  onCellSelected = ({ rowIdx, idx }) => {
-    this.grid.openCellEditor(rowIdx, idx);
-  };
-
-render() {
-    return  (
+  onSelectChange = (selectedRowKeys) => {
+    this.setState({ selectedRowKeys });
+  }
+  render() {
+    const { selectedRowKeys } = this.state;
+    const rowSelection = {
+      selectedRowKeys,
+      onChange: this.onSelectChange,
+    };
+    const hasSelected = selectedRowKeys.length > 0;
+    const columns = this.columns;
+    const data = this.state.data
+    return (
       <div>
-        <h1>Schedule List</h1>
-      <div>
-      <Col span={12}>{this.state.selectedIndexes.length>0 
-	  &&
-	  <Button onClick={this.handleDelete} > Delete </Button>}</Col>
-      </div>
-      <br></br>
-      <ReactDataGrid id="schedule"
-        ref={ node => this.grid = node }
-        rowKey = "id"
-        rowSelection={{
-          showCheckbox: true,
-          enableShiftSelect: true,
-          onRowsSelected: this.onRowsSelected,
-          onRowsDeselected: this.onRowsDeselected,
-          selectBy: {
-            indexes: this.state.selectedIndexes
-          }}}
-        enableCellSelect={true}
-        columns={this._columns}
-        rowGetter={this.rowGetter}
-        rowsCount={this.state.rows.length}
-        minHeight={500}
-        onGridRowsUpdated={this.handleGridRowsUpdated} 
-        />
+        <div style={{ marginBottom: 10 }}>
+          <div className="container">
+            <div className="eachbutton">
+              <AddSchedule/>
+            </div>
+            <div className="eachbutton">
+              <Button
+                type="primary"
+                onClick={this.deleteSchedule}
+                disabled={!hasSelected}
+              >
+                Delete
+              </Button>
+            </div>
           </div>
-      );
-
-    }
+          <span style={{ marginLeft: 140 }}>
+            {hasSelected ? `Selected ${selectedRowKeys.length} items` : ''}
+          </span>
+        </div>
+        <Table rowSelection={rowSelection} columns={columns} dataSource={data} />
+      </div>
+    );
+  }
 }
-export default ScheduleList
 
+export default ScheduleList

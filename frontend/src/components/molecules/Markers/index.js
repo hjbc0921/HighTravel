@@ -1,18 +1,16 @@
 import React from 'react'
-import { Col, Table, Button } from 'antd';
+import { Icon, Col, Table, Button, Popconfirm } from 'antd';
 import EditableCell from '../../atoms/EditableCell'
 //import AddBudget from '../../../containers/Addbudget'
 
 const budgets = [{
   key: 0,
   id: 1,
-  contents: 'marker1',
-  money: 10
+  contents: 'Eiffel Tower',
   }, {
   key: 1,
   id: 2,
-  contents: 'marker2',
-  money: 10
+  contents: 'Versailles',
 }]
 
   
@@ -23,7 +21,7 @@ class Markers extends React.Component {
       title: 'ID',
       dataIndex: 'id',
     }, {
-      title: 'Contents',
+      title: 'Place',
       dataIndex: 'contents',
       render: (text, record) => {
         return (
@@ -36,18 +34,13 @@ class Markers extends React.Component {
         );
       }
     }, {
-      title: 'Money',
+      title: 'Operation',
       dataIndex: 'money',
       render: (text, record) => {
         return (
-          <EditableCell
-            value={record.money}
-            onChange={this.onCellChange(record.id, record.money, 'money')}
-            //updated={this.props.updated}
-            updated={true}
-          />
+            <div><a href="javascript:;">Go </a><Icon type="rocket" style={{ fontSize: 16, color: '#08c'}} /></div>
         );
-      }
+      },
     }];
 
   //  var rows = this.createRows(this.props.budget)

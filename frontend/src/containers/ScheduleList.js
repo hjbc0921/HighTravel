@@ -1,6 +1,6 @@
 import {connect} from 'react-redux'
-import {ScheduleList} from "../components/molecules/ScheduleList";
-import { deleteScheduleRequest } from '../store/schedules/actions'
+import ScheduleList from "../components/molecules/ScheduleList"
+import { changeScheduleContent, deleteScheduleRequest } from '../store/schedules/actions'
 
 const mapStateToProps = (state) => {
   var schedules = []
@@ -16,6 +16,9 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
  return {
+    changeContent: (idUpdatedRow) => {
+      dispatch(changeScheduleContent(idUpdatedRow))
+    },
      onDeleteSchedule: (scheIDs)=>{
          dispatch(deleteScheduleRequest(scheIDs))
         }
@@ -23,4 +26,3 @@ const mapDispatchToProps = (dispatch) => {
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(ScheduleList)
-
