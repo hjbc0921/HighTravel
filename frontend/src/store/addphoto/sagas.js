@@ -4,6 +4,23 @@ import * as actions from './actions'
 import { STORE_TRIP_ID } from '../user/actions'
 const url = 'http://'+location.host+'/api/folders/'
 import axios from 'axios'
+const url2 = 'http://'+location.host+'/api/photos/'
+
+
+export function* loadphotos(){
+    var tripID = sessionStorage.getItem('tripID')
+    var tripPhotoUrl = url2 + 'trip/' + tripID + '/'
+   
+    console.log("#######loadphotos"); 
+    console.log(tripPhotoUrl);
+    var photos = []
+    yield fetch (tripPhotoUrl)
+      .then((resp) => resp.json())
+      .then(function(data){
+        photos = data
+    })
+   yield put({type :'STORES_PHOTO',photos})
+}
 
 
 export function* loadFolders() {
@@ -77,6 +94,8 @@ export function* postPhoto(folder, fileList){
         })
     
     }
+   console.log("callloadphotos")
+   yield call(loadphotos)
 }
 
 export function* watchPostFolderRequest() {

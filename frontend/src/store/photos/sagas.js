@@ -8,7 +8,7 @@ const url = 'http://' + location.host +'/api/photos/'
 export function* loadPhotos() {
    var tripID = sessionStorage.getItem('tripID')
    var tripPhotoUrl = url +'trip/'+ tripID+ '/'  
-   
+   console.log(tripPhotoUrl); 
 
    var photos = []
    yield fetch (tripPhotoUrl)
