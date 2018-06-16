@@ -1,5 +1,5 @@
 import { connect} from 'react-redux'
-import { toggleTodo, addtodoRequest } from '../store/todos/actions'
+import { toggleTodo, addtodoRequest, deleteTodo } from '../store/todos/actions'
 import { TodoList } from '../components/molecules/TodoList'
 
 const mapStateToProps = (state) => {
@@ -13,11 +13,14 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
     return {
         onAddTodo: (contents) => {
-          dispatch(addtodoRequest(contents))
+            dispatch(addtodoRequest(contents))
         },
         onTodoClick: (todoID, done) => {
             dispatch(toggleTodo(todoID, done))
-     }
+        },
+        onDeleteTodo: (todoID, done) => {
+            dispatch(deleteTodo(todoID))
+        }
    }
 }
 

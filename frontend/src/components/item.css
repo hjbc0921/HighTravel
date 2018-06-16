@@ -182,6 +182,10 @@
   align-items: center;
 }
 
+.title {
+ margin-right: 10em;
+}
+
 .ruleelement {
   display: flex;
   font-family: "primary";
@@ -203,6 +207,23 @@
   margin-right: 17px;
   top: 50%;
   background: #ccccff;
+  border-radius: 10px;
+  word-wrap: break-word;
+  display: inline-block;
+}
+
+.todo {
+  font-family: "primary";
+  width: 350px;
+  text-align: center;
+  vertical-align: middle;
+  line-height: 20px;
+  padding: 6px;
+  margin-top: 2.5px;
+  margin-bottom: 2.5px;
+  margin-right: 17px;
+  top: 50%;
+  background: #cce5ff;
   border-radius: 10px;
   word-wrap: break-word;
   display: inline-block;
