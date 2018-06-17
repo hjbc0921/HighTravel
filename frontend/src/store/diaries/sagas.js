@@ -1,4 +1,3 @@
-
 import { take, put, call, fork, select } from 'redux-saga/effects'
 import api from 'services/api'
 import * as actions from './actions'
@@ -36,8 +35,34 @@ export function* watchStoreTripID(){
   }
 }
 
+export function* deleteDiary(diaryID) {
+    console.log("#######dlt")
+    console.log(diaryID)
+    var token = sessionStorage.getItem('token')
+    var tripID = sessionStorage.getItem('tripID')
+    let diaryUrl = url + diaryID + '/'
+    let data
+    if (diaryID != undefined) {
+        data = yield call(fetch, diaryUrl, {
+            method: 'DELETE',
+            headers: {
+                'Authorization': `token ${token}`,
+                'Content-Type': 'application/json;'
+            }
+        })
+    }
+    yield call(loadDiaries)
+}
+export function* watchDeleteDiaryRequest() {
+    while (true) {
+        const {diaryID} = yield take(actions.DELETE_DIARY_REQUEST)
+        yield call(deleteDiary,diaryID)
+    }
+}
+
 export default function* (){
   console.log("17")
      yield fork(watchStoreTripID)
      yield fork(watchStoreDiaryRequest)
+     yield fork(watchDeleteDiaryRequest)
 }
