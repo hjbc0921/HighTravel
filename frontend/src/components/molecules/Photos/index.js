@@ -2,6 +2,8 @@ import React, { PropTypes } from 'react'
 import styled from 'styled-components'
 import { font, palette } from 'styled-theme'
 import Gallery from 'react-photo-gallery';
+import SelectedImage from "../SelectPhoto/SelectedImage";
+import {Button} from 'antd'
 
 const Wrapper = styled.div`
   font-family: ${font('primary')};
@@ -12,6 +14,9 @@ export const PhotoList = (photo_list) => {
      console.log("PHOTO#############",photo_list);  
   const onPhotoConfirm = () =>{
   }
+
+
+ 
      var newArray= [];
      var tempArray = [];
      var usedArray = [];
@@ -56,30 +61,71 @@ export const PhotoList = (photo_list) => {
          Photo.push({src:newArray[l][m].image.replace(":3000",":8000"),
                      sizes: ['(min-width: 50px) 20vw,(min-width: 50px) 20vw,40vw'],
                      width:5,
-                     height:5
+                     height:5,
+                     selected:false,
+                     folderId:l
                     }
                    )
     }
     console.log(Photo)
     if(folderShowed!='')
     PhotoSet.push({folder:folderShowed,
-                   photos:Photo}
+                   photos:Photo,
+                   id:l
+                  }
                   );
     folderShowed ='';
     Photo=[];
    }
-   console.log(PhotoSet)
-   
+   console.log(PhotoSet);
+  const selectPhotos = (event, obj) => {
+      for(var i=0; i<PhotoSet.length;i++){
+     if(PhotoSet[i].id == obj.photo.folderId){
+     PhotoSet[i].photos[obj.index].selected = !PhotoSet[i].photos[obj.index].selected; 
+    console.log(PhotoSet[i].photos[obj.index]);
+    }
+   } 
+  }
+  const downloadAll = () => {
+   var urls = [];
+   for(var j=0; j<PhotoSet.length;j++){
+    for(var m=0; m<PhotoSet[j].photos.length; m++){
+      if(PhotoSet[j].photos[m].selected == true){
+      urls.push(PhotoSet[j].photos[m].src);
+      }
+    }
+   }
+   var link = document.createElement('a');
+   link.setAttribute('download', null);
+   link.style.display = 'none';
+   document.body.appendChild(link);
+   console.log(urls);
+   for (var i=0; i<urls.length; i++){
+     link.setAttribute('href',urls[i]);
+     link.click();
+   }
+ 
+   document.body.removeChild(link);
+ 
+
+  }
+    
+  
    return(
    <div>
       {onPhotoConfirm}
        {PhotoSet.map(data =>
       <div>
       <h1> {data.folder} </h1>
-        <Gallery photos={data.photos}/>
+        <Gallery photos={data.photos}
+                 onClick={selectPhotos}
+                 ImageComponent={SelectedImage}
+                  />
       </div>  )
       }
-     
+    <div></div>
+     <Button type="primary" onClick={downloadAll}> Download </Button>
+     <Button type="primary" > Delete </Button>
     </div>
    )
  
