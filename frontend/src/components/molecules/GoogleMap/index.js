@@ -1,6 +1,7 @@
-import React, {PropTypes} from "react"
-import {Map, Marker, GoogleApiWrapper} from 'google-maps-react';
+import React, {PropTypes} from 'react'
+import {Map, Marker, GoogleApiWrapper} from 'google-maps-react'
 import {addMarker} from "../../../store/addmarker/actions"
+import {Markers} from '../Markers'
 
 const style = {
   width: '70vw',
@@ -12,6 +13,7 @@ const style2 = {
   height: '45vh',
   
 }
+
 
 class MapContainer extends React.Component {
   state = {
@@ -26,10 +28,23 @@ class MapContainer extends React.Component {
     this.setState({position:position, updated:true})
     addMarker(pos)
   }
+
+  onDeleteRow = () => {
+    console.log("MAP#########delete")
+  }
   
+  onMoveTo = () => {
+    console.log("MOVE3###########")
+  }
+
+  onChange = (id, originVal, dataIndex) => {
+    console.log("CHANGE#######",id)
+  }
+
   render() {
     return (
-      <div>
+      <div className="vs">
+      <div className = "mapvs">
       <Map
       google={this.props.google} 
       style={style}
@@ -42,6 +57,10 @@ class MapContainer extends React.Component {
       <Marker key={pos.id} label={pos.id.toString()} position={{lat:pos.lat,lng:pos.lng}} />
      )}
       </Map>
+      </div>
+      <div className = "markervs">
+      <Markers markers={this.props.marker} onDelete={this.onDeleteRow} onMove={this.onMoveTo} changeContent={this.onChange}/>
+      </div>
       </div>
     );
   }

@@ -1,18 +1,10 @@
 import React from 'react'
-//import {GoogleApiWrapper} from '../../../containers/GoogleMap'
-import GoogleApiWrapper from '../../molecules/GoogleMap'
-import Markers from '../../molecules/Markers'
-//import {MarkerList} from '../../molecules/MarkerList'
+import GoogleApiWrapper from '../../../containers/GoogleMap'
 
 const Map = () => {
   return (
-    <div className="vs">
-    <div className = "mapvs">
+    <div >
         <GoogleApiWrapper/>
-    </div>
-    <div className = "markervs">
-        <Markers/>
-    </div>
     </div>
   )
 }

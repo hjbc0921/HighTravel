@@ -1,19 +1,8 @@
 import React from 'react'
 import { Icon, Col, Table, Button, Popconfirm } from 'antd';
 import EditableCell from '../../atoms/EditableCell'
-
-const budgets = [{
-  key: 0,
-  id: 1,
-  contents: 'Eiffel Tower',
-  }, {
-  key: 1,
-  id: 2,
-  contents: 'Versailles',
-}]
-
   
-class Markers extends React.Component {
+export class Markers extends React.Component {
   constructor(props) {
     super(props);
     this.columns = [{
@@ -26,18 +15,17 @@ class Markers extends React.Component {
         return (
           <EditableCell
             value={record.contents}
-            onChange={this.onCellChange(record.id, record.contents, 'contents')}
-            //updated={this.props.updated}
+            onChange={this.props.changeContent(record.id, record.contents, 'contents')}
             updated={true}
           />
         );
       }
     }, {
-      title: 'Operation',
-      dataIndex: 'money',
+      title: 'Move to Marker',
+      dataIndex: 'go',
       render: (text, record) => {
         return (
-            <div><a href="javascript:;">Go </a><Icon type="rocket" style={{ fontSize: 16, color: '#08c'}} /></div>
+            <Button icon="rocket" style={{ fontSize: 16, color: '#08c'}} onClick={this.onGoClick}> Go </Button>
         );
       },
     }];
@@ -46,7 +34,7 @@ class Markers extends React.Component {
 
     this.state = {
       selectedRowKeys: [], // Check here to configure the default column
-      data: budgets,
+      data: this.props.markers,
     };
   }
 
@@ -94,13 +82,17 @@ class Markers extends React.Component {
       }
     }
   }
+  onGoClick = () => {
+    console.log("CLICKED")
+    this.props.onMove()
+  }
 
   deleteBudget = () => {
-    //var budgets = this.props.budget
-    var budIDs = []
-    for (var i=0; i<this.state.selectedRowKeys.length; i++)
-      budIDs.push(budgets[this.state.selectedRowKeys[i]-1].id)
-    //this.props.onDelete(budIDs)
+    var budgets = this.props.markers
+    //var budIDs = []
+    //for (var i=0; i<this.state.selectedRowKeys.length; i++)
+    //  budIDs.push(budgets[this.state.selectedRowKeys[i]-1].id)
+    this.props.onDelete()
   }
   onSelectChange = (selectedRowKeys) => {
     this.setState({ selectedRowKeys });
@@ -111,6 +103,7 @@ class Markers extends React.Component {
       selectedRowKeys,
       onChange: this.onSelectChange,
     };
+    
     const hasSelected = selectedRowKeys.length > 0;
     const columns = this.columns;
     const data = this.state.data
@@ -140,4 +133,3 @@ class Markers extends React.Component {
   }
 }
 
-export default Markers

@@ -1,7 +1,6 @@
-import React from "react";
-import Provider from 'react-redux';
-import Gallery from "react-photo-gallery";
-import SelectedImage from "./SelectedImage";
+import React from 'react'
+import Gallery from 'react-photo-gallery'
+import SelectedImage from "./SelectedImage"
 
 export class SelectPhoto extends React.Component {
   constructor(props) {
