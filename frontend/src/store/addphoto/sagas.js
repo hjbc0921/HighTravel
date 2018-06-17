@@ -4,6 +4,25 @@ import * as actions from './actions'
 import { STORE_TRIP_ID } from '../user/actions'
 const url = 'http://'+location.host+'/api/folders/'
 import axios from 'axios'
+const url2 = 'http://'+location.host+'/api/photos/'
+
+const delay = (ms) => new Promise(res => setTimeout(res, ms))
+
+export function* loadphotos(){
+    var tripID = sessionStorage.getItem('tripID')
+    var tripPhotoUrl = url2 + 'trip/' + tripID + '/'
+   
+    console.log("#######loadphotos"); 
+    console.log(tripPhotoUrl);
+    var photos = []
+    yield delay(1000)
+    yield fetch (tripPhotoUrl)
+      .then((resp) => resp.json())
+      .then(function(data){
+        photos = data
+    })
+   yield put({type :'STORES_PHOTO',photos})
+}
 
 
 export function* loadFolders() {
@@ -64,6 +83,7 @@ export function* postPhoto(folder, fileList){
     let folderID = folders.find(f => f.name === folder)
     console.log("#####SAGA",folderID.id,folders,folder)
     fileList = fileList.map(f => f.originFileObj);
+    let result = 0
 
     for (let i = 0; i < fileList.length; i++){
         const formData = new FormData()
@@ -74,9 +94,13 @@ export function* postPhoto(folder, fileList){
             headers : {
                 "Authorization" : "token "+token,
             }
-        })
+        }).then( response => { result = response.status; console.log('AXIOS RESPONSE', response) });
     
     }
+   console.log("callloadphotos")
+
+   console.log('AXIOS RESULT', result)
+   yield call(loadphotos)
 }
 
 export function* watchPostFolderRequest() {

@@ -1,5 +1,4 @@
 import React from 'react'
-//import Button from '../../../components/atoms/Button'
 import Rule from '../../../components/atoms/Rule'
 import { AddForm } from '../../atoms/AddForm'
 import { Button } from 'antd'

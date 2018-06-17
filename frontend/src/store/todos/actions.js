@@ -1,6 +1,7 @@
 export const POST_TODO_REQUEST = 'POST_TODO_REQUEST';
 export const STORE_TODO = 'STORE_TODO';
 export const TOGGLE_TODO_REQUEST = 'TOGGLE_TODO_REQUEST';
+export const DELETE_TODO_REQUEST = 'DELETE_TODO_REQUEST';
 
 // action for toggle todo (PATCH to backend)
 export const toggleTodo = (todoID, done) => {
@@ -8,6 +9,14 @@ export const toggleTodo = (todoID, done) => {
         type: TOGGLE_TODO_REQUEST,
         todoID,
         done
+    }
+}
+
+// action for delete todo (DELETE to backend)
+export const deleteTodo = (todoID) => {
+    return {
+        type: DELETE_TODO_REQUEST,
+        todoID
     }
 }
 

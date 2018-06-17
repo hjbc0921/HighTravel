@@ -39,3 +39,10 @@ export const addfolderSuc = (message) => {
     message
   }
 }
+
+export const storePhoto = (photos) => {
+  return {
+   type : 'STORES_PHOTO',
+   photos: photos
+  }
+}

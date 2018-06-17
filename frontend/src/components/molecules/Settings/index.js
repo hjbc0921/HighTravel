@@ -106,10 +106,15 @@ class Settings extends React.Component {
 
   onDelete = (key) => {
     const dataSource = [...this.state.dataSource];
+    var tripExpenses = JSON.parse(sessionStorage.getItem('tripExpenses'))
+    if (tripExpenses == null || tripExpenses == 'undefined')
+      tripExpenses = []
+    var userExp = tripExpenses.filter(e => e.spender === key)
+    var expIds = userExp.map(e => e.id)
     var users = this.props.users
     var remainUsers = users.filter(u => u.username !== key)
     var ids = remainUsers.map(u => u.id)
-    this.props.deleteUser(ids)
+    this.props.deleteUser(ids, expIds)
     this.setState({ dataSource: dataSource.filter(item => item.data !== key) });
   }
   render() {

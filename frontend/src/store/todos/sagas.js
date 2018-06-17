@@ -5,21 +5,16 @@ import { STORE_TRIP_ID } from '../user/actions'
 
 const url = 'http://'+location.host+'/api/todos/'
 
-export function* loadTodos(tripID) {
-    console.log('loadTodos')
+export function* loadTodos() {
     var tripID = sessionStorage.getItem('tripID')
-    console.log(tripID)
     var tripTodoUrl = url + 'trip/' + tripID + '/'
     var tripTodos
-    console.log(tripTodoUrl)
     
     try {
         yield fetch(tripTodoUrl)
             .then((resp) => resp.json())
             .then(function(data) {
-                console.log('todos for trip')
                 tripTodos = data
-                console.log(tripTodos)
             })
     } catch(e) {
         console.log('load todo failed')
@@ -30,7 +25,6 @@ export function* loadTodos(tripID) {
 }
 
 export function* postTodo(contents) {
-    console.log('post in postRule')
 
     var token = sessionStorage.getItem('token')
     var tripID = sessionStorage.getItem('tripID')
@@ -56,17 +50,12 @@ export function* postTodo(contents) {
 
 export function* watchPostTodoRequest() {
     while (true) {
-        console.log('posttodo in watch')
         const { contents } = yield take(actions.POST_TODO_REQUEST)
-        console.log(contents)
         yield call(postTodo, contents)
-        console.log('posttodo in watch end')
     }
 }
 
 export function* toggleTodo(todoID, done) {
-    console.log('patch in toggleRule')
-
     var token = sessionStorage.getItem('token')
     var tripID = sessionStorage.getItem('tripID')
     var todoUrl = url + todoID + '/'
@@ -74,7 +63,6 @@ export function* toggleTodo(todoID, done) {
 
     try {
         if (todoID != undefined && done != undefined) {
-            console.log('**************')
             data = yield call(fetch, todoUrl, {
                 method: 'PATCH',
                 body: JSON.stringify({ done: done }),
@@ -93,12 +81,33 @@ export function* toggleTodo(todoID, done) {
 
 export function* watchToggleTodoRequest() {
     while (true) {
-        console.log('toggle todo in watch')
         const { todoID, done } = yield take(actions.TOGGLE_TODO_REQUEST)
-        console.log(todoID)
-        console.log(done)
         yield call(toggleTodo, todoID, done)
-        console.log('toggle todo in watch end')
+    }
+}
+
+export function* deleteTodo(todoID) {
+    var token = sessionStorage.getItem('token')
+    var tripID = sessionStorage.getItem('tripID')
+    let todoUrl = url + todoID + '/'
+    let data
+    if (todoID != undefined) {
+        data = yield call(fetch, todoUrl, {
+            method: 'DELETE',
+            headers: {
+                'Authorization': `token ${token}`,
+                'Content-Type': 'application/json;'
+            }
+        })
+    }
+    
+    yield call(loadTodos)
+}
+
+export function* watchDeleteTodoRequest() {
+    while (true) {
+        const { todoID } = yield take(actions.DELETE_TODO_REQUEST)
+        yield call(deleteTodo, todoID)
     }
 }
 
@@ -113,4 +122,5 @@ export default function* () {
     yield fork(watchStoreTripId)
     yield fork(watchPostTodoRequest)
     yield fork(watchToggleTodoRequest)
+    yield fork(watchDeleteTodoRequest)
 }

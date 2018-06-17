@@ -1,6 +1,7 @@
 import { connect } from 'react-redux'
 import { PhotoList } from '../components/molecules/Photos'
 import { storePhotoRequest } from "../store/photos/actions";
+import { deletePhotoRequest } from "../store/photos/actions";
 
 const mapStateToProps = (state) => {
    var photos = []
@@ -15,9 +16,12 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-       onPhotos:() => {
+     /*  onPhotos:() => {
         dispatch(storePhotoRequest())
-       }
+       }*/
+      onDeletePhotos:(photoIDs) => {
+          dispatch(deletePhotoRequest(photoIDs))
+        }
     }
 }
 
