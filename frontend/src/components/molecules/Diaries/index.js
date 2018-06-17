@@ -2,15 +2,18 @@ import React, { PropTypes } from 'react'
 import styled from 'styled-components'
 import { font, palette } from 'styled-theme'
 import Gallery from 'react-photo-gallery';
+import { Button } from 'antd'
 
 const Wrapper = styled.div`
   font-family: ${font('primary')};
   color: ${palette('grayscale', 0)};
 `
 export const Diaries = (diary_list) => {
+  console.log(diary_list)
 
  const onDiaryConfirm = () => {
- }			
+ }
+   console.log("##############diary")			
    console.log(diary_list) 
      var newArray= [];
      var date;
@@ -32,22 +35,23 @@ export const Diaries = (diary_list) => {
         }
         DiarySet.push({date:diary_list.diary_list[l].date,
 		contents: diary_list.diary_list[l].contents,
-                photos:tempPhoto, id:l})
+                photos:tempPhoto, id:l, tID:diary_list.diary_list[l].id})
    }
    console.log(DiarySet)
    return(
    <div>
        {onDiaryConfirm}
        {DiarySet.map(data =>
-      <div key={data.id}>
-      <h1> {data.date} </h1>
+        <div key={data.id}>
+          <h1> {data.date} </h1>
 	  <h2> {data.contents} </h2>
-         <Gallery photos={data.photos} />
-        </div>  )
-      }
-    </div>
+          <Gallery photos={data.photos} />
+	  <br/><br/><br/>
+	  <Button id="ddbutton" onClick={ event => diary_list.onDeleteDiary(data.tID) }>Delete</Button>
+	  <br/><hr/>
+	</div>)}
+   </div>
    )
- 
 }
 
 Diaries.propTypes = {

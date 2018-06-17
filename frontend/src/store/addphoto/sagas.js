@@ -90,7 +90,7 @@ export function* postPhoto(folder, fileList){
         formData.append('file', fileList[i])
         formData.append('folder', folderID.id)
         formData.append('tripID', tripID)
-        axios.post('http://localhost:8000/api/photos/',formData,{
+        axios.post('http://13.125.199.155/api/photos/',formData,{
             headers : {
                 "Authorization" : "token "+token,
             }
