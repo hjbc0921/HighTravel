@@ -11,6 +11,9 @@ const photos_reducer = (state = initialState, action) => {
        case 'STORE_PHOTO_REQUEST':
            return Object.assign({},state,{}
             )
+       case 'DELETE_SCHEDULE_REQUEST':
+           return Object.assign({},state,{}
+            )
       default:
           return state
     }

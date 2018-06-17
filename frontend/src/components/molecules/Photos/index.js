@@ -14,6 +14,9 @@ export const PhotoList = (photo_list) => {
      console.log("PHOTO#############",photo_list);  
   const onPhotoConfirm = () =>{
   }
+  
+  
+  
 
 
  
@@ -63,7 +66,8 @@ export const PhotoList = (photo_list) => {
                      width:5,
                      height:5,
                      selected:false,
-                     folderId:l
+                     folderId:l,
+                     Id:newArray[l][m].id
                     }
                    )
     }
@@ -109,7 +113,19 @@ export const PhotoList = (photo_list) => {
  
 
   }
-    
+  const deletePhotos = () =>{
+    console.log("delete photos in molecule")
+    var photoIDs= []
+    for (var j=0;j<PhotoSet.length;j++){
+      for (var m=0;m<PhotoSet[j].photos.length;m++){
+        if(PhotoSet[j].photos[m].selected == true ){
+           photoIDs.push(PhotoSet[j].photos[m].Id);
+        }
+      }
+    }
+   console.log(photoIDs);
+   photo_list.onDeletePhotos(photoIDs);  
+  }   
   
    return(
    <div>
@@ -125,7 +141,7 @@ export const PhotoList = (photo_list) => {
       }
     <div></div>
      <Button type="primary" onClick={downloadAll}> Download </Button>
-     <Button type="primary" > Delete </Button>
+     <Button type="primary" onClick={deletePhotos}> Delete </Button>
     </div>
    )
  
