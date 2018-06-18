@@ -3,12 +3,14 @@ import styled from 'styled-components'
 import { font, palette } from 'styled-theme'
 import Gallery from 'react-photo-gallery';
 import { Button } from 'antd'
+import EditableAutoSize from '../../atoms/EditableAutoSize'
 
-const Wrapper = styled.div`
-  font-family: ${font('primary')};
-  color: ${palette('grayscale', 0)};
-`
 export const Diaries = (diary_list) => {
+  const onCellChange = (id, originVal) => {
+    return (value) => {
+        diary_list.changeDiaryContent(id, value)
+   }
+ }
 
  const onDiaryConfirm = () => {
  }
@@ -41,7 +43,11 @@ export const Diaries = (diary_list) => {
        {DiarySet.map(data =>
         <div key={data.id}>
           <h1> {data.date} </h1>
-	  <h2> {data.contents} </h2>
+          <EditableAutoSize
+            value={data.contents}
+            onChange={onCellChange(data.tID, data.contents)}
+            updated={true}
+          />
           <Gallery photos={data.photos} />
 	  <br/><br/><br/>
 	  <Button id="ddbutton" onClick={ event => diary_list.onDeleteDiary(data.tID) }>Delete</Button>

@@ -81,7 +81,6 @@ export function* patchExpense(idUpdatedRow) {
     var token = sessionStorage.getItem('token')
     var tripID = sessionStorage.getItem('tripID')
     var expenseUrl = url + idUpdatedRow.realId + '/'
-    var tripExpenses = JSON.parse(sessionStorage.getItem('tripExpenses'))
     var data
     delete idUpdatedRow.id
     delete idUpdatedRow.realId

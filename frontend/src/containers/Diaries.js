@@ -1,6 +1,6 @@
 import { connect } from 'react-redux'
 import { Diaries} from '../components/molecules/Diaries'
-import { deleteDiaryRequest } from '../store/diaries/actions'
+import { deleteDiaryRequest, changeDiaryContent } from '../store/diaries/actions'
 
 const mapStateToProps = (state) => {
     var diaries = []
@@ -13,12 +13,12 @@ const mapStateToProps = (state) => {
 }
 const mapDispatchToProps = (dispatch) => {
      return {
-		changeDiaryContent: (idUpdatedRow) => {
-			dispatch(changeDiaryContent(idUpdatedRow))
-		},
-		onDeleteDiary: (diaryID)=> {
-			dispatch(deleteDiaryRequest(diaryID))
-        	}
+        changeDiaryContent: (id, contents) => {
+            dispatch(changeDiaryContent(id, contents))
+        },
+        onDeleteDiary: (diaryID)=> {
+            dispatch(deleteDiaryRequest(diaryID))
+        }
      }
 }
 

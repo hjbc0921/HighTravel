@@ -2,30 +2,39 @@ export const STORE_DIARY_REQUEST = 'STORE_DIARY_REQUEST'
 export const STORE_DIARY = 'STORE_DIARY'
 export const DELETE_DIARY_REQUEST = 'DELETE_DIARY_REQUEST'
 export const CHANGE_DIARY_CONTENT = 'CHANGE_DIARY_CONTENT'
+export const DELETE_USER_DIARIES = 'DELETE_USER_DIARIES'
 
 export const storeDiaryRequest = () => {
-     return{
+     return {
       type: STORE_DIARY_REQUEST
      }
 }
 
 export const storeDiary = (diaries) => {
-     return{
-         type: 'STORE_DIARY',
+     return {
+         type: STORE_DIARY,
          diaries: diaries
      }
 }
 
-export const changeDiaryContent = (idUpdatedRow) => {
-  return {
-  type : CHANGE_DIARY_CONTENT,
-  idUpdatedRow
-  }
+export const changeDiaryContent = (id, contents) => {
+    return {
+        type : CHANGE_DIARY_CONTENT,
+        id,
+        contents
+    }
 }
 
 export const deleteDiaryRequest = (diaryID) => {
     return {
         type: DELETE_DIARY_REQUEST,
         diaryID
+    }
+}
+
+export const deleteUserDiaries = (delUId) => {
+    return {
+        type: DELETE_USER_DIARIES,
+        delUId
     }
 }

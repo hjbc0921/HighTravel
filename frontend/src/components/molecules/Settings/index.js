@@ -113,8 +113,9 @@ class Settings extends React.Component {
     var expIds = userExp.map(e => e.id)
     var users = this.props.users
     var remainUsers = users.filter(u => u.username !== key)
+    var deletedUser = users.find(u => u.username === key)
     var ids = remainUsers.map(u => u.id)
-    this.props.deleteUser(ids, expIds)
+    this.props.deleteUser(ids, expIds, deletedUser.id)
     this.setState({ dataSource: dataSource.filter(item => item.data !== key) });
   }
   render() {
