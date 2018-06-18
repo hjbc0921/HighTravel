@@ -1,5 +1,5 @@
 import React from 'react'
-import { Col, Table, Button } from 'antd';
+import { Table, Button, Card } from 'antd';
 import EditableCell from '../../atoms/EditableCell'
 import AddExpense from '../../../containers/Addexpense'
 
@@ -89,7 +89,7 @@ class Expense extends React.Component {
     var user;
     var each = [] 
     for (user in users) {
-      each.push(user + " spent " + users[user] + "원 ")
+      each.push( user + " spent " + users[user]+"원")
     }
     return [rows,total,each];
   };
@@ -123,9 +123,11 @@ class Expense extends React.Component {
       expIDs.push(expenses[this.state.selectedRowKeys[i]].id)
     this.props.onDelete(expIDs)
   }
+
   onSelectChange = (selectedRowKeys) => {
     this.setState({ selectedRowKeys });
   }
+
   render() {
     const { loading, selectedRowKeys } = this.state;
     const rowSelection = {
@@ -142,10 +144,12 @@ class Expense extends React.Component {
     const each = this.state.each
     return (
       <div>
-        <h2> Your expense adds up to {this.state.total} 원 </h2>
+        <Card style={{ width: 500 }}>
+        <h2>Expense total : {this.state.total}원</h2>
         {each.map(u => 
-          <h2 key={u.toString()}>{u}</h2>)}
-        <div style={{ marginBottom: 10 }}>
+          <h3 className="righty" key={u.toString()}>{u}</h3>)}
+        </Card>
+        <div style={{ marginTop: 20 }}>
           <div className="container">
             <div className="eachbutton">
               <AddExpense/>

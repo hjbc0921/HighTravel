@@ -2,7 +2,7 @@ import React, { PropTypes } from 'react';
 import FullCalendar from 'fullcalendar-reactwrapper';
 import 'fullcalendar-reactwrapper/dist/css/fullcalendar.min.css'
 
-const color = ["#4bb462","#ff7418","#1890ff","#ff1878","#0d5f32"]
+const color = ["#ec4c24","#e9cb44","#71ca0b","#0ec9a0","#0e6fc9","#2a0ec9","#a413dd","#dd13ab"]
 
 export class Calendar extends React.Component{
   constructor(props){
@@ -54,6 +54,7 @@ export class Calendar extends React.Component{
   }
 
   render() {
+    const date = (this.state.events.length>0)?this.state.events[this.state.events.length-1].start:new Date();
     return (
       <div id="calendar">
       <FullCalendar
@@ -63,6 +64,7 @@ export class Calendar extends React.Component{
       center: 'title',
       right: 'month,basicWeek'
       }}
+      defaultDate={date}
       navLinks= {true} // can click day/week names to navigate views
       eventLimit= {true} // allow "more" link when too many events
       events = {this.state.events}	

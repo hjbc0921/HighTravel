@@ -1,5 +1,5 @@
 import React from 'react'
-import { Col, Table, Button } from 'antd';
+import { Table, Button, Card } from 'antd';
 import EditableCell from '../../atoms/EditableCell'
 import AddBudget from '../../../containers/Addbudget'
 
@@ -111,8 +111,10 @@ class Budget extends React.Component {
     const data = this.state.data
     return (
       <div>
-        <h2> Your budget adds up to {this.state.total} 원 </h2>
-        <div style={{ marginBottom: 10 }}>
+        <Card style={{ width: 500 }}>
+        <h2>Budget total : {this.state.total} 원</h2>
+        </Card>
+        <div style={{ marginTop: 20 }}>
           <div className="container">
             <div className="eachbutton">
               <AddBudget/>

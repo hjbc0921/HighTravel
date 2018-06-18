@@ -24,7 +24,7 @@ import { font, palette } from 'styled-theme'
 const Wrapper = styled.div`
   background-image: url(${img});
   background-size: cover;
-  width: 100vw;
+  width: 100%;
   height: 20vh;
 `;
 
@@ -41,7 +41,7 @@ const Antd = ({antd,menu,title,changeContent,toggleCol}) => {
     return (
     <Layout>
         <Wrapper>
-        <Header style={{ height: '20vh', width: '100vw', background:'transparent' }}>
+        <Header style={{ height: '20vh', width: '100%', background:'transparent' }}>
             <div className="verCenter">
             <Col span={2}><Link to="/user"><Button icon="user" ghost onClick={gotoUser}> {sessionStorage.getItem('username')}</Button></Link></Col>
             <Col span={20}><div className="mytitle">{sessionStorage.getItem("triptitle")}</div></Col>

@@ -77,14 +77,11 @@ class ScheduleList extends React.Component {
   onCellChange = (id, originVal, dataIndex) => {
     return (value) => {
       const data = [...this.state.data];
-      //const data = this.props.data
       const target = data.find(item => item.id === id);
       const realId = target.realId
       if (target) {
           target[dataIndex] = value;
-          //target['realId'] = realId;
       }
-          console.log('@@@@@@@@@@@@@@@@@3333333333', target, realId)
           this.props.changeContent(target)
     }
   }
@@ -96,9 +93,11 @@ class ScheduleList extends React.Component {
       schedIDs.push(schedules[this.state.selectedRowKeys[i]].id)
     this.props.onDeleteSchedule(schedIDs)
   }
+
   onSelectChange = (selectedRowKeys) => {
     this.setState({ selectedRowKeys });
   }
+  
   render() {
     const { selectedRowKeys } = this.state;
     const rowSelection = {
@@ -129,7 +128,7 @@ class ScheduleList extends React.Component {
             {hasSelected ? `Selected ${selectedRowKeys.length} items` : ''}
           </span>
         </div>
-        <Table rowSelection={rowSelection} columns={columns} dataSource={data} />
+        <Table rowSelection={rowSelection} columns={columns} dataSource={data} size="small"/>
       </div>
     );
   }

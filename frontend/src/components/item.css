@@ -16,13 +16,12 @@
     flex-direction:row;
 }
 .left{
-    width:50vw;
-    height: 100%;
-    margin:auto;
+    width:45vw;
+    height:100%;
 }
 
 .right{
-    width:50vw;
+    width:40vw;
     margin-left:20px;
 }
 
@@ -40,12 +39,6 @@
   margin-right: 10px;
 }
 
-.head {
-    background : #4bb462;
-    display : table;
-    table-layout : fixed;
-    width: 100%;
-}
 .adduser {
     background : #d5f0ed;
     display : table;
@@ -66,24 +59,6 @@
     color : black;
     padding-top : 1rem;
     padding-bottom: 1rem;   
-}
-.item {
-    text-align:center;
-    padding-top: 1rem;
-    padding-bottom: 1rem;
-    display:table-cell;
-    color : white;
-    text-decoration: none;
-    font-size :1.1rem;
-}
-
-.item:hover {
-    background: #0b363b;
-}
-
-.item:active {
-    background : #0b363b;
-    color : white;
 }
 
 .hiuser {
@@ -255,4 +230,8 @@
   flex-direction: row;
   justify-content: left;
   align-items: left;
+}
+
+.righty{
+    text-align:right;
 }
