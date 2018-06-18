@@ -43,7 +43,6 @@ INSTALLED_APPS = [
     'rest_framework.authtoken',
         'corsheaders',
     'trips.apps.TripsConfig',
-    'accounts.apps.AccountsConfig',
 ]
 
 REST_FRAMEWORK = {
@@ -137,12 +136,6 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/2.0/howto/static-files/
 
 STATIC_URL = '/static/'
-
-# Redirect user to homepage after login
-LOGIN_REDIRECT_URL ='home'
-
-# Redirect user to homepage after login
-LOGOUT_REDIRECT_URL ='home'
 
 # photo url setting
 MEDIA_URL = '/media/'

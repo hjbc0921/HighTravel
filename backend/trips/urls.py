@@ -9,6 +9,7 @@ urlpatterns = [
     url(r'^users/$',views.UserList.as_view(), name='users'),
     url(r'^addusers/',views.UserRegister.as_view(), name='adduser'),
     url(r'^users/(?P<pk>[0-9]+)/$', views.UserDetail.as_view(), name='user-detail'),
+    path('users/trip/<int:tripId>/', views.UserOfTrip.as_view(), name='users-of-trip'),
     url(r'^budgets/$',views.BudgetList.as_view(), name='budgets'),
     url(r'^budgets/(?P<pk>[0-9]+)/$', views.BudgetDetail.as_view(), name='budget-detail'),
     path('budgets/trip/<int:tripId>/', views.BudgetOfTrip.as_view(), name='budgets-of-trip'),
