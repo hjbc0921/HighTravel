@@ -95,6 +95,7 @@
 }
 
 .trigger {
+    
     font-size: 18px;
     line-height: 64px;
     padding: 0 24px;
@@ -103,7 +104,7 @@
   }
   
 .trigger:hover {
-    color: #1890ff;
+    color: #0d5f32;
   }
 
 .mytitle { 
