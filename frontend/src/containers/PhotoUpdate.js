@@ -10,7 +10,6 @@ const mapStateToProps = (state) => {
 }
 
 const mapDispatchToProps = (dispatch) => {
-  console.log("PHotoupdate####")
   return {
      onPhoto:(temp) =>{
        dispatch(storePhotoRequest())

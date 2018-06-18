@@ -3,11 +3,10 @@ import ScheduleList from "../components/molecules/ScheduleList"
 import { changeScheduleContent, deleteScheduleRequest } from '../store/schedules/actions'
 
 const mapStateToProps = (state) => {
-  var schedules = []
+  let schedules = []
   if ( sessionStorage.getItem('tripSchedules')!==null && sessionStorage.getItem('tripSchedules')!=="undefined"){
     schedules = JSON.parse(sessionStorage.getItem('tripSchedules'))
   }
-
   return {
   schedules : schedules,
   updated: state.schedules.updated

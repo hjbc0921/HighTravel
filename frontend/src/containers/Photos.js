@@ -8,7 +8,6 @@ const mapStateToProps = (state) => {
    if (sessionStorage.getItem('photoList')!="undefined" && sessionStorage.getItem('photoList')!==null){
      photos = JSON.parse(sessionStorage.getItem('photoList'))
    }
-  console.log("CONT########",photos)
    return {
      photo_list: photos
    }

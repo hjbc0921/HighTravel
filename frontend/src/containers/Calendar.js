@@ -4,11 +4,9 @@ import { Calendar } from "../components/molecules/Calendar"
 
 const mapStateToProps = (state) => {
   var sche = []
-  console.log(sessionStorage.getItem('tripSchedules'))
-  if (sessionStorage.getItem('tripSchedules')!=="undefined"){
+  if (sessionStorage.getItem('tripSchedules')!=="undefined" && sessionStorage.getItem('tripSchedules')!==null){
     sche = JSON.parse(sessionStorage.getItem('tripSchedules'))
   }
-  console.log("SCHE########",sche,state.schedules.schedules)
   return {
     schedule : sche,
     updated : state.schedules.updated

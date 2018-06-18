@@ -1,5 +1,5 @@
 import React from 'react'
-import { Icon, Col, Table, Button, Popconfirm } from 'antd';
+import { Icon, Col, Table, Button } from 'antd';
 import EditableCell from '../../atoms/EditableCell'
   
 export class Markers extends React.Component {
@@ -33,54 +33,9 @@ export class Markers extends React.Component {
   //  var rows = this.createRows(this.props.budget)
 
     this.state = {
-      selectedRowKeys: [], // Check here to configure the default column
+      selectedRowKeys: [], 
       data: this.props.markers,
     };
-  }
-
-  componentWillReceiveProps(nextProps) {
-    if (nextProps.updated) {
-      //var rows = this.createRows(nextProps.budget)
-      this.setState({ selectedRowKeys: [], data: budgets })
-    }
-  }
-  
-  createRows = (budgets) => {
-    var rows = []
-    //var budgets = this.props.budget
-    for (var i=0; i<budgets.length; i++) {
-      var bud = budgets[i]
-      rows.push({
-        key: i.toString(),
-        realId: bud.id,
-        id: i+1,
-        contents: bud.contents,
-        money: parseInt(bud.money)
-      })
-    }
-    return rows
-  }
-
-  onCellChange = (id, originVal, dataIndex) => {
-    return (value) => {
-      const data = [...this.state.data];
-      const target = data.find(item => item.id === id);
-      if (target) {
-        if (dataIndex == 'money') {
-          if (Number.isInteger(parseInt(value))) {
-            target[dataIndex] = value;
-            //this.props.changeContent(target)
-          }
-          else {
-            target[dataIndex] = originVal;
-          }
-        }
-        else {
-          target[dataIndex] = value;
-          //this.props.changeContent(target)
-        }
-      }
-    }
   }
   onGoClick = () => {
     console.log("CLICKED")
@@ -88,15 +43,17 @@ export class Markers extends React.Component {
   }
 
   deleteBudget = () => {
-    var budgets = this.props.markers
-    //var budIDs = []
-    //for (var i=0; i<this.state.selectedRowKeys.length; i++)
-    //  budIDs.push(budgets[this.state.selectedRowKeys[i]-1].id)
-    this.props.onDelete()
+    let markers = this.props.markers
+    let markIDs = []
+    for (var i=0; i<this.state.selectedRowKeys.length; i++)
+      markIDs.push(markers[this.state.selectedRowKeys[i]-1].id)
+    this.props.onDelete(markIDs)
   }
+
   onSelectChange = (selectedRowKeys) => {
     this.setState({ selectedRowKeys });
   }
+  
   render() {
     const { loading, selectedRowKeys } = this.state;
     const rowSelection = {

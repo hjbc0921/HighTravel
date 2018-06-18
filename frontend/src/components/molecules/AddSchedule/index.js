@@ -76,7 +76,6 @@ export class AddSchedule extends React.Component {
           'since':rangeValue[0].format('YYYY-MM-DD'), 
           'until':rangeValue[1].format('YYYY-MM-DD'),
         };
-         console.log(values);
       this.props.onAddSchedule(values.contents,values.since,values.until)
       form.resetFields();
       this.setState({ visible: false });

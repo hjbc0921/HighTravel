@@ -5,8 +5,10 @@ import { STORE_TRIP_ID } from '../user/actions'
 import { ADDUSER_REQUEST, DELETE_USER_REQUEST } from '../settings/actions'
 
 const url = 'http://'+location.host+'/api/expenses/'
+const delay = (ms) => new Promise(res => setTimeout(res, ms))
 
 export function* loadExpense() {
+    yield delay(300)
     var tripID = sessionStorage.getItem('tripID')
     var tripExpenseUrl = url + 'trip/' + tripID + '/'
     var tripExpenses = []
@@ -22,7 +24,6 @@ export function* loadExpense() {
     }
 
     var users = JSON.parse(sessionStorage.getItem('users'))
-    console.log(users)
 
     // total expense for each user
     var totalExpenses = {}
@@ -30,30 +31,21 @@ export function* loadExpense() {
     var userIdName = {}
     var personId, personName
     for (var i=0; i<users.length; i++) {
-        console.log('@@@@@@1@@@@@@@@')
         personId = users[i].id
-        console.log('@@@@@@2@@@@@@@@', personId, users[i].username)
+    
         personName = users[i].username
         userIdName[personId] = personName
         totalExpenses[personName] = 0
-        console.log('@@@@@@3@@@@@@@@')
     }
-    console.log(userIdName)
-    console.log(totalExpenses)
-    console.log(tripExpenses)
 
     var spenderId
     var spenderName
     for (var i=0; i<tripExpenses.length; i++) {
         spenderId = tripExpenses[i].spender
-        console.log(spenderId)
         spenderName = userIdName[spenderId]
         tripExpenses[i].spender = spenderName // change spender from id to name
         totalExpenses[spenderName] += tripExpenses[i].money
     }
-
-    console.log('totalExpenses', totalExpenses)
-    console.log('tripExpenses', tripExpenses)
 
     sessionStorage.setItem('tripExpenses',JSON.stringify(tripExpenses))
     sessionStorage.setItem('totalExpenses',JSON.stringify(totalExpenses))
@@ -91,11 +83,9 @@ export function* patchExpense(idUpdatedRow) {
     var expenseUrl = url + idUpdatedRow.realId + '/'
     var tripExpenses = JSON.parse(sessionStorage.getItem('tripExpenses'))
     var data
-    console.log(idUpdatedRow)
     delete idUpdatedRow.id
     delete idUpdatedRow.realId
     delete idUpdatedRow.spender
-    console.log(idUpdatedRow)
     try {
         if (idUpdatedRow != undefined) {
             data = yield call(fetch, expenseUrl, {
@@ -116,14 +106,11 @@ export function* patchExpense(idUpdatedRow) {
 }
 
 export function* deleteEach(expenseID) {
-    console.log('in delete each')
     var token = sessionStorage.getItem('token')
     var expenseUrl
     var expenseID
     var data
-    console.log(expenseID)
     expenseUrl = url + expenseID + '/'
-    console.log(expenseUrl)
     try {
         if (expenseID != undefined) {
         data = yield call(fetch, expenseUrl, {
@@ -133,24 +120,20 @@ export function* deleteEach(expenseID) {
                 'Content-Type': 'application/json'
                }
             })
-        console.log('data', data)
         }
     } catch (e) {
         console.log(e)
         console.log('delete expense failed')
     }
-    console.log('delete is done')
 }
 
 export function* deleteExpense(expIDs) {
-    console.log('deleteExpense', expIDs)
     var tripID = sessionStorage.getItem('tripID')
-    console.log('in delete Expense')
     try {
         yield expIDs.map((expenseID) => call(deleteEach, expenseID))
     } catch(e) {
-        console.log('delete expense failed')
     }
+    
     yield call(loadExpense)
 }
 
@@ -164,7 +147,6 @@ export function* watchPatchRequest() {
 export function* watchDeleteRequest() {
     while (true) {
         const {expIDs} = yield take(actions.DELETE_EXPENSE_ROWS)
-        console.log('watch Delete Request', expIDs)
         yield call(deleteExpense,expIDs)
     }
 }
@@ -176,12 +158,9 @@ export function* watchPostRequest () {
     }
 }
 
-const delay = (ms) => new Promise(res => setTimeout(res, ms))
-
 export function* watchStoreTripId () {
     while (true) {
         yield take(STORE_TRIP_ID)
-        yield delay(1000)
         yield call(loadExpense)
     }
 }
@@ -189,7 +168,6 @@ export function* watchStoreTripId () {
 export function* watchAddUserRequest () {
     while (true) {
         yield take(ADDUSER_REQUEST)
-        yield delay(1000)
         yield call(loadExpense)
     }
 }

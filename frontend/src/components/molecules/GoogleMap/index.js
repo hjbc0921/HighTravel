@@ -4,16 +4,15 @@ import {addMarker} from "../../../store/addmarker/actions"
 import {Markers} from '../Markers'
 
 const style = {
-  width: '70vw',
-  height: '45vh',
+  width: '65vw',
+  height: '35vh',
 }
 
 const style2 = {
-  width: '70vw',
-  height: '45vh',
+  width: '65vw',
+  height: '35vh',
   
 }
-
 
 class MapContainer extends React.Component {
   state = {
@@ -29,8 +28,8 @@ class MapContainer extends React.Component {
     addMarker(pos)
   }
 
-  onDeleteRow = () => {
-    console.log("MAP#########delete")
+  onDeleteRow = (markIDs) => {
+    console.log("MAP#########delete",markIDs)
   }
   
   onMoveTo = () => {

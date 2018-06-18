@@ -16,12 +16,10 @@ export function* loadDiaries(){
       .then(function(data){
          diaries = data
       })
-      console.log("LOADDIARY########",diaries)
      yield put({ type : 'STORE_DIARY', diaries})
 }
 
 export function* watchStoreDiaryRequest(){
-   console.log("15")
    while(true){
        yield take(actions.STORE_DIARY_REQUEST)
        yield call(loadDiaries)
@@ -36,8 +34,6 @@ export function* watchStoreTripID(){
 }
 
 export function* deleteDiary(diaryID) {
-    console.log("#######dlt")
-    console.log(diaryID)
     var token = sessionStorage.getItem('token')
     var tripID = sessionStorage.getItem('tripID')
     let diaryUrl = url + diaryID + '/'
@@ -61,7 +57,6 @@ export function* watchDeleteDiaryRequest() {
 }
 
 export default function* (){
-  console.log("17")
      yield fork(watchStoreTripID)
      yield fork(watchStoreDiaryRequest)
      yield fork(watchDeleteDiaryRequest)

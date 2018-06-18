@@ -11,8 +11,9 @@ const mapStateToProps = (state) => {
     expense = JSON.parse(expense)
   if (totalExpense == null || totalExpense == 'undefined')
     totalExpense = []
-  else
+  else{
     totalExpense = JSON.parse(totalExpense)
+  }
   return {
     expense: expense,
     totalExpense: totalExpense,

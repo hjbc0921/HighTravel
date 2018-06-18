@@ -20,7 +20,6 @@ function requireAuth(nextState, replace) {
 
 function checkAuth(nextState, replace){
   if(sessionStorage.getItem('token')!=="null" && sessionStorage.getItem('token')!==null){
-    console.log(sessionStorage.getItem('token'))
     replace({
       pathname:'/user',
       state : {nextPathname: nextState.location.pathname}

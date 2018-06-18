@@ -22,8 +22,6 @@ class Demo extends React.Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    console.log('####################componentWillReceiveProps', this.props,nextProps);
- 
     if (!this.props.updated && nextProps.updated) {
       var folders = JSON.parse(sessionStorage.getItem('tripFolders'))
       var name = folders[folders.length-1].name
@@ -40,7 +38,6 @@ class Demo extends React.Component {
   }
   
   shouldComponentUpdate(nextProps, nextState) {
-      console.log("#########shouldCOmponent",this.props, nextProps, this.state,nextState)
       return nextProps.updated || (this.props!==nextProps) || (this.state!==nextState)
   }
 

@@ -3,6 +3,7 @@ import { message, Form, Button, Input } from 'antd';
 import { SelectPhoto } from '../SelectPhoto'
 const FormItem = Form.Item;
 const { TextArea } = Input;
+
 message.config({
   top: 400,
   duration: 5,
@@ -16,8 +17,6 @@ class Demo extends React.Component {
     this.selectPhoto = this.selectPhoto.bind(this)
   }
   componentWillReceiveProps(nextProps) {
-    console.log('####################componentWillReceiveProps', this.props,nextProps);
- 
     if (!this.props.updated && nextProps.updated) {
       this.setState({photos:[]})
       message.success('New Diary added');
@@ -30,7 +29,6 @@ class Demo extends React.Component {
   }
   
   shouldComponentUpdate(nextProps, nextState) {
-      console.log("#########shouldCOmponent",this.props, nextProps, this.state,nextState)
       return nextProps.updated || (this.props!==nextProps) || (this.state!==nextState)
   }
 
@@ -38,7 +36,6 @@ class Demo extends React.Component {
     e.preventDefault();
     this.props.form.validateFields((err, values) => {
       if (!err) {
-        console.log('Received values of form: ', values)
         let selected = this.state.photos.map(p=>p.selected);
         let select = []
         if (selected.length>0){

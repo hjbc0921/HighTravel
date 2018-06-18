@@ -3,17 +3,17 @@ import GoogleApiWrapper from "../components/molecules/GoogleMap";
 import { addMarker } from "../store/addmarker/actions";
 
 const mapStateToProps = (state) => {
-  const budgets = [{
+  const markers = [{
     key: 0,
     id: 1,
-    contents: 'Eiffel Tower',
+    contents: 'Dotonbori',
     }, {
     key: 1,
     id: 2,
-    contents: 'Versailles',
+    contents: 'Osaka castle',
   }]
   return{
-    marker : budgets
+    marker : markers
  }
 };
 

@@ -11,11 +11,8 @@ const delay = (ms) => new Promise(res => setTimeout(res, ms))
 export function* loadphotos(){
     var tripID = sessionStorage.getItem('tripID')
     var tripPhotoUrl = url2 + 'trip/' + tripID + '/'
-   
-    console.log("#######loadphotos"); 
-    console.log(tripPhotoUrl);
     var photos = []
-    yield delay(1000)
+    yield delay(300)
     yield fetch (tripPhotoUrl)
       .then((resp) => resp.json())
       .then(function(data){
@@ -28,19 +25,14 @@ export function* loadphotos(){
 export function* loadFolders() {
     var token = sessionStorage.getItem('token')
     var tripID = sessionStorage.getItem('tripID')
-    console.log('loadFolders')
     var tripFolderUrl = url + 'trip/' + tripID + '/'
-    console.log(tripFolderUrl)
-
     var folders = []
     yield fetch(tripFolderUrl)
         .then((resp) => resp.json())
         .then(function(data) {
             folders = data
         })
-    console.log("GETFOLDER#######",folders)
     var sorted = folders.sort(function(a,b) {return (a.name < b.name) ? -1 : ((b.name < a.name) ? 1 : 0);} )
-    console.log("GETFOLDER#######",sorted)
     yield put({ type : 'STORE_FOLDER', sorted });
     sessionStorage.setItem('tripFolders', JSON.stringify(folders))
 
@@ -81,7 +73,6 @@ export function* postPhoto(folder, fileList){
     
     let folders = JSON.parse(sessionStorage.getItem('tripFolders'))
     let folderID = folders.find(f => f.name === folder)
-    console.log("#####SAGA",folderID.id,folders,folder)
     fileList = fileList.map(f => f.originFileObj);
     let result = 0
 
@@ -94,12 +85,9 @@ export function* postPhoto(folder, fileList){
             headers : {
                 "Authorization" : "token "+token,
             }
-        }).then( response => { result = response.status; console.log('AXIOS RESPONSE', response) });
+        })
     
     }
-   console.log("callloadphotos")
-
-   console.log('AXIOS RESULT', result)
    yield call(loadphotos)
 }
 

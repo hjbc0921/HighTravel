@@ -26,7 +26,6 @@ export class Calendar extends React.Component{
     let len = color.length
     let events = []
     if (schs!==null){
-      console.log("NaN??",color,len)
       for (var i=0;i<schs.length;i++){
       var sch = schs[i]
       if (sch.sinceWhen===sch.tilWhen){

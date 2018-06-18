@@ -7,7 +7,6 @@ const mapStateToProps = (state) => {
     if (sessionStorage.getItem('diaryList')!="undefined" && sessionStorage.getItem('diaryList')!==null){
        diaries = JSON.parse(sessionStorage.getItem('diaryList'))
    }
-   console.log("CONT######",diaries)
    return {
      diary_list : diaries
    }

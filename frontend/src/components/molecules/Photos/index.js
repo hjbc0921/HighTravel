@@ -11,15 +11,9 @@ const Wrapper = styled.div`
 `
 
 export const PhotoList = (photo_list) => {
-     console.log("PHOTO#############",photo_list);  
   const onPhotoConfirm = () =>{
   }
-  
-  
-  
 
-
- 
      var newArray= [];
      var tempArray = [];
      var usedArray = [];
@@ -35,7 +29,6 @@ export const PhotoList = (photo_list) => {
      for(var k=0; k<photo_list.photo_list.length;k++){
         usedArray[k] = 0;
      }
-     console.log(usedArray)
      for(var i=0; i<photo_list.photo_list.length;i++){
         if ( folder !=undefined && usedArray[i] == 0){
           folder = photo_list.photo_list[i].folder.name;
@@ -57,7 +50,6 @@ export const PhotoList = (photo_list) => {
         newArray.push(tempArray); 
         tempArray=[];
      }
-     console.log(newArray)
    for(var l=0; l< newArray.length;l++){
     for ( var m=0; m< newArray[l].length;m++){
          folderShowed = newArray[l][m].folder.name;

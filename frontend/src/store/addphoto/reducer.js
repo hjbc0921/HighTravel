@@ -23,7 +23,6 @@ const addphoto_reducer = (state = initialState, action) => {
        })
        case 'STORES_PHOTO':
        sessionStorage.setItem('photoList', JSON.stringify(action.photos))
-        console.log("####STORES_PHOTO")
         return Object.assign({},state, {
                        photos: action.photos
              })

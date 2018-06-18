@@ -24,7 +24,6 @@ export const changeDiaryContent = (idUpdatedRow) => {
 }
 
 export const deleteDiaryRequest = (diaryID) => {
-    console.log('action to deleteDiaryRequest')
     return {
         type: DELETE_DIARY_REQUEST,
         diaryID

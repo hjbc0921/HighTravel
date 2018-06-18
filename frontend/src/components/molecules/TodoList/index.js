@@ -9,7 +9,6 @@ const Styledul = styled.ul`
   font-family: ${font('primary')};
 `
 export const TodoList = ({todoliststate =[], onAddTodo, onTodoClick, onDeleteTodo }) => {
-    todoliststate.map(todo => {console.log(todo)})
   return (
     <div className="rulelistwrapper">
     <h1>Bucket list for our Trip</h1>

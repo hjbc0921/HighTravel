@@ -25,7 +25,6 @@ export const loginFailed = (err) => {
 };
 
 export const loginRequest = (username, password) => {
-console.log("login request executed")  
 return {
     type: LOGIN_REQUEST,
     username,

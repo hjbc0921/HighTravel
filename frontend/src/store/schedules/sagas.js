@@ -49,7 +49,6 @@ export function* patchSchedule(idUpdatedRow) {
     var data
     delete idUpdatedRow.id
     delete idUpdatedRow.realId
-    console.log(idUpdatedRow)
     try {
         if (idUpdatedRow != undefined && valid) {
             data = yield call(fetch, scheduleUrl, {

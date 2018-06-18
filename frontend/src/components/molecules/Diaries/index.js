@@ -9,12 +9,10 @@ const Wrapper = styled.div`
   color: ${palette('grayscale', 0)};
 `
 export const Diaries = (diary_list) => {
-  console.log(diary_list)
 
  const onDiaryConfirm = () => {
  }
-   console.log("##############diary")			
-   console.log(diary_list) 
+
      var newArray= [];
      var date;
      var contents;
@@ -27,7 +25,6 @@ export const Diaries = (diary_list) => {
    for(var l=0; l<diary_list.diary_list.length;l++){
         var tempPhoto=[];
         for(var i=0; i<diary_list.diary_list[l].photos.length;i++){
-          console.log("DIARY########",diary_list.diary_list[l].photos[i].image.replace(":3000",":8000"))
             tempPhoto.push({src:diary_list.diary_list[l].photos[i].image.replace(":3000",":8000"),
                         width:10,
                         height:10
@@ -37,7 +34,7 @@ export const Diaries = (diary_list) => {
 		contents: diary_list.diary_list[l].contents,
                 photos:tempPhoto, id:l, tID:diary_list.diary_list[l].id})
    }
-   console.log(DiarySet)
+
    return(
    <div>
        {onDiaryConfirm}

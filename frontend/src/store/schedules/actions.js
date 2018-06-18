@@ -8,7 +8,6 @@ export const PATCH_SCHEDULE_SUCCESS = "PATCH_SCHEDULE_SUCCESS"
 
 // action for server communication (send POST to server)
 export const postScheduleRequest = (contents,since,until) => {
-console.log(contents)
    return {
      type: POST_SCHEDULE_REQUEST,
      contents,
@@ -31,7 +30,6 @@ export const STORE_SCHEDULE = 'STORE_SCHEDULE'
 
 // action for load schedules and strore them
 export const storeSchedule = (schedules) => {
-    console.log('action stroeSchedule')
     return {
         type: 'STORE_SCHEDULE',
         schedules: schedules
@@ -40,7 +38,6 @@ export const storeSchedule = (schedules) => {
 
 // action for server communication (send Delete to server)
 export const deleteScheduleRequest = (scheIDs) => {
-    console.log('action to deleteScheduleRequest')
     return {
         type: DELETE_SCHEDULE_REQUEST,
         scheIDs

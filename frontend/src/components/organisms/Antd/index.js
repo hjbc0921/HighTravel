@@ -37,6 +37,7 @@ const Antd = ({antd,menu,title,changeContent,toggleCol}) => {
     }
     const gotoUser = () => {
         sessionStorage.setItem('menu','home')
+        sessionStorage.setItem('tripSchedules',"undefined")
     }
     return (
     <Layout>
