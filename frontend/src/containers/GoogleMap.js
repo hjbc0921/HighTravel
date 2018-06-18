@@ -1,28 +1,35 @@
 import { connect } from 'react-redux'
 import GoogleApiWrapper from "../components/molecules/GoogleMap";
-import { addMarker } from "../store/addmarker/actions";
+import { addMarker, patchMarker, deleteMarker } from "../store/addmarker/actions";
 
 const mapStateToProps = (state) => {
-  const markers = [{
-    key: 0,
-    id: 1,
-    contents: 'Dotonbori',
-    }, {
-    key: 1,
-    id: 2,
-    contents: 'Osaka castle',
-  }]
+  let markers 
+  let marker = sessionStorage.getItem('tripMarkers')
+  if (marker === null || marker==='undefined'){
+    markers = []
+  }
+  else{
+    markers = JSON.parse(marker)
+  }
+
   return{
-    marker : markers
- }
+    marker : markers,
+    updated : state.addmarker.updated
+  }
 };
 
 const mapDispatchToProps = (dispatch) =>{
   return{
-   onAddBudget: (contents,money) => {
-      dispatch(addbudgetRequest(contents,money))
-   }
- }
+    onAddMarker: (lat,lng) => {
+      dispatch(addMarker(lat,lng))
+    },
+    onChangeContent : (updatedRow) => {
+      dispatch(patchMarker(updatedRow))
+    },
+    onDelete : (markIDs) => {
+      dispatch(deleteMarker(markIDs))
+    }
+  }
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(GoogleApiWrapper)
