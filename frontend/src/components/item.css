@@ -3,12 +3,12 @@
     flex-direction:column;
 }
 .mapvs{
-    width:70vw;
+    width:65vw;
     margin:auto;
 }
 
 .markervs{
-    margin-top:50vh;
+    margin-top:40vh;
 }
 
 .garo{
@@ -121,9 +121,10 @@
 
 .hightravel { 
     color:#002766; 
-    font-size: 54px; 
+    font-size: 56px; 
     font-family:"Tahoma";
-    font-weight: 600; 
+    text-shadow: 2px 3px 0 rgba(0,0,0,0.2);
+    font-weight: 550; 
     line-height: 64px; 
     text-align: center; 
     margin : 0 8px 48px 0;

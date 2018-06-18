@@ -3,10 +3,11 @@ import styled from 'styled-components'
 import { font, palette } from 'styled-theme'
 import {Link} from 'react-router'
 import img from './../../image.jpg';
-import { Input, Button} from 'antd';
+import { Input, Button, Form} from 'antd';
 import Icon from 'antd/lib/icon';
 import 'antd/dist/antd.css';
 import '../../item.css'
+const FormItem = Form.Item;
 
 const Wrapper = styled.div`
   font-family: ${font('primary')};
@@ -25,37 +26,69 @@ const InnerWrapper = styled.div`
   text-align: center;
 `;
 
-export const SignUp = ({ signUp, onSignUp }) => {
-  let username,password,pwd_check;
-    const onSignUpBtn = () => {
-    onSignUp(username.value, password.value, pwd_check.value);
+class NormalLoginForm extends React.Component {
+
+  handleSubmit = (e) => {
+    e.preventDefault();
+    this.props.form.validateFields((err, values) => {
+      if (!err) {
+        this.props.onSignUp(values.userName,values.password,values.pwdcheck)
+        this.props.form.resetFields()
+      }
+    });
   }
-  return (
-  <Wrapper>
-    <InnerWrapper>
-    <div>
-    <h1 className="hightravel">JOIN US</h1>
-    <div><input placeholder="username" required ref={node =>{username = node;}} /></div>
-    <div><input placeholder="password" required type="password" ref={node =>{password = node;}} /></div>
-    <div><input placeholder="pwd check"required type="password" ref={node =>{pwd_check =node;}} /></div>
-    <div className="mywarning">{signUp.message}</div>
-    <Button id="button2" type="submit" style={{ width:'200px', margin: '4px 0' }} onClick={onSignUpBtn} icon="user-add">signup</Button> 
-    </div>
-    </InnerWrapper>
-  </Wrapper>
-  )
+
+  render() {
+    const { getFieldDecorator } = this.props.form;
+    return (
+      <Wrapper>
+      <InnerWrapper>
+        <h1 className="hightravel">Join Us</h1>
+
+        <Form onSubmit={this.handleSubmit} className="login-form">
+          <FormItem style={{margin:"20px 0 0 0"}}>
+            {getFieldDecorator('userName', {
+            rules: [{ required: true, message: 'Please input your username!' }],
+            })(
+            <Input  placeholder="Enter your username"
+            style = {{width:"200px"}}
+            prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />}
+            />
+            )}
+          </FormItem>
+          <FormItem style={{margin:"0 0 0 0"}}>
+            {getFieldDecorator('password', {
+            rules: [{ required: true, message: 'Please input your Password!' }],
+            })(
+            <Input  placeholder="Enter your password"
+            style = {{width:"200px"}}
+            type = "password"
+            prefix={<Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }} />}
+            />
+            )}
+          </FormItem>
+          <FormItem style={{margin:"0 0 0 0"}}>
+            {getFieldDecorator('pwdcheck', {
+            rules: [{ required: true, message: 'Please input your Password check!' }],
+            })(
+            <Input  placeholder="Enter password again"
+            style = {{width:"200px"}}
+            type = "password"
+            prefix={<Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }} />}
+            />
+            )}
+          </FormItem>
+          <div className="mywarning">{this.props.signUp.message}</div>
+          <FormItem style={{margin:"10px 2px 0 0"}}>
+          <Button id="button2" type="submit" style={{ width:'200px', margin: '4px 0' }} onClick={this.handleSubmit} icon="user-add">signup</Button> 
+          </FormItem>
+        </Form>
+
+      </InnerWrapper>
+      </Wrapper>
+    );
+  }
 }
 
-SignUp.propTypes = {
-  username: PropTypes.string.isRequired,
-  password: PropTypes.string.isRequired,
-  pwd_check: PropTypes.string.isRequired
-}
+export const SignUp = Form.create()(NormalLoginForm);
 
-SignUp.defaultProps = {
-  username: '',
-  password: '',
-  pwd_check: ''
-}
-
-export default SignUp
