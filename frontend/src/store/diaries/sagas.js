@@ -16,7 +16,8 @@ export function* loadDiaries(){
       .then(function(data){
          diaries = data
       })
-     yield put({ type : 'STORE_DIARY', diaries})
+   diaries.sort(function(a,b) { return (a.date > b.date) ? 1 : ((b.date > a.date) ? -1 : 0);})
+   yield put({ type : 'STORE_DIARY', diaries})
 }
 
 export function* watchStoreDiaryRequest(){

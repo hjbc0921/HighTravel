@@ -1,6 +1,7 @@
 import { take, put, call, fork } from 'redux-saga/effects'
 import api from 'services/api'
 import * as actions from './actions'
+import { loadDiaries } from '../diaries/sagas'
 
 const url = 'http://'+location.host+'/api/photos/'
 const diaryUrl = 'http://'+location.host+'/api/diaries/'
@@ -53,6 +54,7 @@ export function* postDiary(date, contents, select) {
     }
     
     yield put(actions.addDiarySuc())
+    yield call(loadDiaries)
 }
 
 export function* watchPostDiaryRequest() {
