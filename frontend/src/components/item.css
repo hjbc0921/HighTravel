@@ -132,8 +132,9 @@
 
 .yourtrip { 
     color:#030508; 
+    font-family:"Trahoma";
     font-size: 44px; 
-    font-weight: 600; 
+    font-weight: 580; 
     line-height: 54px; 
     text-align: center; 
     margin : 0 8px 48px 0;

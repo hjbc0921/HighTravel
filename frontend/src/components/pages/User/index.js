@@ -3,7 +3,6 @@ import User from '../../../containers/User'
 import { Layout, Menu, Button, Affix, Row, Col} from 'antd';
 const SubMenu = Menu.SubMenu;
 const { Header, Content, Sider, Footer } = Layout;
-import AddTrip from '../../../containers/Addtrip'
 import Logout from "../../../containers/Logout"
 import styled from 'styled-components'
 import { font, palette } from 'styled-theme'
@@ -20,7 +19,7 @@ const user = () => {
   return (
     <Layout>
       <Wrapper>
-      <Sider style={{ background: 'transparent',minHeight: '100vh' }}>
+      <Sider style={{ background: 'transparent',minHeight: '100vh', width:'30vw' }}>
       <br></br>
       <br></br>
       <br></br>

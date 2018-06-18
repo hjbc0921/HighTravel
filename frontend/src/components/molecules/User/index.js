@@ -22,12 +22,12 @@ const User = ({tripIdSave }) => {
   return (
     <Wrapper>
     <InnerWrapper>
-    <br></br>
-      <h1 className="yourtrip">Your Trips</h1>
+      <br></br>
+      <h1 className="yourtrip">Start your trip!</h1>
       {triplist!==null && triplist.map(trip =>
-      <div key={trip.id}><Link to ="/"> <Button onClick={ event => tripIdSave(trip.id, trip.title) }><Icon type="schedule"/>{trip.title}</Button>
-      	<br/><br/>
-	</Link></div>
+      <div key={trip.id}><Link to ="/"> <Button size="large" onClick={ event => tripIdSave(trip.id, trip.title) }><Icon style={{fontSize:18}} type="schedule"/>{trip.title}</Button>
+      <br/><br/>
+      </Link></div>
       )}
       <br/><br/><br/>
       <AddTrip/>
@@ -38,8 +38,10 @@ const User = ({tripIdSave }) => {
 
 User.propTypes = {
   triplist: PropTypes.arrayOf(PropTypes.shape({
-    id: PropTypes.number.isRequired,
-    title: PropTypes.any.isRequired
+  id: PropTypes.number.isRequired,
+  title: PropTypes.any.isRequired
   })),
 }
+
 export default User
+

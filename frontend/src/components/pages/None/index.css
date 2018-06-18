@@ -1,5 +1,23 @@
 
 .title {
-    font-size: 120px;
+    font-size: 60px;
     color: white;
+    margin :auto;
+
 }
+
+.vs{
+    display: flex;
+    flex-direction:column;
+}
+
+.topvs{
+    width:65vw;
+    margin:auto;
+    margin-top : 10vh;
+}
+
+.botvs{
+    margin-top:10vh;
+}
+
