@@ -2,6 +2,7 @@ export const STORE_DIARY_REQUEST = 'STORE_DIARY_REQUEST'
 export const STORE_DIARY = 'STORE_DIARY'
 export const DELETE_DIARY_REQUEST = 'DELETE_DIARY_REQUEST'
 export const CHANGE_DIARY_CONTENT = 'CHANGE_DIARY_CONTENT'
+export const DELETE_USER_DIARIES = 'DELETE_USER_DIARIES'
 
 export const storeDiaryRequest = () => {
      return {
@@ -11,7 +12,7 @@ export const storeDiaryRequest = () => {
 
 export const storeDiary = (diaries) => {
      return {
-         type: 'STORE_DIARY',
+         type: STORE_DIARY,
          diaries: diaries
      }
 }
@@ -28,5 +29,12 @@ export const deleteDiaryRequest = (diaryID) => {
     return {
         type: DELETE_DIARY_REQUEST,
         diaryID
+    }
+}
+
+export const deleteUserDiaries = (delUId) => {
+    return {
+        type: DELETE_USER_DIARIES,
+        delUId
     }
 }

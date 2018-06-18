@@ -87,9 +87,37 @@ export function* watchChangeDiaryRequest() {
     }
 }
 
+export function* deleteDiaries(delUId) {
+   var tripID = sessionStorage.getItem('tripID')
+   var tripDiaryUrl = url + 'trip/' + tripID + '/'+ 'user/'+ delUId + '/'
+  
+   var diaries = []
+   yield fetch (tripDiaryUrl)
+      .then((resp) => resp.json())
+      .then(function(data){
+         diaries = data
+      })
+    
+    var diaryIDs = diaries.map(d => d.id)
+    try {
+        yield diaryIDs.map((diaryID) => call(deleteDiary, diaryID))
+    } catch(e) {
+    }
+    
+    yield call(loadExpense)
+}
+
+export function* watchDeleteUserDiariesRequest() {
+    while (true) {
+        const {delUId} = yield take(actions.DELETE_USER_DIARIES)
+        yield call(deleteDiaries, delUId)
+    }
+}
+
 export default function* (){
      yield fork(watchStoreTripID)
      yield fork(watchStoreDiaryRequest)
      yield fork(watchDeleteDiaryRequest)
      yield fork(watchChangeDiaryRequest)
+     yield fork(watchDeleteUserDiariesRequest)
 }

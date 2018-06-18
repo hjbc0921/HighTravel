@@ -2,6 +2,7 @@ import { connect } from 'react-redux'
 import Settings from "../components/molecules/Settings";
 import { adduserRequest, tripPatchRequest, deleteUserRequest } from "../store/settings/actions";
 import { deleteExpenseRows } from "../store/expense/actions";
+import { deleteUserDiaries } from "../store/diaries/actions";
 
 const mapStateToProps = (state) => {
    var otherUsers = JSON.parse(sessionStorage.getItem('users'))
@@ -24,10 +25,10 @@ const mapDispatchToProps = (dispatch) => {
        onPatch: (key, value) => {
          dispatch(tripPatchRequest(key, value))      
        },
-       deleteUser: (ids, expIds) => {
-         // delete Diary action should be here...
+       deleteUser: (ids, expIds, delUId) => {
          dispatch(deleteUserRequest(ids))
          dispatch(deleteExpenseRows(expIds))
+         dispatch(deleteUserDiaries(delUId))
        }
     }
 };
