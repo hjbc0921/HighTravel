@@ -2,6 +2,7 @@ import { take, put, call, fork } from 'redux-saga/effects'
 import { delay } from 'redux-saga'
 import api from 'services/api'
 import * as actions from './actions'
+import { loadTrips } from '../user/sagas' 
 
 const url = 'http://'+location.host+'/api/trips/'
 const userUrl = 'http://'+location.host+'/api/users/'
@@ -201,6 +202,9 @@ export function* patchTrip(key, value) {
         //yield put(actions.patchexpenseFail())
     }
     yield call(loadTripInfo)
+    var userID = sessionStorage.getItem('userID')
+    if (key == 'title')
+      yield call(loadTrips, userID)
 }
 
 export function* watchTripPatchRequest() {

@@ -32,7 +32,7 @@ export function* loadTrips(userId) {
                 users = t.users
                   for (var j=0; j<users.length; j++) {
                     u = users[j]
-                    if (u.id === userId){
+                    if (u.id == userId){
                         mytrips.push({id:t.id,title:t.title})
                     }
                 }
