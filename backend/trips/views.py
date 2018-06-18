@@ -57,6 +57,13 @@ class UserDetail(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = UserSerializer
     permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
 
+# api/users/trip/tripId url view
+class UserOfTrip(generics.ListAPIView):
+    serializer_class = UserSerializer
+    permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
+    def get_queryset(self):
+        tripId = self.kwargs['tripId']
+        return User.objects.filter(my_trips__id=tripId)
 
 # api/budget/ url view
 class BudgetList(generics.ListCreateAPIView):
