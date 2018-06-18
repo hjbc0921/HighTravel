@@ -1,7 +1,6 @@
 import { take, call, fork, select, put} from 'redux-saga/effects'
 import api from 'services/api'
 import * as actions from './actions'
-import { STORE_TRIP_ID } from '../user/actions'
 const url = 'http://'+location.host+'/api/folders/'
 import axios from 'axios'
 const url2 = 'http://'+location.host+'/api/photos/'
@@ -100,13 +99,6 @@ export function* watchPostFolderRequest() {
     }
 }
 
-export function* watchStoreTripId() {
-    while (true) {
-        const action = yield take(STORE_TRIP_ID)
-        yield call(loadFolders)
-    }
-}
-
 export function* watchPostPhotoRequest(){
     while (true) {
         const {folder,fileList} = yield take(actions.ADDPHOTO_REQUEST)
@@ -114,7 +106,6 @@ export function* watchPostPhotoRequest(){
     }
 }
 export default function* () {
-    yield fork(watchStoreTripId)
     yield fork(watchPostFolderRequest)
     yield fork(watchPostPhotoRequest)
 }

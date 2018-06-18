@@ -1,7 +1,6 @@
 import { take, put, call, fork, select } from 'redux-saga/effects'
 import api from 'services/api'
 import * as actions from './actions'
-import { STORE_TRIP_ID } from '../user/actions'
 
 const url = 'http://'+location.host+'/api/rules/'
 
@@ -72,15 +71,7 @@ export function* watchDeleteRuleRequest() {
     }
 }
 
-export function* watchStoreTripId() {
-    while (true) {
-        const action = yield take(STORE_TRIP_ID)
-        yield call(loadRules)
-    }
-}
-
 export default function* () {
-    yield fork(watchStoreTripId)
     yield fork(watchPostRuleRequest)
     yield fork(watchDeleteRuleRequest)
 }

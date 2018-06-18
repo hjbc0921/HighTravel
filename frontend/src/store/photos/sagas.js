@@ -1,7 +1,6 @@
 import { take, put, call, fork, select } from 'redux-saga/effects'
 import api from 'services/api'
 import * as actions from './actions'
-import {STORE_TRIP_ID} from '../user/actions'
 
 const url = 'http://' + location.host +'/api/photos/'
 
@@ -25,14 +24,7 @@ export function* watchStorePhotoRequest(){
          yield call(loadPhotos)
     }
 }
-  
 
-export function* watchStoreTripID(){
-    while (true){
-        const action = yield take(STORE_TRIP_ID)
-        yield call(loadPhotos)
-    }
-}
 export function* deleteEach(photoID) {
    var token = sessionStorage.getItem('token')
    var photoUrl
@@ -75,7 +67,6 @@ export function* watchDeletePhotoRequest(){
 }
 
 export default function* () {
-    yield fork(watchStoreTripID)
     yield fork(watchStorePhotoRequest)
     yield fork(watchDeletePhotoRequest)
 }

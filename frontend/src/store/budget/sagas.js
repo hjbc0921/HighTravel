@@ -2,7 +2,6 @@ import { take, call, fork, select, put} from 'redux-saga/effects'
 import api from 'services/api'
 import * as actions from './actions'
 const url = 'http://'+location.host+'/api/budgets/'
-import { STORE_TRIP_ID } from '../user/actions'
 
 export function* loadBudget(tripID) {
     var tripBudgetUrl = url + 'trip/' + tripID + '/'
@@ -112,13 +111,6 @@ export function* watchPostRequest () {
     }
 }
 
-export function* watchStoreTripId() {
-    while (true) {
-        const {tripID} = yield take(STORE_TRIP_ID)
-        yield call(loadBudget,tripID)
-    }
-}
-
 export function* watchPatchRequest() {
     while (true) {
         const {idUpdatedRow} = yield take(actions.CHANGE_BUDGET_CONTENT)
@@ -134,7 +126,6 @@ export function* watchDeleteRequest() {
 }
 
 export default function* () {
-    yield fork(watchStoreTripId)
     yield fork(watchPostRequest)
     yield fork(watchPatchRequest)
     yield fork(watchDeleteRequest)
