@@ -49,6 +49,7 @@ export function* deleteDiary(diaryID) {
     }
     yield call(loadDiaries)
 }
+
 export function* watchDeleteDiaryRequest() {
     while (true) {
         const {diaryID} = yield take(actions.DELETE_DIARY_REQUEST)
@@ -56,8 +57,39 @@ export function* watchDeleteDiaryRequest() {
     }
 }
 
+export function* patchDiary(id, contents) {
+    var token = sessionStorage.getItem('token')
+    var tripID = sessionStorage.getItem('tripID')
+    var diaryUrl = url + id + '/'
+    var patchData = {'contents': contents} 
+    var data
+    try {
+        if (id != undefined && contents != undefined) {
+            data = yield call(fetch, diaryUrl, {
+                method: 'PATCH',
+                body: JSON.stringify(patchData),
+                headers: {
+                    'Authorization': `token ${token}`,
+                    'Content-Type': 'application/json'
+                }
+            })
+        }
+    } catch (e) {
+        console.log('patch expense failed')
+    }
+    yield call(loadDiaries)
+}
+
+export function* watchChangeDiaryRequest() {
+    while (true) {
+        const {id, contents} = yield take(actions.CHANGE_DIARY_CONTENT)
+        yield call(patchDiary,id, contents)
+    }
+}
+
 export default function* (){
      yield fork(watchStoreTripID)
      yield fork(watchStoreDiaryRequest)
      yield fork(watchDeleteDiaryRequest)
+     yield fork(watchChangeDiaryRequest)
 }
