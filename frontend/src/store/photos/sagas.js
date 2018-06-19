@@ -28,14 +28,7 @@ export function* watchStorePhotoRequest(){
          yield call(loadPhotos)
     }
 }
-  
 
-export function* watchStoreTripID(){
-    while (true){
-        const action = yield take(STORE_TRIP_ID)
-        yield call(loadPhotos)
-    }
-}
 export function* deleteEach(photoID) {
    var token = sessionStorage.getItem('token')
    var photoUrl
@@ -107,7 +100,6 @@ export function* watchDeleteFolderRequest(){
 }
 
 export default function* () {
-    yield fork(watchStoreTripID)
     yield fork(watchStorePhotoRequest)
     yield fork(watchDeletePhotoRequest)
     yield fork(watchDeleteFolderRequest)

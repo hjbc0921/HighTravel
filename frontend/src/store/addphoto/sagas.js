@@ -85,13 +85,6 @@ export function* watchPostFolderRequest() {
     }
 }
 
-export function* watchStoreTripId() {
-    while (true) {
-        const action = yield take(STORE_TRIP_ID)
-        yield call(loadFolders)
-    }
-}
-
 export function* watchPostPhotoRequest(){
     while (true) {
         const {folder,fileList} = yield take(actions.ADDPHOTO_REQUEST)
@@ -99,7 +92,6 @@ export function* watchPostPhotoRequest(){
     }
 }
 export default function* () {
-    yield fork(watchStoreTripId)
     yield fork(watchPostFolderRequest)
     yield fork(watchPostPhotoRequest)
 }

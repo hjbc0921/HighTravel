@@ -1,23 +1,41 @@
-import { take, put, call, fork, select } from 'redux-saga/effects'
+import { take, put, call, fork } from 'redux-saga/effects'
 import { delay } from 'redux-saga'
 import api from 'services/api'
 import * as actions from './actions'
-import { STORE_TRIP_ID } from '../user/actions'
+import { loadTrips } from '../user/sagas' 
 
 const url = 'http://'+location.host+'/api/trips/'
 const userUrl = 'http://'+location.host+'/api/users/'
 
-
 export function* loadUsers() {
     var tripID = sessionStorage.getItem('tripID')
     var myname = sessionStorage.getItem('username')
-    var ourTrip
-
+    var userOfTripUrl = userUrl + 'trip/' + tripID + '/'
+    var userlist
     try {
-        yield fetch(url)
+        yield fetch(userOfTripUrl)
             .then((resp) => resp.json())
             .then(function(data) {
-                ourTrip = data.find(t => t.id == tripID)
+                userlist = data
+            })
+    } catch (e) {
+        console.log('Get User of Trip failed')
+    }
+    sessionStorage.setItem('users', JSON.stringify(userlist))
+    yield put({ type : 'STORE_TRIP_INFO' })
+}
+
+export function* loadTripInfo() {
+    var tripID = sessionStorage.getItem('tripID')
+    var myname = sessionStorage.getItem('username')
+    var ourTrip
+    var tripUrl = url + tripID + '/'
+
+    try {
+        yield fetch(tripUrl)
+            .then((resp) => resp.json())
+            .then(function(data) {
+                ourTrip = data
             })
     } catch (e) {
         console.log('Get Trip list failed')
@@ -27,38 +45,10 @@ export function* loadUsers() {
     sessionStorage.setItem('triptitle', tripTitle)
     var tripInfo = [{ key: 0, field: 'title', data: ourTrip.title }, { key: 1, field: 'sinceWhen', data: ourTrip.sinceWhen }, { key: 2, field: 'tilWhen', data: ourTrip.tilWhen }, { key: 3, field: 'users', data: myname }]
     var creator = ourTrip.creator
+    if (creator===myname) sessionStorage.setItem("owns","true")
     sessionStorage.setItem('tripInfo', JSON.stringify(tripInfo))
 
-    var userlist = ourTrip.users
-    sessionStorage.setItem('users', JSON.stringify(userlist))
-    if (creator===myname) sessionStorage.setItem("owns","true")
-    var userObjects = []
-    for (var i=0; i<userlist.length; i++) {
-        var u = userlist[i]
-        userObjects.push({ id : u.id, name: u.username })
-    }
-    
-    var members = userObjects.map(u => u.name)
-    var friends = []
-    var msg
-    var membernames
-
-    // make list of trip members except me
-    for (var i=0; i<members.length; i++)
-        if (myname !== members[i])
-            friends.push(members[i])
-
-    if (friends.length === 0)
-        msg = 'Invite other users'
-    else {
-        membernames = friends.join()
-        msg = tripTitle + ' with ' + membernames
-    }
-
-    var err = false
-
-    var users = JSON.stringify(userObjects)
-    yield put({ type : 'STORE_TRIP_INFO' });
+    yield put({ type : 'STORE_TRIP_INFO' })
 }
 
 export function* addUser(username) {
@@ -78,7 +68,6 @@ export function* addUser(username) {
     }
 
     var member = userObjects.find(u => u.username === username)
-    var users = JSON.stringify(userObjects)
     var msg, err
     if (member != undefined) { // user is already in trip
         msg = username + ' already exists'
@@ -172,7 +161,6 @@ export function* deleteUser(ids) {
         console.log('delete user failed')
         //yield put(actions.patchexpenseFail())
     }
-    //yield call(loadUsers)
 }
 
 export function* watchDeleteUserRequest() {
@@ -213,7 +201,10 @@ export function* patchTrip(key, value) {
         console.log('patch trip failed')
         //yield put(actions.patchexpenseFail())
     }
-    yield call(loadUsers)
+    yield call(loadTripInfo)
+    var userID = sessionStorage.getItem('userID')
+    if (key == 'title')
+      yield call(loadTrips, userID)
 }
 
 export function* watchTripPatchRequest() {
@@ -223,15 +214,7 @@ export function* watchTripPatchRequest() {
     }
 }
 
-export function* watchStoreTripId() {
-    while (true) {
-        const action = yield take(STORE_TRIP_ID)
-        yield call(loadUsers)
-    }
-}
-
 export default function* () {
-    yield fork(watchStoreTripId)
     yield fork(watchAddUserRequest)
     yield fork(watchTripPatchRequest)
     yield fork(watchDeleteUserRequest)
