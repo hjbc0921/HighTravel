@@ -2,6 +2,7 @@ import React from 'react'
 import Gallery from 'react-photo-gallery';
 import SelectedImage from "../SelectPhoto/SelectedImage";
 import {Button, Affix, Icon} from 'antd'
+import axios from 'axios'
 
 export class PhotoList extends React.Component{
   constructor(props){
@@ -12,7 +13,6 @@ export class PhotoList extends React.Component{
   }
 
   componentWillReceiveProps(nextProps) {
-    console.log("#########",this.props,nextProps)
     if (nextProps.updated) {
       let newphoto = this.createPhoto(nextProps.photo_list)
       this.setState({photos:newphoto})
@@ -50,20 +50,26 @@ export class PhotoList extends React.Component{
     for(let j=0; j<PhotoSet.length;j++){
       for(let m=0; m<PhotoSet[j].photos.length; m++){
         if(PhotoSet[j].photos[m].selected == true){
-          urls.push(PhotoSet[j].photos[m].src);
+          let filename = PhotoSet[j].folder + "_" + PhotoSet[j].photos[m].src.split("/")[4]
+          urls.push({src:PhotoSet[j].photos[m].src,filename:filename});
         }
       }
     }
-    let link = document.createElement('a');
-    link.setAttribute('download', null);
-    link.style.display = 'none';
-    document.body.appendChild(link);
-    console.log(urls);
     for (let i=0; i<urls.length; i++){
-      link.setAttribute('href',urls[i]);
-      link.click();
+      axios({
+        url: urls[i].src,
+        method: 'GET',
+        responseType: 'blob', // important
+      }).then((response) => {
+        const url = window.URL.createObjectURL(new Blob([response.data]));
+        const link = document.createElement('a');
+        link.href = url;
+        link.setAttribute('download', urls[i].filename);
+        document.body.appendChild(link);
+        link.click();
+      });
     }
-    document.body.removeChild(link);
+     
   }
 
   deletePhotos = () => {
@@ -76,7 +82,6 @@ export class PhotoList extends React.Component{
        }
       }
     }
-    console.log(photoIDs)
     this.props.onDeletePhotos(photoIDs)
   }
 
@@ -84,12 +89,35 @@ export class PhotoList extends React.Component{
     this.props.onDeleteFolders(id)
   }
 
+  downFolder = (id) => {
+    let PhotoSet = this.state.photos.find(photo => photo.id===id)
+    let urls = []
+ 
+    for(let m=0; m<PhotoSet.photos.length; m++){
+      let filename = PhotoSet.folder + "_" + PhotoSet.photos[m].src.split("/")[4]
+      urls.push({src:PhotoSet.photos[m].src,filename:filename});
+    }
+  
+    for (let i=0; i<urls.length; i++){
+      axios({
+        url: urls[i].src,
+        method: 'GET',
+        responseType: 'blob', // important
+      }).then((response) => {
+        const url = window.URL.createObjectURL(new Blob([response.data]));
+        const link = document.createElement('a');
+        link.href = url;
+        link.setAttribute('download', urls[i].filename);
+        document.body.appendChild(link);
+        link.click();
+      });
+    }
+
+  }
+
   selectPhoto = (event, obj) => {
-    console.log(obj.photo)
-    console.log(obj.photo.folderId)
     let index2 = obj.photo.folderId
     let photos = this.state.photos
-    console.log( photos[index2].photos[obj.index],"PHOTO")
     photos[index2].photos[obj.index].selected = !photos[index2].photos[obj.index].selected
     this.setState({photos:photos})
   }
@@ -110,6 +138,7 @@ export class PhotoList extends React.Component{
         <div key={data.id}>
         <br/>
         <div className="fol">
+        <Button style={{float:"left"}} type="default" onClick={() => this.downFolder(data.id)}> Download Folder</Button>
         <h2 className="inline">{data.folder} </h2>  
         <Button style={{float:"right"}} type="default" onClick={() => this.deleteFolder(data.id)}> Delete Folder</Button>
         <hr className="myhr"/>

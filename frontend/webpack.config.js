@@ -50,6 +50,9 @@ const config = createConfig([
       modules: ['src', 'node_modules'],
     },
     module: {
+    loaders: [
+          { test: /\.json$/, loader: 'json-loader' }
+              ],
       rules: [
         {
           test: /\.css$/,
@@ -58,6 +61,12 @@ const config = createConfig([
         { test: /\.(png|jpe?g|svg)$/, loader: 'url-loader?&limit=8000' },
         { test: /\.(woff2?|ttf|eot)$/, loader: 'url-loader?&limit=8000' },
       ],
+    },
+    node: {
+      console: true,
+      net: 'empty',
+      tls: 'empty',
+      fs: 'empty',
     },
   }),
 
