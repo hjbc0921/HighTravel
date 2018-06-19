@@ -1,4 +1,4 @@
-import { take, put, call, fork, select } from 'redux-saga/effects'
+import { take, put, call, fork, select, all } from 'redux-saga/effects'
 import api from 'services/api'
 import * as actions from './actions'
 import { USER_INFO_RECEIVED } from '../intro/actions'
@@ -12,6 +12,7 @@ import { loadDiaries } from '../diaries/sagas'
 import { loadTripInfo, loadUsers } from '../settings/sagas'
 import { loadTodos } from '../todos/sagas'
 import { loadFolders } from '../addphoto/sagas'
+import { loadMarker } from '../addmarker/sagas'
 import {push} from 'redux-saga'
 const url = 'http://'+location.host+'/api/trips/'
 
@@ -55,16 +56,23 @@ export function* watchLogin () {
 export function* watchStoreTripId() {
     while (true) {
       const {tripID} = yield take(actions.STORE_TRIP_ID)
-      yield call(loadSchedules)
-      yield call(loadTripInfo)
-      yield call(loadUsers)
-      yield call(loadPhotos)
-      yield call(loadRules)
-      yield call(loadBudget, tripID)
-      yield call(loadDiaries)
-      yield call(loadFolders)
-      yield call(loadTodos)
-      yield call(loadExpense)
+      try {
+      yield all([
+          call(loadSchedules),
+          call(loadTripInfo),
+          call(loadUsers),
+          call(loadPhotos),
+          call(loadRules),
+          call(loadBudget, tripID),
+          call(loadDiaries),
+          call(loadFolders),
+          call(loadTodos),
+          call(loadMarker,tripID)
+      ])
+      } catch (e) {
+        console.log(e)
+      }
+      yield call(loadExpense) // wait for loadUsers is done
     }
 }
 

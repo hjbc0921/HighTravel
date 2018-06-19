@@ -1,6 +1,5 @@
 import { take, put, call, fork } from 'redux-saga/effects'
 import * as actions from './actions'
-import { STORE_TRIP_ID } from '../user/actions'
 
 const url = 'http://'+location.host+'/api/markers/'
 
@@ -107,13 +106,6 @@ export function* watchPostRequest () {
     }
 }
 
-export function* watchStoreTripId() {
-    while (true) {
-        const {tripID} = yield take(STORE_TRIP_ID)
-        yield call(loadMarker,tripID)
-    }
-}
-
 export function* watchPatchRequest() {
     while (true) {
         const {updatedRow} = yield take(actions.PATCH_MARKER)
@@ -129,7 +121,6 @@ export function* watchDeleteRequest() {
 }
 
 export default function* () {
-    yield fork(watchStoreTripId)
     yield fork(watchPostRequest)
     yield fork(watchPatchRequest)
     yield fork(watchDeleteRequest)
