@@ -1,6 +1,6 @@
 from django.contrib.auth.models import User
 from trips.models import Trip, Budget, Expense, Folder, Photo, Diary, Todo, Rule, Schedule, Marker
-from trips.serializers import PhotoDetailSerializer, DiaryDetailSerializer, UserRegSerializer, TripSerializer, TripDetailSerializer, UserSerializer, BudgetSerializer, ExpenseSerializer, FolderSerializer, PhotoSerializer, DiarySerializer, TodoSerializer, RuleSerializer, ScheduleSerializer, MarkerSerializer  
+from trips.serializers import FolderDetailSerializer,PhotoDetailSerializer, DiaryDetailSerializer, UserRegSerializer, TripSerializer, TripDetailSerializer, UserSerializer, BudgetSerializer, ExpenseSerializer, FolderSerializer, PhotoSerializer, DiarySerializer, TodoSerializer, RuleSerializer, ScheduleSerializer, MarkerSerializer  
 from rest_framework import generics
 from rest_framework.views import APIView
 from rest_framework.response import Response
@@ -132,6 +132,8 @@ class FolderList(generics.ListCreateAPIView):
                 folder = Folder.objects.get(name=serializer.validated_data['name'])
                 if (folder.tripID==serializer.validated_data['tripID']):
                     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+                else :
+                    return Response(serializer.data, status=status.HTTP_201_CREATED)
             except:
                 return self.create(request,*args,**kwargs)
 
@@ -144,7 +146,7 @@ class FolderDetail(generics.RetrieveUpdateDestroyAPIView):
 
 # api/folders/trip/tripId url view
 class FolderOfTrip(generics.ListAPIView):
-    serializer_class = FolderSerializer
+    serializer_class = FolderDetailSerializer
     permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
 
     def get_queryset(self):

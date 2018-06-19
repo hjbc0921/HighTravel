@@ -7,7 +7,7 @@ class FolderSerializer(WritableNestedModelSerializer):
     class Meta:
         model = Folder
         fields = ('id','name','photos_in_folder', 'tripID')
- 
+
 class PhotoDetailSerializer(WritableNestedModelSerializer):
     image = serializers.ImageField(use_url=True,read_only=True)
     folder = FolderSerializer()
@@ -20,6 +20,18 @@ class PhotoSerializer(WritableNestedModelSerializer):
     class Meta:
         model = Photo
         fields = ('id', 'folder','image','tripID','diaries')
+
+class PhotoImgSerializer(WritableNestedModelSerializer):
+    image = serializers.ImageField(use_url=True,read_only=True)
+    class Meta:
+        model = Photo
+        fields = ('id', 'image')
+    
+class FolderDetailSerializer(WritableNestedModelSerializer):
+    photos_in_folder = PhotoImgSerializer(many=True, required=False)
+    class Meta:
+        model = Folder
+        fields = ('id','name','photos_in_folder','tripID')
 
 class DiaryDetailSerializer(WritableNestedModelSerializer):
     photos = PhotoSerializer(many=True, required=False)

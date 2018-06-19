@@ -235,3 +235,26 @@
 .righty{
     text-align:right;
 }
+
+.folright{
+    text-align:right;
+    display:inline;
+}
+
+.inline{
+    display:inline;
+}
+
+.fol{
+    text-align:center;
+    width : 100%;
+}
+
+.myhr {
+    display: block;
+    height: 2px;
+    border: 0;
+    border-top: 4px solid black;
+    padding: 0;
+}
+

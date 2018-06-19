@@ -1,2 +1,4 @@
-export const initialState = []
+export const initialState = {
+    updated:false
+}
 
