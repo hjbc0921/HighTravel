@@ -4,15 +4,20 @@ const photos_reducer = (state = initialState, action) => {
 
     switch (action.type){
        case 'STORE_PHOTO':
-          sessionStorage.setItem('photoList', JSON.stringify(action.photos))
+       sessionStorage.setItem("folderPhoto",JSON.stringify(action.photos))
                 return Object.assign({}, state, {
-                       photos : action.photos
+                       photos : action.photos,
+                       updated : true
                 }) 
        case 'STORE_PHOTO_REQUEST':
-           return Object.assign({},state,{}
+           return Object.assign({},state,{
+               updated : false
+           }
             )
-       case 'DELETE_SCHEDULE_REQUEST':
-           return Object.assign({},state,{}
+       case 'DELETE_PHOTO_REQUEST':
+           return Object.assign({},state,{
+            updated : false
+            }
             )
       default:
           return state

@@ -1,25 +1,11 @@
 import { take, call, fork, select, put} from 'redux-saga/effects'
 import api from 'services/api'
 import * as actions from './actions'
+import { STORE_TRIP_ID } from '../user/actions'
+import {loadPhotos} from '../photos/sagas'
 const url = 'http://'+location.host+'/api/folders/'
 import axios from 'axios'
 const url2 = 'http://'+location.host+'/api/photos/'
-
-const delay = (ms) => new Promise(res => setTimeout(res, ms))
-
-export function* loadphotos(){
-    var tripID = sessionStorage.getItem('tripID')
-    var tripPhotoUrl = url2 + 'trip/' + tripID + '/'
-    var photos = []
-    yield delay(300)
-    yield fetch (tripPhotoUrl)
-      .then((resp) => resp.json())
-      .then(function(data){
-        photos = data
-    })
-   yield put({type :'STORES_PHOTO',photos})
-}
-
 
 export function* loadFolders() {
     var token = sessionStorage.getItem('token')
@@ -87,7 +73,7 @@ export function* postPhoto(folder, fileList){
         })
     
     }
-   yield call(loadphotos)
+   yield call(loadPhotos)
 }
 
 export function* watchPostFolderRequest() {

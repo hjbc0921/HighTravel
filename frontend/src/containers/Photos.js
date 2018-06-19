@@ -1,26 +1,26 @@
 import { connect } from 'react-redux'
 import { PhotoList } from '../components/molecules/Photos'
-import { storePhotoRequest } from "../store/photos/actions";
-import { deletePhotoRequest } from "../store/photos/actions";
+import { deletePhotoRequest, deleteFolderRequest} from "../store/photos/actions";
 
 const mapStateToProps = (state) => {
    var photos = []
-   if (sessionStorage.getItem('photoList')!="undefined" && sessionStorage.getItem('photoList')!==null){
-     photos = JSON.parse(sessionStorage.getItem('photoList'))
+   if (sessionStorage.getItem('folderPhoto')!="undefined" && sessionStorage.getItem('folderPhoto')!==null){
+     photos = JSON.parse(sessionStorage.getItem('folderPhoto'))
    }
    return {
-     photo_list: photos
+     photo_list: photos,
+     updated: state.photos.updated
    }
 }
 
 const mapDispatchToProps = (dispatch) => {
     return {
-     /*  onPhotos:() => {
-        dispatch(storePhotoRequest())
-       }*/
-      onDeletePhotos:(photoIDs) => {
-          dispatch(deletePhotoRequest(photoIDs))
-        }
+    onDeletePhotos:(photoIDs) => {
+      dispatch(deletePhotoRequest(photoIDs))
+    },
+    onDeleteFolders : (id) => {
+      dispatch(deleteFolderRequest(id))
+    }
     }
 }
 
